@@ -110,6 +110,7 @@
             ' | Pukul ' .
             Carbon::parse($rapat->waktu_mulai)->format('H:i');
     @endphp
+    {{-- konfirmasi kesediaan hadir rapat hanya bisa di isi sekali/ --}}
     <!-- Main content -->
     <div class="main-content halaman_awal login_page">
         <!-- Header -->
