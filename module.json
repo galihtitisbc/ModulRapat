@@ -1,0 +1,13 @@
+{
+    "name": "Rapat",
+    "alias": "rapat",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Rapat\\Providers\\RapatServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
