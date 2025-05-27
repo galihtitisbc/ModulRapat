@@ -66,7 +66,7 @@ class RapatController extends Controller
     }
     public function ajaxPesertaRapat(Request $request)
     {
-        $query = Pegawai::with(['user', 'rapatAgendaPeserta', 'kepanitiaans']);
+        $query = Pegawai::with(['user', 'rapatAgendaPeserta', 'kepanitiaans'])->whereNotNull('username');
         if ($search = $request->input('search.value')) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
@@ -129,7 +129,7 @@ class RapatController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
-                'title'   => 'Gagak',
+                'title'   => 'Gagal',
                 'icon'    => 'error',
             ]);
         }
@@ -175,9 +175,9 @@ class RapatController extends Controller
 
         } catch (\Throwable $e) {
             return response()->json([
-                'fail'    => true,
+                'success' => false,
                 'message' => $e->getMessage(),
-                'title'   => 'Gagak',
+                'title'   => 'Gagal',
                 'icon'    => 'error',
             ]);
 

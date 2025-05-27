@@ -85,7 +85,7 @@
         <div class="signature-box">
             <div class="tanggal-tempat">Banyuwangi, {{ $tglTtd }}</div>
             <div>Direktur,</div>
-            <div class="qr-code">
+            {{-- <div class="qr-code">
                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="60" height="60" fill="white" />
                     <rect x="5" y="5" width="50" height="50" fill="none" stroke="black" stroke-width="1" />
@@ -116,7 +116,7 @@
                     <rect x="48" y="44" width="4" height="4" fill="black" />
                 </svg>
             </div>
-            <div class="jabatan">Prof. Dr. Ir. Supriadi, M.T.<br>NIP. 196512201990031002</div>
+            <div class="jabatan">Prof. Dr. Ir. Supriadi, M.T.<br>NIP. 196512201990031002</div> --}}
         </div>
     </div>
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Modules\Rapat\Http\Helper\RoleGroupHelper;
+use Modules\Rapat\Http\Helper\StatusPesertaRapat;
 use Modules\Rapat\Http\Helper\StatusTindakLanjut;
 
 class RapatAgenda extends Model
@@ -26,6 +27,13 @@ class RapatAgenda extends Model
         });
 
         static::updating(function ($rapatAgenda) {
+            if ($rapatAgenda->isDirty('waktu_mulai') || $rapatAgenda->isDirty('waktu_selesai')) {
+                foreach ($rapatAgenda->rapatAgendaPeserta as $value) {
+                    $rapatAgenda->rapatAgendaPeserta()->updateExistingPivot(
+                        $value->username, ['status' => StatusPesertaRapat::MENUNGGU->value]
+                    );
+                }
+            }
             if ($rapatAgenda->isDirty('agenda_rapat')) {
                 $rapatAgenda->slug = static::generateUniqueSlug($rapatAgenda->agenda_rapat, $rapatAgenda->id);
             }

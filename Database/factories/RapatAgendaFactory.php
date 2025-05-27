@@ -22,9 +22,9 @@ class RapatAgendaFactory extends Factory
     public function definition()
     {
         return [
-            'pegawai_username'  => Pegawai::inRandomOrder()->first()->username,
-            'pimpinan_username' => Pegawai::inRandomOrder()->first()->username,
-            'notulis_username'  => Pegawai::inRandomOrder()->first()->username,
+            'pegawai_username'  => Pegawai::inRandomOrder()->whereNotNull('username')->first()->username,
+            'pimpinan_username' => Pegawai::inRandomOrder()->whereNotNull('username')->first()->username,
+            'notulis_username'  => Pegawai::inRandomOrder()->whereNotNull('username')->first()->username,
             'nomor_surat'       => $this->faker->word,
             'slug'              => $this->faker->slug,
             'waktu_mulai'       => Carbon::now('Asia/Jakarta'),

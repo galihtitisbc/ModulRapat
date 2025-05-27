@@ -27,7 +27,7 @@ class WhatsappService
                     $headerMsg = "*[Pemberitahuan Jadwal Ulang Rapat]*\n\n";
                     break;
                 case 'updateRapat':
-                    $headerMsg = "*[Pemberitahuan Perubahan Rapat]*\n\n";
+                    $headerMsg = "*[Pemberitahuan Perubahan Rapat, Silahkan Melakukan Konfirmasi Ulang]*\n\n";
                     break;
                 default:
                     break;
@@ -60,12 +60,7 @@ class WhatsappService
                 $linkKonfirmasiKesediaanRapat = $value->pivot->link_konfirmasi;
                 $message                      = str_replace('{{link_konfirmasi}}', $linkKonfirmasiKesediaanRapat, $messageTemplate);
                 //mengirim pesan
-                $response = Http::post(env('WA_URL'), [
-                    'session'     => 'default',
-                    'chatId'      => '6282264349638@c.us',
-                    'text'        => $message,
-                    'linkPreview' => false,
-                ]);
+                $this->sendMessage($value->username, $message);
             }
         } catch (\Throwable $th) {
             logger()->error($th->getMessage());
@@ -74,7 +69,7 @@ class WhatsappService
     public function sendMessagePenugasan($agendaRapat, $tindakLanjut, $status)
     {
         $agenda            = $agendaRapat->agenda_rapat;
-        $pegawai           = $tindakLanjut->pegawai->nama;
+        $pegawai           = $tindakLanjut->pegawai->formatted_name;
         $tanggalPenugasan  = Carbon::parse($tindakLanjut->created_at)->translatedFormat('l, d F Y');
         $deskripsiTugas    = $tindakLanjut->deskripsi_tugas;
         $batasPenyelesaian = Carbon::parse($tindakLanjut->batas_waktu)->translatedFormat('l, d F Y');
@@ -90,13 +85,7 @@ class WhatsappService
                 "Terima kasih.\n" .
                 "" .
                 "Politeknik Negeri Banyuwangi";
-
-            Http::post(env('WA_URL'), [
-                'session'     => 'default',
-                'chatId'      => '6282264349638@c.us',
-                'text'        => $message,
-                'linkPreview' => false,
-            ]);
+            $this->sendMessage($tindakLanjut->pegawai->username, $message);
         } catch (\Throwable $th) {
             logger()->error($th->getMessage());
         }
@@ -107,7 +96,7 @@ class WhatsappService
 
         try {
             $namaAgenda   = $agendaRapat->agenda_rapat;
-            $namaPimpinan = $agendaRapat->rapatAgendaPimpinan->nama;
+            $namaPimpinan = $agendaRapat->rapatAgendaPimpinan->formatted_name;
             $nilai        = KriteriaPenilaian::from($tindakLanjut->penilaian)->label();
             $komentar     = $tindakLanjut->komentar;
             $message      = "✅ *Penilaian Tugas Rapat*\n\n" .
@@ -118,12 +107,7 @@ class WhatsappService
                 "Terima kasih atas kontribusi Anda." . "\n\n" .
                 "_Sistem Manajemen Rapat_";
 
-            Http::post(env('WA_URL'), [
-                'session'     => 'default',
-                'chatId'      => '6282264349638@c.us',
-                'text'        => $message,
-                'linkPreview' => false,
-            ]);
+            $this->sendMessage($tindakLanjut->pegawai->username, $message);
 
         } catch (\Throwable $th) {
             logger()->error($th->getMessage());
@@ -153,17 +137,24 @@ class WhatsappService
                     '{{nama_pimpinan}}'    => $kepanitiaan->ketua->formatted_name,
                     '{{link}}'             => env('APP_URL') . '/rapat/panitia/' . $kepanitiaan->slug . '/detail',
                 ];
-                $message  = str_replace(array_keys($data), array_values($data), $messageTemplate);
-                $response = Http::post(env('WA_URL'), [
-                    'session'     => 'default',
-                    'chatId'      => '6282264349638@c.us',
-                    'text'        => $message,
-                    'linkPreview' => false,
-                ]);
+                $message = str_replace(array_keys($data), array_values($data), $messageTemplate);
+                $this->sendMessage($pegawai->username, $message);
+
             }
         } catch (\Throwable $th) {
             logger()->error($th->getMessage());
 
         }
+    }
+
+    private function sendMessage($username, $message)
+    {
+        Http::post(env('WA_URL'), [
+            'session'     => 'default',
+            'chatId'      => '6282264349638@c.us',
+            'text'        => $message,
+            'linkPreview' => false,
+        ]);
+
     }
 }

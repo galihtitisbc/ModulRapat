@@ -55,7 +55,7 @@ class UserSeederTableSeeder extends Seeder
             'sekjur',
         ];
 
-        $pegawaiRecords = DB::table('pegawais')->whereNotIn('id', [1, 2])->get();
+        $pegawaiRecords = DB::table('pegawais')->whereNotIn('id', [1, 2])->whereNotNull('username')->get();
         foreach ($pegawaiRecords as $pegawai) {
             $randomRole = $roles[array_rand($roles)];
 
