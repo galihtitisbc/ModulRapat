@@ -27,6 +27,9 @@ class RapatKepanitiaanTableSeeder extends Seeder
                 'tanggal_berakhir'  => now()->addDays(10)->toDateString(),
                 'tujuan'            => 'Menyelenggarakan seminar teknologi bagi mahasiswa.',
                 'status'            => 'AKTIF',
+                'struktur'          => json_encode([
+                    'ketua' => 'tefa',
+                ]),
                 'created_at'        => now(),
                 'updated_at'        => now(),
             ],
@@ -44,6 +47,9 @@ class RapatKepanitiaanTableSeeder extends Seeder
             'tanggal_berakhir'  => now()->addDays(5)->toDateString(),
             'tujuan'            => 'menyediakan konsumsi.',
             'status'            => 'AKTIF',
+            'struktur'          => json_encode([
+                'ketua' => 'haris',
+            ]),
         ]);
         $pegawai = ['eka', 'haris', 'erna'];
         $panitia->pegawai()->attach($pegawai);

@@ -10,7 +10,9 @@ class Kepanitiaan extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-
+    protected $casts   = [
+        'struktur' => 'array',
+    ];
     // protected static function newFactory()
     // {
     //     return \Modules\Rapat\Database\factories\KepanitiaanFactory::new();

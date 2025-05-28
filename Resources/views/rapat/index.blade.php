@@ -43,7 +43,7 @@
             </div>
         @endif
         <form action="" method="get">
-            <div class="col-lg-9 col-sm-12 mx-auto my-3">
+            <div class="col-lg-10 col-md-12 col-sm-12 mx-auto my-3">
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-5 col-md-12 col-sm-12 mb-2">
                         <input type="text" name="agenda_rapat" class="form-control mb-2" placeholder="Cari Agenda Rapat"

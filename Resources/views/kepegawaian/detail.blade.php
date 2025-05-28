@@ -70,31 +70,34 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
+                            @php
+                                $struktur = json_decode($panitia->struktur);
+                                dd($struktur[0]->jabatan);
+                            @endphp
+
                             <div class="form-group">
                                 <label><i class="fas fa-user mr-2"></i>Ketua Kepanitiaan:</label>
                                 <p>{{ $panitia->ketua->formatted_name }}</p>
                             </div>
+
                             <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i></i>Sekretaris
-                                    Kepanitiaan :</label>
-                                <p>{{ $panitia->sekretaris == null ? '-' : $panitia->sekretaris }}</p>
+                                <label><i class="fas fa-user mr-2"></i>Sekretaris Kepanitiaan:</label>
+                                <p>{{ $struktur->firstWhere('jabatan', 'Sekretaris')['username'] ?? '-' }}</p>
                             </div>
                         </div>
+
                         <div class="col">
                             <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i></i>Penanggung Jawab
-                                    Kepanitiaan :</label>
-                                <p>{{ $panitia->penanggung_jawab == null ? '-' : $panitia->penanggung_jawab }}</p>
+                                <label><i class="fas fa-user mr-2"></i>Penanggung Jawab Kepanitiaan:</label>
+                                <p>{{ $struktur->firstWhere('jabatan', 'Penanggung Jawab')['username'] ?? '-' }}</p>
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i></i>Koordinator
-                                    Kepanitiaan :</label>
-                                <p>{{ $panitia->koordinator == null ? '-' : $panitia->koordinator }}</p>
+                                <label><i class="fas fa-user mr-2"></i>Koordinator Kepanitiaan:</label>
+                                <p>{{ $struktur->firstWhere('jabatan', 'Koordinator')['username'] ?? '-' }}</p>
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i></i>Pengarah
-                                    Kepanitiaan :</label>
-                                <p>{{ $panitia->pengarah == null ? '-' : $panitia->pengarah }}</p>
+                                <label><i class="fas fa-user mr-2"></i>Pengarah Kepanitiaan:</label>
+                                <p>{{ $struktur->firstWhere('jabatan', 'Pengarah')['username'] ?? '-' }}</p>
                             </div>
                         </div>
                     </div>

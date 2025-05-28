@@ -39,7 +39,6 @@ class KepegawaianController extends Controller
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10)->withQueryString();
-
         return view('rapat::kepegawaian.index', [
             'kepanitiaans' => $kepanitiaans,
         ]);
@@ -73,13 +72,14 @@ class KepegawaianController extends Controller
     public function store(KepanitiaanRequest $request)
     {
         try {
-            $validated   = $request->validated();
-            $kepanitiaan = Kepanitiaan::create($validated);
+            $validated             = $request->validated();
+            $validated['struktur'] = json_encode($validated['struktur_kepanitiaan']);
+            $kepanitiaan           = Kepanitiaan::create($validated);
             $kepanitiaan->pegawai()->attach($validated['peserta_panitia']);
             WhatsappSenderKepanitiaan::dispatch($kepanitiaan, 'create');
             return response()->json(['message' => 'Kepanitiaan berhasil ditambahkan.']);
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Gagal menambahkan kepanitiaan.']);
+            return response()->json(['message' => $th->getMessage()]);
         }
     }
 

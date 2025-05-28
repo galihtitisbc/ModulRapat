@@ -59,37 +59,24 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mb-3">
-                    <label>Ketua Kepanitiaan :</label>
-                    <table id="table-pimpinan-rapat" class="table table-hover">
+
+                <div class="mb-3 mt-4">
+                    <label>Struktur Kepanitiaan :</label>
+                    <table id="table-struktur-kepanitiaan" class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                                <th scope="col">Whatsapp</th>
-                                <th scope="col">Undang</th>
+                                <th scope="col" width="5%">No</th>
+                                <th scope="col" width="35%">Nama Peserta</th>
+                                {{-- <th scope="col">Email</th> --}}
+                                <th scope="col">Jabatan</th>
+                                <th scope="col" width="15%" title="Pilih satu anggota sebagai ketua panitia">Pilih
+                                    Ketua Panitia</th>
                             </tr>
                         </thead>
                         <tbody>
 
                         </tbody>
                     </table>
-                </div>
-                <div class="mb-3">
-                    <label>Pengarah Kepanitiaan :</label>
-                    <input type="text" id="pengarah" name="pengarah" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Penanggung Jawab Kepanitiaan :</label>
-                    <input type="text" id="penanggung_jawab" name="penanggung_jawab" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Sekretaris Kepanitiaan :</label>
-                    <input type="text" id="sekretaris" name="sekretaris" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Koordinator Kepanitiaan :</label>
-                    <input type="text" id="koordinator" name="koordinator" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
@@ -100,7 +87,7 @@
 @push('js')
     <script src="{{ asset('assets/js/rapat/variable.js') }}"></script>
     <script src="{{ asset('assets/js/rapat/pesertaRapatTable.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/pimpinanRapatTable.js') }}"></script>
+    <script src="{{ asset('assets/js/panitia/strukturKepanitiaanTable.js') }}"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -111,7 +98,25 @@
             e.preventDefault();
             const formData = new FormData(this);
             pesertaRapat.forEach(p => formData.append('peserta_panitia[]', p));
-            formData.append('pimpinan_username', pimpinanRapatUsername);
+            formData.append('pimpinan_username', pimpinanKepanitiaan);
+            //mengambil data struktur kepanitiaan, yang inputan nya berada di datatable pada form group struktur kepanitiaan
+            const inputs = document.querySelectorAll('.jabatan-input');
+            const strukturKepanitiaan = [];
+
+            inputs.forEach(input => {
+                const jabatan = input.value.trim();
+                const username = input.dataset.id;
+                if (username == pimpinanKepanitiaan) {
+                    return;
+                }
+                if (jabatan) {
+                    strukturKepanitiaan.push({
+                        jabatan: jabatan,
+                        username: username
+                    });
+                }
+            });
+            formData.append('struktur_kepanitiaan', JSON.stringify(strukturKepanitiaan));
             $.ajax({
                 url: '/rapat/panitia',
                 method: 'POST',
@@ -119,6 +124,8 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
+                    console.log(response);
+
                     $('#error-alert').addClass('d-none');
                     Swal.fire({
                         title: 'Berhasil',

@@ -66,14 +66,14 @@ class RapatController extends Controller
     }
     public function ajaxPesertaRapat(Request $request)
     {
-        $query = Pegawai::with(['user', 'rapatAgendaPeserta', 'kepanitiaans'])->whereNotNull('username');
+        $query = Pegawai::with(['user', 'rapatAgendaPeserta', 'kepanitiaans']);
         if ($search = $request->input('search.value')) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
                     ->orWhere('nip', 'like', "%{$search}%");
             });
         }
-        $total    = Pegawai::count();
+        $total    = Pegawai::whereNotNull('username')->count();
         $filtered = $query->count();
 
         $data = $query
@@ -98,7 +98,7 @@ class RapatController extends Controller
                     ->orWhere('user.email', 'like', "%{$search}%");
             });
         }
-        $total    = Pegawai::count();
+        $total    = Pegawai::whereNotNull('username')->count();
         $filtered = $query->count();
 
         $data = $query
