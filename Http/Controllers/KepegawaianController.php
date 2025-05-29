@@ -46,8 +46,22 @@ class KepegawaianController extends Controller
     public function detail(Kepanitiaan $kepanitiaan)
     {
         $kepanitiaan->load('ketua');
+        $strukturKepanitiaan = json_decode($kepanitiaan->struktur, true);
+        $usernames           = array_column($strukturKepanitiaan, 'username'); //ambil data username, untuk dicari di table pegawai, karena butuh data dari table pegawai
+        $pegawai             = Pegawai::whereIn('username', $usernames)->get();
+
+        $dataStruktur = [];
+        foreach ($strukturKepanitiaan as $value) {
+            if ($pegawaiModel = $pegawai->where('username', $value['username'])->first()) {
+                $value['pegawai'] = $pegawaiModel;
+            } else {
+                $value['pegawai'] = null;
+            }
+            $dataStruktur[] = $value;
+        }
         return view('rapat::kepegawaian.detail', [
-            'panitia' => $kepanitiaan,
+            'panitia'  => $kepanitiaan,
+            'struktur' => $dataStruktur,
         ]);
     }
     public function ajaxKepanitiaanRapat($id)
@@ -122,8 +136,23 @@ class KepegawaianController extends Controller
     public function download(Kepanitiaan $kepanitiaan)
     {
         $kepanitiaan->load(['pegawai', 'ketua']);
+        $strukturKepanitiaan = json_decode($kepanitiaan->struktur, true);
+        $usernames           = array_column($strukturKepanitiaan, 'username'); //ambil data username, untuk dicari di table pegawai, karena butuh data dari table pegawai
+        $pegawai             = Pegawai::whereIn('username', $usernames)->get();
+
+        $dataStruktur = [];
+        foreach ($strukturKepanitiaan as $value) {
+            if ($pegawaiModel = $pegawai->where('username', $value['username'])->first()) {
+                $value['pegawai'] = $pegawaiModel;
+            } else {
+                $value['pegawai'] = null;
+            }
+            $dataStruktur[] = $value;
+        }
+
         return view('rapat::kepegawaian.surat_tugas_pdf', [
             'kepanitiaan' => $kepanitiaan,
+            'struktur'    => $dataStruktur,
         ]);
     }
 }

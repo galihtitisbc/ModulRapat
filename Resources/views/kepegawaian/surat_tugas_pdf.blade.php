@@ -63,12 +63,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($pegawaiList as $pegawai)
+                <tr>
+                    <td>1</td>
+                    <td>{{ $kepanitiaan->ketua->nip }}</td>
+                    <td>{{ $kepanitiaan->ketua->formatted_name }}</td>
+                    <td>Ketua Panitia</td>
+                </tr>
+                @foreach ($struktur as $index => $anggota)
                     <tr>
-                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td>{{ $pegawai->formatted_name }}</td>
-                        <td>{{ $pegawai->nip }}</td>
-                        <td>{{ $kepanitiaan->ketua->username == $pegawai->username ? 'Ketua Kepanitiaan' : 'Anggota' }}</td>
+                        <td>{{ $index + 1 + 1 }}</td>
+                        <td>{{ $anggota['pegawai']->nip }}</td>
+                        <td>{{ $anggota['pegawai']->formatted_name }}</td>
+                        <td>{{ $anggota['jabatan'] }}</td>
                     </tr>
                 @endforeach
             </tbody>

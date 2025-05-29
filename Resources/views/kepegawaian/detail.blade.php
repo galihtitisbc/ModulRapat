@@ -61,53 +61,11 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Daftar Anggota Kepanitiaan -->
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0"><i class="fas fa-users mr-2"></i>Struktur Kepanitiaan</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            @php
-                                $struktur = json_decode($panitia->struktur);
-                                dd($struktur[0]->jabatan);
-                            @endphp
-
-                            <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i>Ketua Kepanitiaan:</label>
-                                <p>{{ $panitia->ketua->formatted_name }}</p>
-                            </div>
-
-                            <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i>Sekretaris Kepanitiaan:</label>
-                                <p>{{ $struktur->firstWhere('jabatan', 'Sekretaris')['username'] ?? '-' }}</p>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i>Penanggung Jawab Kepanitiaan:</label>
-                                <p>{{ $struktur->firstWhere('jabatan', 'Penanggung Jawab')['username'] ?? '-' }}</p>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i>Koordinator Kepanitiaan:</label>
-                                <p>{{ $struktur->firstWhere('jabatan', 'Koordinator')['username'] ?? '-' }}</p>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i>Pengarah Kepanitiaan:</label>
-                                <p>{{ $struktur->firstWhere('jabatan', 'Pengarah')['username'] ?? '-' }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-success text-white">
-                            <h5 class="mb-0"><i class="fas fa-users mr-2"></i>Anggota Kepanitiaan</h5>
+                            <h5 class="mb-0"><i class="fas fa-users mr-2"></i>Struktur Kepanitiaan</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -117,14 +75,22 @@
                                             <th width="5%">No</th>
                                             <th width="15%">NIP</th>
                                             <th width="30%">Nama</th>
+                                            <th width="30%">Jabatan Dalam Kepanitiaan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($panitia->pegawai as $index => $anggota)
+                                        <tr>
+                                            <td>1</td>
+                                            <td>{{ $panitia->ketua->nip }}</td>
+                                            <td>{{ $panitia->ketua->formatted_name }}</td>
+                                            <td>Ketua Panitia</td>
+                                        </tr>
+                                        @forelse($struktur as $index => $anggota)
                                             <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $anggota->nip }}</td>
-                                                <td>{{ $anggota->nama }}</td>
+                                                <td>{{ $index + 1 + 1 }}</td>
+                                                <td>{{ $anggota['pegawai']->nip }}</td>
+                                                <td>{{ $anggota['pegawai']->formatted_name }}</td>
+                                                <td>{{ $anggota['jabatan'] }}</td>
                                             </tr>
                                         @empty
                                             <tr>
