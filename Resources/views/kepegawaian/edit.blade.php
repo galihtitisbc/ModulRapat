@@ -88,7 +88,7 @@
 @push('js')
     <script src="{{ asset('assets/js/rapat/variable.js') }}"></script>
     <script src="{{ asset('assets/js/rapat/pesertaRapatTable.js') }}"></script>
-    <script src="{{ asset('assets/js/panitia/strukturKepanitiaanTable.js') }}"></script>
+    <script src="{{ asset('assets/js/panitia/strukturKepanitiaanTableUpdate.js') }}"></script>
 
     <script>
         //mendapatkan data pegawai dari kepanitiaan yang dikirim controller, dan menambahkan ke array pesertaRapat sebagai anggota panitia
