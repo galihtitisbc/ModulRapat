@@ -109,12 +109,10 @@
                 if (username == pimpinanKepanitiaan) {
                     return;
                 }
-                if (jabatan) {
-                    strukturKepanitiaan.push({
-                        jabatan: jabatan,
-                        username: username
-                    });
-                }
+                strukturKepanitiaan.push({
+                    jabatan: jabatan == "" ? 'Anggota' : jabatan,
+                    username: username
+                });
             });
             formData.append('struktur_kepanitiaan', JSON.stringify(strukturKepanitiaan));
             $.ajax({
@@ -124,8 +122,6 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    console.log(response);
-
                     $('#error-alert').addClass('d-none');
                     Swal.fire({
                         title: 'Berhasil',

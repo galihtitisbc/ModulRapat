@@ -38,7 +38,8 @@ class KepegawaianController extends Controller
                 $query->where('status', $status);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10)->withQueryString();
+            ->paginate(10)
+            ->withQueryString();
         return view('rapat::kepegawaian.index', [
             'kepanitiaans' => $kepanitiaans,
         ]);
@@ -110,7 +111,9 @@ class KepegawaianController extends Controller
     public function update(UpdateKepanitiaanRequest $request, Kepanitiaan $kepanitiaan)
     {
         try {
-            $validated = $request->validated();
+            $validated             = $request->validated();
+            $validated             = $request->validated();
+            $validated['struktur'] = json_encode($validated['struktur_kepanitiaan']);
             $kepanitiaan->update($validated);
             $kepanitiaan->pegawai()->sync($validated['peserta_panitia']);
             WhatsappSenderKepanitiaan::dispatch($kepanitiaan, 'update');

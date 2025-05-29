@@ -61,41 +61,23 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mb-3">
-                    <label>Ketua Kepanitiaan :</label>
-                    <table id="table-pimpinan-rapat" class="table table-hover">
+                <div class="mb-3 mt-4">
+                    <label>Struktur Kepanitiaan : ( Kosongkan Jabatan Jika Anggota )</label>
+                    <table id="table-struktur-kepanitiaan" class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                                <th scope="col">Whatsapp</th>
-                                <th scope="col">Undang</th>
+                                <th scope="col" width="5%">No</th>
+                                <th scope="col" width="35%">Nama Peserta</th>
+                                {{-- <th scope="col">Email</th> --}}
+                                <th scope="col">Jabatan</th>
+                                <th scope="col" width="15%" title="Pilih satu anggota sebagai ketua panitia">Pilih
+                                    Ketua Panitia</th>
                             </tr>
                         </thead>
                         <tbody>
 
                         </tbody>
                     </table>
-                </div>
-                <div class="mb-3">
-                    <label>Pengarah Kepanitiaan :</label>
-                    <input type="text" id="pengarah" value="{{ old('pengarah', $kepanitiaan->pengarah ?? '') }}"
-                        name="pengarah" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Penanggung Jawab Kepanitiaan :</label>
-                    <input type="text" id="penanggung_jawab" name="penanggung_jawab" class="form-control"
-                        value="{{ old('penanggung_jawab', $kepanitiaan->penanggung_jawab ?? '') }}">
-                </div>
-                <div class="mb-3">
-                    <label>Sekretaris Kepanitiaan :</label>
-                    <input type="text" id="sekretaris" name="sekretaris" class="form-control"
-                        value="{{ old('sekretaris', $kepanitiaan->sekretaris ?? '') }}">
-                </div>
-                <div class="mb-3">
-                    <label>Koordinator Kepanitiaan :</label>
-                    <input type="text" id="koordinator" name="koordinator" class="form-control"
-                        value="{{ old('koordinator', $kepanitiaan->koordinator ?? '') }}">
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
@@ -106,14 +88,29 @@
 @push('js')
     <script src="{{ asset('assets/js/rapat/variable.js') }}"></script>
     <script src="{{ asset('assets/js/rapat/pesertaRapatTable.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/pimpinanRapatTable.js') }}"></script>
+    <script src="{{ asset('assets/js/panitia/strukturKepanitiaanTable.js') }}"></script>
+
     <script>
         //mendapatkan data pegawai dari kepanitiaan yang dikirim controller, dan menambahkan ke array pesertaRapat sebagai anggota panitia
         const kepanitiaan = <?php echo json_encode($kepanitiaan); ?>;
-        pimpinanRapatUsername = kepanitiaan.pimpinan_username;
-        pesertaManual = kepanitiaan.pegawai.map((pegawai) => pegawai.username);
-        pesertaRapat = [...new Set([...pesertaManual, ...pesertaKepanitiaan])];
-        tablePimpinanRapat.ajax.reload();
+        const strukturKepanitiaan = JSON.parse(kepanitiaan.struktur);
+        pimpinanKepanitiaan = kepanitiaan.pimpinan_username;
+        // Tambahkan pimpinanKepanitiaan ke json strukturKepanitiaan
+        strukturKepanitiaan.push({
+            jabatan: "ketua",
+            username: pimpinanKepanitiaan
+        });
+
+        // untuk menadapatkan jabatan dari kolom struktur
+        const jabatanMap = strukturKepanitiaan.reduce((acc, pegawai) => {
+            acc[pegawai.username] = pegawai.jabatan;
+            return acc;
+        }, {});
+
+        pesertaManual = strukturKepanitiaan.map((pegawai) => pegawai.username);
+        //mengggunakan variabel pesertaRapat, karena menggunakan table pegawai pada agenda rapat
+        pesertaRapat = [...new Set([...pesertaManual])];
+        tableStrukturKepanitiaan.ajax.reload();
         //-------------------------------
 
         $.ajaxSetup({
@@ -125,7 +122,24 @@
             e.preventDefault();
             const formData = new FormData(this);
             pesertaRapat.forEach(p => formData.append('peserta_panitia[]', p));
-            formData.append('pimpinan_username', pimpinanRapatUsername);
+            formData.append('pimpinan_username', pimpinanKepanitiaan);
+            //mengambil data struktur kepanitiaan, yang inputan nya berada di datatable pada form group struktur kepanitiaan
+            const inputs = document.querySelectorAll('.jabatan-input');
+            const strukturKepanitiaan = [];
+
+            inputs.forEach(input => {
+                const jabatan = input.value.trim();
+                const username = input.dataset.id;
+                //hilangkan data nya jika ketua panitia, karena akan disimpan username nya sebagai relasi
+                if (username == pimpinanKepanitiaan) {
+                    return;
+                }
+                strukturKepanitiaan.push({
+                    jabatan: jabatan == "" ? 'Anggota' : jabatan,
+                    username: username
+                });
+            });
+            formData.append('struktur_kepanitiaan', JSON.stringify(strukturKepanitiaan));
             $.ajax({
                 url: '/rapat/panitia/' + kepanitiaan.slug,
                 method: 'POST',
