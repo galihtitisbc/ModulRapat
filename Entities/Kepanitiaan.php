@@ -4,6 +4,7 @@ namespace Modules\Rapat\Entities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Modules\Rapat\Http\Scopes\PegawaiAnggotaKepanitiaan;
 
 class Kepanitiaan extends Model
 {
@@ -13,10 +14,10 @@ class Kepanitiaan extends Model
     protected $casts   = [
         'struktur' => 'array',
     ];
-    // protected static function newFactory()
-    // {
-    //     return \Modules\Rapat\Database\factories\KepanitiaanFactory::new();
-    // }
+    protected static function booted()
+    {
+        static::addGlobalScope(new PegawaiAnggotaKepanitiaan);
+    }
     public function getRouteKeyName()
     {
         return 'slug';

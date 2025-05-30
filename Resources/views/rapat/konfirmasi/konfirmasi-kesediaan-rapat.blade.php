@@ -153,6 +153,8 @@
 
                          <!-- Detail Rapat (Hanya Teks) -->
                          <div>
+                             <label class="section-label">Nama Pegawai :</label>
+                             <div class="section-content">{{ $pegawai->formatted_name }}</div>
                              <label class="section-label">Agenda Rapat:</label>
                              <div class="section-content">{{ $rapat->agenda_rapat }}</div>
 

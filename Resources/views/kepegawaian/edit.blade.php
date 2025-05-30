@@ -86,9 +86,10 @@
 @endsection
 
 @push('js')
-    <script src="{{ asset('assets/js/rapat/variable.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/pesertaRapatTable.js') }}"></script>
-    <script src="{{ asset('assets/js/panitia/strukturKepanitiaanTableUpdate.js') }}"></script>
+    @include('rapat::js.rapat.variable-js')
+    @include('rapat::js.rapat.pesertaRapatTable-js')
+    @include('rapat::js.kepanitiaan.strukturKepanitiaanTableCreate-js')
+    @include('rapat::js.kepanitiaan.strukturKepanitiaanTableUpdate-js')
 
     <script>
         //mendapatkan data pegawai dari kepanitiaan yang dikirim controller, dan menambahkan ke array pesertaRapat sebagai anggota panitia

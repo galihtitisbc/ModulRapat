@@ -43,7 +43,6 @@ class RapatService
                 }
                 $agendaRapat->rapatLampiran()->createMany($namaLampiran);
             }
-            // $agendaRapat->rapatAgendaPeserta()->attach($data['peserta_rapat']);
             //asosiasikan peserta rapat berserta link konfirmasi kehadiran
             $pivotData = [];
             foreach ($data['peserta_rapat'] as $pesertaId) {
@@ -120,6 +119,20 @@ class RapatService
                 }
                 $agendaRapat->rapatLampiran()->createMany($namaLampiran);
             }
+            //asosiasikan peserta rapat berserta link konfirmasi kehadiran
+            $pivotData = [];
+            foreach ($data['peserta_rapat'] as $pesertaId) {
+                $payload = [
+                    'username'        => $pesertaId,
+                    'rapat_agenda_id' => $agendaRapat->id,
+                ];
+                $linkKonfirmasi        = $this->createKesediaanRapatLink($payload);
+                $pivotData[$pesertaId] = [
+                    'link_konfirmasi' => $linkKonfirmasi,
+                ];
+            }
+            $agendaRapat->rapatAgendaPeserta()->sync($pivotData);
+            //jika tempat rapat diubah dari tempat lain ke zoom
             if ($oldTempat != 'zoom' && $data['tempat'] == 'zoom') {
                 CreateMeetingZoom::dispatch($agendaRapat)->chain([
                     new WhatsappSender($agendaRapat, 'rapat', 'updateRapat'),
@@ -127,7 +140,6 @@ class RapatService
             } else {
                 WhatsappSender::dispatch($agendaRapat, 'rapat', 'updateRapat');
             }
-            $agendaRapat->rapatAgendaPeserta()->sync($data['peserta_rapat']);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

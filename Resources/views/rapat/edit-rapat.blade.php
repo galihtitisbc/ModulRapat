@@ -143,12 +143,12 @@
 @endsection
 
 @push('js')
-    <script src="{{ asset('assets/js/rapat/variable.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/pesertaRapatTable.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/pimpinanRapatTable.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/notulisRapatTable.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/kepanitiaanRapat.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/editRapat.js') }}"></script>
+    @include('rapat::js.rapat.variable-js')
+    @include('rapat::js.rapat.pesertaRapatTable-js')
+    @include('rapat::js.rapat.pimpinanRapatTable-js')
+    @include('rapat::js.rapat.notulisRapatTable-js')
+    @include('rapat::js.rapat.kepanitiaanRapat-js')
+    @include('rapat::js.rapat.editRapat-js')
     <script>
         const slug = "{{ $slug }}";
         const rapat = <?php echo json_encode($rapatAgenda); ?>;

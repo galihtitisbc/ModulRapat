@@ -85,9 +85,9 @@
 @endsection
 
 @push('js')
-    <script src="{{ asset('assets/js/rapat/variable.js') }}"></script>
-    <script src="{{ asset('assets/js/rapat/pesertaRapatTable.js') }}"></script>
-    <script src="{{ asset('assets/js/panitia/strukturKepanitiaanTable.js') }}"></script>
+    @include('rapat::js.rapat.variable-js')
+    @include('rapat::js.rapat.pesertaRapatTable-js')
+    @include('rapat::js.kepanitiaan.strukturKepanitiaanTableCreate-js')
     <script>
         $.ajaxSetup({
             headers: {
