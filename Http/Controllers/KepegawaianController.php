@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Rapat\Entities\Kepanitiaan;
 use Modules\Rapat\Entities\Pegawai;
 use Modules\Rapat\Http\Helper\FlashMessage;
-use Modules\Rapat\Http\Helper\RoleGroupHelper;
 use Modules\Rapat\Http\Requests\KepanitiaanRequest;
 use Modules\Rapat\Http\Requests\UpdateKepanitiaanRequest;
 use Modules\Rapat\Jobs\WhatsappSenderKepanitiaan;
@@ -17,14 +16,7 @@ class KepegawaianController extends Controller
 {
     public function index(Request $request)
     {
-        $kepanitiaans = '';
-
-        if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::kepegawaianRoles()) || RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles())) {
-            $kepanitiaans = Kepanitiaan::with('pegawai');
-        } else {
-            $kepanitiaans = Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->pegawai->username)->with('pegawai');
-        }
-        $kepanitiaans = $kepanitiaans
+        $kepanitiaans = Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->pegawai->username)->with('pegawai')
             ->when($request->input('nama_kepanitiaan'), function ($query, $namaKepanitiaan) {
                 $query->where('nama_kepanitiaan', 'like', '%' . $namaKepanitiaan . '%');
             })

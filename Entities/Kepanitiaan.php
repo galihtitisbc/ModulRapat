@@ -3,8 +3,9 @@ namespace Modules\Rapat\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Modules\Rapat\Http\Scopes\PegawaiAnggotaKepanitiaan;
+use Modules\Rapat\Http\Helper\RoleGroupHelper;
 
 class Kepanitiaan extends Model
 {
@@ -14,10 +15,10 @@ class Kepanitiaan extends Model
     protected $casts   = [
         'struktur' => 'array',
     ];
-    protected static function booted()
-    {
-        static::addGlobalScope(new PegawaiAnggotaKepanitiaan);
-    }
+    // protected static function booted()
+    // {
+    //     static::addGlobalScope(new PegawaiAnggotaKepanitiaan);
+    // }
     public function getRouteKeyName()
     {
         return 'slug';
@@ -37,6 +38,9 @@ class Kepanitiaan extends Model
     }
     public function scopePegawaiIsAnggotaPanitia($query, $username)
     {
+        if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) || RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::kepegawaianRoles())) {
+            return $query;
+        }
         $query->whereHas('pegawai', function ($q) use ($username) {
             $q->where('username', $username);
         });

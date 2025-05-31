@@ -41,9 +41,12 @@ class RapatAgenda extends Model
     }
     public function scopePegawaiIsPesertaOrCreator($query, $username)
     {
-        if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles())) {
+        // Jika BUKAN di halaman dashboard dan pegawai adalah pimpinan, maka return query tanpa filter
+        if (! request()->is('rapat/dashboard') &&
+            RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles())) {
             return $query;
         }
+
         $query->whereHas('rapatAgendaPeserta', function ($q) use ($username) {
             $q->where('pegawai_username', $username);
         })
