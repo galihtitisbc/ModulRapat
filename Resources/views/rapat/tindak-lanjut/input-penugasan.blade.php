@@ -1,8 +1,8 @@
 @extends('adminlte::page')
-@section('title', 'Rapat')
+@section('title', 'Input Penugasan')
 {{-- @section('plugins.Select2', true) --}}
 @section('content_header')
-    <h1 class="m-0 text-dark"></h1>
+    <h3 class="m-0 text-dark">Input Penugasan</h3>
 @stop
 
 @push('css')
@@ -11,7 +11,7 @@
 @section('content')
     @php
         $heads = [
-            ['label' => 'ID', 'width' => 5, 'class' => 'text-center'],
+            ['label' => 'No', 'width' => 5, 'class' => 'text-center'],
             ['label' => 'Nama', 'width' => 30, 'class' => 'text-center'],
             ['label' => 'Aksi', 'width' => 20, 'class' => 'text-center'],
         ];
@@ -23,19 +23,100 @@
         ];
     @endphp
     <x-adminlte-card>
-        <h4 class="text-center mb-4">{{ $rapat->agenda_rapat }}</h4>
-        <div class="col-lg-9 mx-auto mt-5">
-            <x-adminlte-datatable id="table1" :heads="$heads">
-                @foreach ($config['data'] as $row)
-                    <tr>
-                        @foreach ($row as $cell)
-                            <td>{!! $cell !!}</td>
-                        @endforeach
-                    </tr>
-                @endforeach
-            </x-adminlte-datatable>
+        <!-- Header Section -->
+        <div class="card-header bg-gradient-primary text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h4 class="card-title mb-0 font-weight-bold">
+                        <i class="fas fa-tasks mr-2"></i>
+                        Input Penugasan Rapat
+                    </h4>
+                </div>
+                <div class="col-auto">
+                    <span class="badge badge-light px-3 py-2">
+                        <i class="fas fa-calendar mr-1"></i>
+                        Form Input
+                    </span>
+                </div>
+            </div>
         </div>
 
+        <!-- Body Section -->
+        <div class="card-body px-4 py-5">
+            <!-- Agenda Rapat Title -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="text-center">
+                        <h5 class="text-primary mb-2">Agenda Rapat:</h5>
+                        <h4 class="font-weight-bold text-dark border-bottom border-primary pb-2 d-inline-block">
+                            {{ $rapat->agenda_rapat }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-md-12 col-sm-12 col-xl-10">
+
+                    <!-- No Assignment Option -->
+                    <div class="card border-warning mb-4">
+                        <div class="card-body bg-light">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-info-circle text-warning fa-2x mr-3"></i>
+                                        <div>
+                                            <h6 class="mb-1 font-weight-bold">Rapat Tanpa Penugasan</h6>
+                                            <p class="mb-0 text-muted">Klik tombol ini jika rapat tidak memiliki penugasan
+                                                khusus</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-md-right mt-3 mt-md-0">
+                                    <button class="btn btn-warning shadow-sm">
+                                        <i class="fas fa-times-circle mr-2"></i>
+                                        Tidak Ada Penugasan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Assignment Input Section -->
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <x-adminlte-datatable id="table1" :heads="$heads"
+                                    class="table-striped table-hover mb-0">
+                                    @foreach ($config['data'] as $row)
+                                        <tr>
+                                            @foreach ($row as $cell)
+                                                <td class="py-3 px-4 align-middle">{!! $cell !!}</td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </x-adminlte-datatable>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <button type="button" class="btn btn-success">
+                                        <i class="fas fa-check mr-2"></i>
+                                        Simpan Penugasan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </x-adminlte-card>
 @endsection
 

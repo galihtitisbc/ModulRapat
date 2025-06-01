@@ -85,7 +85,7 @@ class TindakLanjutRapatController extends Controller
             }
             $data[] = [
                 $key + 1,
-                $peserta->nama,
+                $peserta->formatted_name,
                 $btnPenugasan,
             ];
         }
@@ -119,6 +119,9 @@ class TindakLanjutRapatController extends Controller
 
     public function showUploadTugas(RapatTindakLanjut $rapatTindakLanjut)
     {
+        if (Auth::user()->username != $rapatTindakLanjut->pegawai->username) {
+            abort(403);
+        }
         return view('rapat::rapat.tindak-lanjut.upload-tugas', [
             'rapatTindakLanjut' => $rapatTindakLanjut,
         ]);

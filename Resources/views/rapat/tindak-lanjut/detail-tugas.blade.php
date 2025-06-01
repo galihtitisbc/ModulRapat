@@ -25,128 +25,136 @@
             'txt' => ['icon' => 'fas fa-file-alt', 'color' => '#808080'],
         ];
     @endphp
-    <x-adminlte-card>
-        <h4 class="text-center mb-4"></h4>
-        <div class="row col-lg-8 mx-auto mt-5">
-            <div class="col-lg-3 col-sm-4 col-md-4 font-weight-bold">
-                Link Tugas :
-                <hr>
-            </div>
-            <div class="col-8">
-                <a href="{{ $tindakLanjut->tugas ? $tindakLanjut->tugas : '#' }}"
-                    target="_blank">{{ $tindakLanjut->tugas ? $tindakLanjut->tugas : '-' }}</a>
-                <hr>
-            </div>
-        </div>
-        <div class="row col-lg-8 mx-auto">
-            <div class="col-lg-3 col-sm-4 col-md-4 font-weight-bold">
-                File Yang Dilampirkan :
-                <hr>
-            </div>
-            <div class="col-8">
-                <ul class="list-group list-group-flush">
-                    @if ($tindakLanjut->rapatTindakLanjutFile->isNotEmpty())
-                        @foreach ($tindakLanjut->rapatTindakLanjutFile as $file)
-                            @php
-                                $extension = pathinfo($file->nama_file, PATHINFO_EXTENSION);
-                                $icon = $icons[$extension] ?? [
-                                    'icon' => 'fas fa-file',
-                                    'color' => '#A9A9A9',
-                                ];
-                            @endphp
-                            <li class="list-group-item"><a href="{{ url('/rapat/agenda-rapat/download') }}"
-                                    target="_blank"><i class="{{ $icon['icon'] }}"
-                                        style="color: {{ $icon['color'] }}; fa-lg  mr-2"></i>
-                                    {{ $file->nama_file }}</a></li>
-                        @endforeach
-                    @endif
-                </ul>
-            </div>
-        </div>
-        <div class="row col-lg-8 mx-auto mt-4">
-            <div class="col-lg-3 col-sm-4 col-md-4 font-weight-bold">
-                Kendala Dalam Mengerjakan Tugas :
-                <hr>
-            </div>
-            <div class="col-8">
-                <p>{{ $tindakLanjut->kendala }}</p>
-                <hr>
-            </div>
-        </div>
-        @if ($tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username)
-            <hr>
-            <form class="col-8 mx-auto"
-                action="{{ url('/rapat/tindak-lanjut-rapat/' . $tindakLanjut->slug . '/detail/simpan-tugas') }}"
-                method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label for="deskripsi-tugas" class="form-label">Komentar Penugasan :</label>
-                    <textarea class="form-control @error('komentar_penugasan') is-invalid @enderror" name="komentar_penugasan"
-                        id="komentar_penugasan-tugas" rows="3">{{ $tindakLanjut->komentar }}</textarea>
-                    @error('komentar_penugasan')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+    <x-adminlte-card title="Detail Tugas" theme="primary" icon="fas fa-tasks">
+        <!-- Baris Link Tugas -->
+        <div class="col-lg-9 col-md-12 col-sm-12 mx-auto">
+            <div class="row mb-4">
+                <div class="col-md-3 font-weight-bold">
+                    Link Tugas :
                 </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Kriteria Penilaian :</label>
-                    <select class="form-control @error('kriteria_penilaian') is-invalid @enderror"
-                        name="kriteria_penilaian">
-                        <option value="" selected>--- Pilih Kriteria Penilaian ---</option>
-                        @foreach (KriteriaPenilaian::cases() as $kriteria)
-                            @if ($kriteria->value == KriteriaPenilaian::BELUM_DINILAI->value)
+                <div class="col-md-9">
+                    <a href="{{ $tindakLanjut->tugas ? $tindakLanjut->tugas : '#' }}" target="_blank">
+                        {{ $tindakLanjut->tugas ? $tindakLanjut->tugas : '-' }}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Baris File yang Dilampirkan -->
+            <div class="row mb-4">
+                <div class="col-md-3 font-weight-bold">
+                    File Yang Dilampirkan :
+                </div>
+                <div class="col-md-9">
+                    <ul class="list-group">
+                        @if ($tindakLanjut->rapatTindakLanjutFile->isNotEmpty())
+                            @foreach ($tindakLanjut->rapatTindakLanjutFile as $file)
                                 @php
-                                    continue;
+                                    $extension = pathinfo($file->nama_file, PATHINFO_EXTENSION);
+                                    $icon = $icons[$extension] ?? [
+                                        'icon' => 'fas fa-file',
+                                        'color' => '#A9A9A9',
+                                    ];
                                 @endphp
-                            @endif
-                            <option value="{{ $kriteria->value }}"
-                                {{ $tindakLanjut->penilaian == $kriteria->value ? 'selected' : '' }}>
-                                {{ $kriteria->label() }}</option>
-                        @endforeach
-                    </select>
-                    @error('kriteria_penilaian')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="mx-auto text-center">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        @endif
-        {{-- menampilkan penilaian terhadap tugas yang sudah dinilai oleh pimpinan rapat, yang bisa melihat penilaian nya adalah pimpinan, peserta rapat, dan pimpinan rapat --}}
-        @if (
-            ($tindakLanjut->pegawai_username == Auth::user()->pegawai->username &&
-                $tindakLanjut->penilaian != KriteriaPenilaian::BELUM_DINILAI->value) ||
-                (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) &&
-                    $tindakLanjut->penilaian != KriteriaPenilaian::BELUM_DINILAI->value))
-            <hr>
-            <div class="col-8 mx-auto">
-                <div class="mb-3">
-                    <label for="deskripsi-tugas" class="form-label">Komentar Penugasan :</label>
-                    <textarea class="form-control" disabled rows="3">{{ $tindakLanjut->komentar }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Kriteria Penilaian :</label>
-                    <select disabled class="form-control @error('kriteria_penilaian') is-invalid @enderror"
-                        name="kriteria_penilaian">
-                        @foreach (KriteriaPenilaian::cases() as $kriteria)
-                            @if ($kriteria->value == KriteriaPenilaian::BELUM_DINILAI->value)
-                                @php
-                                    continue;
-                                @endphp
-                            @endif
-                            <option value="{{ $kriteria->value }}"
-                                {{ $tindakLanjut->penilaian == $kriteria->value ? 'selected' : '' }}>
-                                {{ $kriteria->label() }}</option>
-                        @endforeach
-                    </select>
+                                <li class="list-group-item">
+                                    <a href="{{ url('/rapat/agenda-rapat/download') }}" target="_blank">
+                                        <i class="{{ $icon['icon'] }}" style="color: {{ $icon['color'] }};"></i>
+                                        {{ $file->nama_file }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
                 </div>
             </div>
-        @endif
+
+            <!-- Baris Kendala Dalam Mengerjakan Tugas -->
+            <div class="row mb-4">
+                <div class="col-md-3 font-weight-bold">
+                    Kendala Dalam Mengerjakan Tugas :
+                </div>
+                <div class="col-md-9">
+                    <p>{{ $tindakLanjut->kendala }}</p>
+                </div>
+            </div>
+
+            <!-- Form Komentar dan Penilaian (untuk pimpinan rapat) -->
+            @if ($tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username)
+                <hr>
+                <form action="{{ url('/rapat/tindak-lanjut-rapat/' . $tindakLanjut->slug . '/detail/simpan-tugas') }}"
+                    method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="komentar_penugasan">Komentar Penugasan :</label>
+                        <textarea class="form-control @error('komentar_penugasan') is-invalid @enderror" name="komentar_penugasan"
+                            id="komentar_penugasan" rows="3">{{ $tindakLanjut->komentar }}</textarea>
+                        @error('komentar_penugasan')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="kriteria_penilaian">Kriteria Penilaian :</label>
+                        <select class="form-control @error('kriteria_penilaian') is-invalid @enderror"
+                            name="kriteria_penilaian" id="kriteria_penilaian">
+                            <option value="" selected>--- Pilih Kriteria Penilaian ---</option>
+                            @foreach (KriteriaPenilaian::cases() as $kriteria)
+                                @if ($kriteria->value == KriteriaPenilaian::BELUM_DINILAI->value)
+                                    @continue
+                                @endif
+                                <option value="{{ $kriteria->value }}"
+                                    {{ $tindakLanjut->penilaian == $kriteria->value ? 'selected' : '' }}>
+                                    {{ $kriteria->label() }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('kriteria_penilaian')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            @endif
+
+            <!-- Tampilan Read-Only (untuk peserta/pegawai dan pimpinan setelah penilaian tersedia) -->
+            @if (
+                ($tindakLanjut->pegawai_username == Auth::user()->pegawai->username &&
+                    $tindakLanjut->penilaian != KriteriaPenilaian::BELUM_DINILAI->value) ||
+                    (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) &&
+                        $tindakLanjut->penilaian != KriteriaPenilaian::BELUM_DINILAI->value))
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="komentar_penugasan_readonly">Komentar Penugasan :</label>
+                            <textarea class="form-control" id="komentar_penugasan_readonly" readonly rows="3">{{ $tindakLanjut->komentar }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="kriteria_penilaian_readonly">Kriteria Penilaian :</label>
+                            <select class="form-control" id="kriteria_penilaian_readonly" disabled>
+                                @foreach (KriteriaPenilaian::cases() as $kriteria)
+                                    @if ($kriteria->value == KriteriaPenilaian::BELUM_DINILAI->value)
+                                        @continue
+                                    @endif
+                                    <option value="{{ $kriteria->value }}"
+                                        {{ $tindakLanjut->penilaian == $kriteria->value ? 'selected' : '' }}>
+                                        {{ $kriteria->label() }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
     </x-adminlte-card>
+
 @endsection
 
 @push('js')

@@ -8,6 +8,9 @@ use Modules\Rapat\Http\Controllers\RapatController;
 use Modules\Rapat\Http\Controllers\RapatDashboardController;
 use Modules\Rapat\Http\Controllers\RiwayatRapatController;
 use Modules\Rapat\Http\Controllers\TindakLanjutRapatController;
+use Modules\Rapat\Http\Middleware\KepegawaianMiddleware;
+use Modules\Rapat\Http\Middleware\NotulisMiddleware;
+use Modules\Rapat\Http\Middleware\PimpinanRapatMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +39,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             //-------end fetch data untuk datatable
             Route::get('/{rapatAgenda:slug}/detail', [RapatController::class, 'show']);
             Route::get('/{file}/download', [RapatController::class, 'downloadLampiran']);
-            Route::middleware(['pimpinanRapat'])->group(function () {
+            Route::middleware([PimpinanRapatMiddleware::class])->group(function () {
                 Route::get('/create', [RapatController::class, 'create']);
                 Route::post('/store', [RapatController::class, 'store']);
                 Route::get('/{rapatAgenda:slug}/edit', [RapatController::class, 'edit']);
@@ -44,16 +47,13 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
                 Route::put('/{rapatAgenda:slug}/update', [RapatController::class, 'update']);
                 Route::get('/{rapatAgenda:slug}/batal', [RapatController::class, 'ubahStatusRapat']);
             });
-            Route::middleware(['notulis'])->group(function () {
+            Route::middleware([NotulisMiddleware::class])->group(function () {
                 Route::get('/{rapatAgenda:slug}/tugas', [TindakLanjutRapatController::class, 'isiPenugasan']);
                 Route::get('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'tugaskanPesertaRapat']);
                 Route::post('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'createTugasPesertaRapat']);
-            });
-            Route::get('/{file}/download', [NotulisController::class, 'downloadNotulen']);
-
-            //route yang digunakan notulis rapat untuk unggah notulen rapat
-            Route::prefix('notulis')->group(function () {
-                Route::middleware(['notulis'])->group(function () {
+                Route::get('/{file}/download', [NotulisController::class, 'downloadNotulen']);
+                //route yang digunakan notulis rapat untuk unggah notulen rapat
+                Route::prefix('notulis')->group(function () {
                     Route::get('/{rapatAgenda:slug}/unggah-notulen', [NotulisController::class, 'formUnggahNotulen']);
                     Route::post('/{rapatAgenda:slug}/unggah-notulen', [NotulisController::class, 'storeNotulen']);
                 });
@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             Route::post('/tugas/{rapatTindakLanjut:slug}/unggah-tugas', [TindakLanjutRapatController::class, 'uploadTugas']);
             Route::get('/tugas/{rapatTindakLanjut:slug}/ubah-tugas', [TindakLanjutRapatController::class, 'showEditTugas']);
             Route::put('/tugas/{rapatTindakLanjut:slug}/ubah-tugas', [TindakLanjutRapatController::class, 'editTugas']);
-            Route::middleware(['pimpinanRapat'])->group(function () {
+            Route::middleware([PimpinanRapatMiddleware::class])->group(function () {
                 Route::post('/{rapatTindakLanjut:slug}/detail/simpan-tugas', [TindakLanjutRapatController::class, 'simpanTugas']);
             });
         });
@@ -80,7 +80,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             Route::get('/', [KepegawaianController::class, 'index']);
             Route::get('{kepanitiaan}/detail', [KepegawaianController::class, 'detail']);
             Route::get('/download/{kepanitiaan}', [KepegawaianController::class, 'download']);
-            Route::middleware(['kepegawaian'])->group(function () {
+            Route::middleware([KepegawaianMiddleware::class])->group(function () {
                 Route::get('/create', [KepegawaianController::class, 'create']);
                 Route::post('/', [KepegawaianController::class, 'store']);
                 Route::get('/{kepanitiaan}/edit', [KepegawaianController::class, 'edit']);

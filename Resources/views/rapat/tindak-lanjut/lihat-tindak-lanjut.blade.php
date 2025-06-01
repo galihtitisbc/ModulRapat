@@ -91,7 +91,7 @@
                     }
                     $data[] = [
                         $key + 1,
-                        $tindakLanjut->pegawai->nama,
+                        $tindakLanjut->pegawai->formatted_name,
                         $tindakLanjut->deskripsi_tugas,
                         $tindakLanjut->batas_waktu,
                         $tindakLanjut->tanggal_selesai ? $tindakLanjut->tanggal_selesai : '-',
