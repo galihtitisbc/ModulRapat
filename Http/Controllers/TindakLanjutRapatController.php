@@ -111,7 +111,6 @@ class TindakLanjutRapatController extends Controller
             FlashMessage::success('Tugas Berhasil Ditambahkan');
             return redirect()->to('/rapat/agenda-rapat/' . $rapatAgenda->slug . '/tugas');
         } catch (\Throwable $e) {
-            dd($e->getMessage());
             FlashMessage::error("Gagal Menambahkan Tugas");
             return redirect()->to('/rapat/agenda-rapat/' . $rapatAgenda->slug . '/tugas');
         }
@@ -165,6 +164,9 @@ class TindakLanjutRapatController extends Controller
     }
     public function simpanTugas(RapatTindakLanjut $rapatTindakLanjut, Request $request)
     {
+        if (Auth::user()->username != $rapatTindakLanjut->rapatAgenda->rapatAgendaPimpinan->username) {
+            abort(403);
+        }
         $validated = $request->validate([
             'kriteria_penilaian' => ['required', new EnumKriteriaPenilaianRule],
             'komentar_penugasan' => 'nullable',
@@ -178,7 +180,16 @@ class TindakLanjutRapatController extends Controller
             return redirect()->to('/rapat/tindak-lanjut-rapat/' . $rapatTindakLanjut->rapatAgenda->slug . '/detail');
         }
     }
-
+    public function tidakAdaTugas(RapatAgenda $rapatAgenda)
+    {
+        try {
+            $rapatAgenda->update(['is_penugasan' => false]);
+            FlashMessage::error("Gagal Mengubah Status Penugasan");
+            return redirect()->to('/rapat/tindak-lanjut-rapat/');
+        } catch (\Throwable $e) {
+            return redirect()->back();
+        }
+    }
     // untuk cek apakah user adalah peserta
     public function isUserArePesertaRapat(RapatAgenda $rapatAgenda, Pegawai $user)
     {

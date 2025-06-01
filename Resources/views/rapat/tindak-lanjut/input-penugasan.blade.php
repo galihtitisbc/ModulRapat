@@ -24,7 +24,7 @@
     @endphp
     <x-adminlte-card>
         <!-- Header Section -->
-        <div class="card-header bg-gradient-primary text-white">
+        <div class="card-header bg-gradient-warning text-dark">
             <div class="row align-items-center">
                 <div class="col">
                     <h4 class="card-title mb-0 font-weight-bold">
@@ -68,16 +68,21 @@
                                         <i class="fas fa-info-circle text-warning fa-2x mr-3"></i>
                                         <div>
                                             <h6 class="mb-1 font-weight-bold">Rapat Tanpa Penugasan</h6>
-                                            <p class="mb-0 text-muted">Klik tombol ini jika rapat tidak memiliki penugasan
-                                                khusus</p>
+                                            <p class="mb-0 text-muted">Klik tombol Sebelah Kanan jika rapat tidak memiliki
+                                                penugasan tindak lanjut</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-md-right mt-3 mt-md-0">
-                                    <button class="btn btn-warning shadow-sm">
-                                        <i class="fas fa-times-circle mr-2"></i>
-                                        Tidak Ada Penugasan
-                                    </button>
+                                    <form
+                                        action="{{ url('/rapat/tindak-lanjut-rapat/' . $rapat->slug . '/tidak-ada-tugas') }}"
+                                        method="post" id="rapat-tidak-ada-tugas">
+                                        @csrf
+                                        <button class="btn btn-warning shadow-sm">
+                                            <i class="fas fa-times-circle mr-2"></i>
+                                            Tidak Ada Penugasan
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -106,10 +111,10 @@
                         <div class="col-12">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <button type="button" class="btn btn-success">
-                                        <i class="fas fa-check mr-2"></i>
-                                        Simpan Penugasan
-                                    </button>
+                                    <a href="{{ url('/rapat/agenda-rapat') }}" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left mr-2"></i>
+                                        Kembali
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +126,6 @@
 @endsection
 
 @push('js')
-    <script></script>
     @if (session('swal'))
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -133,4 +137,27 @@
             });
         </script>
     @endif
+    <script>
+        let isConfirmed = false;
+        $('#rapat-tidak-ada-tugas').submit(function(event) {
+            if (!isConfirmed) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Apakah anda yakin?',
+                    text: "Rapat Tidak Memiliki Penugasan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Tidak Ada Penugasan!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        isConfirmed = true;
+                        $('#rapat-tidak-ada-tugas').submit();
+                    }
+                });
+            }
+        })
+    </script>
 @endpush

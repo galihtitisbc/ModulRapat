@@ -49,7 +49,7 @@
                     '">' .
                     StatusPesertaRapat::from($rapat->pivot->status)->label() .
                     '</span>';
-                $data[] = [$key + 1, $rapat->nama, '0989089890', $status, $checkBox];
+                $data[] = [$key + 1, $rapat->formatted_name, $rapat->user->email, $status, $checkBox];
             }
             $config = [
                 'data' => $data,
@@ -64,53 +64,59 @@
             ];
         @endphp
         <div class="col-sm-12 col-lg-9 mx-auto">
-            <h4 class="text-center">{{ $agendaRapat->agenda_rapat }}</h4>
+            <!-- Agenda Rapat Title -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="text-center">
+                        <h5 class="text-primary mb-2">Agenda Rapat:</h5>
+                        <h4 class="font-weight-bold text-dark border-bottom border-primary pb-2 d-inline-block">
+                            {{ $agendaRapat->agenda_rapat }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
             <hr>
+
             <form action="{{ url('/rapat/agenda-rapat/notulis/' . $agendaRapat->slug . '/unggah-notulen') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
+
+                {{-- Error Handling --}}
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <strong>Terjadi kesalahan:</strong>
-                        <ul>
+                        <ul class="mb-0">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
                 @endif
+
+                {{-- Informasi Agenda --}}
                 <x-adminlte-callout theme="info">
-                    <div class="row d-flex justify-content-between">
-                        <div class="col-lg-4 col-sm-12">
-                            <div class="peserta-keseluruhan">
-                                <span>
-                                    <p style="font-size: 1.2rem">Total Peserta Keseluruhan :</p>
-                                </span>
-                                <button
-                                    class="btn btn-primary px-4 mt-1">{{ $agendaRapat->rapatAgendaPeserta->count() }}</button>
-                            </div>
+                    <div class="row text-center">
+                        <div class="col-lg-4 col-sm-12 mb-3">
+                            <p class="mb-1" style="font-size: 1.2rem">Total Peserta Keseluruhan :</p>
+                            <span class="btn btn-primary px-4">{{ $agendaRapat->rapatAgendaPeserta->count() }}</span>
                         </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <div class="peserta-hadir">
-                                <span>
-                                    <p style="font-size: 1.2rem">Total Peserta Bersedia Hadir :</p>
-                                </span>
-                                <button
-                                    class="btn btn-success px-4 mt-1">{{ $agendaRapat->rapatAgendaPeserta->where('pivot.status', StatusPesertaRapat::BERSEDIA->value)->count() }}</button>
-                            </div>
+                        <div class="col-lg-4 col-sm-12 mb-3">
+                            <p class="mb-1" style="font-size: 1.2rem">Total Peserta Bersedia Hadir :</p>
+                            <span class="btn btn-success px-4">
+                                {{ $agendaRapat->rapatAgendaPeserta->where('pivot.status', StatusPesertaRapat::BERSEDIA->value)->count() }}
+                            </span>
                         </div>
-                        <div class="col-lg-4 col-sm-12">
-                            <div class="pimpinan">
-                                <span>
-                                    <p style="font-size: 1.2rem">Pimpinan Rapat :</p>
-                                </span>
-                                <button
-                                    class="btn btn-secondary px-4 mt-1">{{ $agendaRapat->rapatAgendaPimpinan->nama }}</button>
-                            </div>
+                        <div class="col-lg-4 col-sm-12 mb-3">
+                            <p class="mb-1" style="font-size: 1.2rem">Pimpinan Rapat :</p>
+                            <span class="btn btn-secondary px-4">
+                                {{ $agendaRapat->rapatAgendaPimpinan->nama }}
+                            </span>
                         </div>
                     </div>
                 </x-adminlte-callout>
-                <div class="daftar-peserta mt-5">
+
+                {{-- Daftar Peserta --}}
+                <div class="mt-5">
                     <h4>Daftar Peserta :</h4>
                     <hr>
                     <x-adminlte-datatable id="table1" :heads="$heads" :config="$config">
@@ -123,34 +129,41 @@
                         @endforeach
                     </x-adminlte-datatable>
                 </div>
-                <div class="daftar-peserta mt-5">
+
+                {{-- Catatan Rapat --}}
+                <div class="mt-5">
                     <h4>Catatan Rapat :</h4>
                     <hr>
-                    <input id="x" type="hidden" value="{{ old('catatan_rapat') }}" name="catatan_rapat">
-                    <trix-editor placeholder="Masukan Catatan Rapat Atau Bisa Unggah File" input="x"></trix-editor>
+                    <input id="x" type="hidden" name="catatan_rapat" value="{{ old('catatan_rapat') }}">
+                    <trix-editor input="x"
+                        placeholder="Masukkan Catatan Rapat atau Unggah File Jika Ada"></trix-editor>
                 </div>
-                <div class="notulen-upload mt-5">
-                    <hr>
-                    <x-adminlte-card title="Unggah File Notulen ( Jika Ada ) :" theme="primary">
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" name="notulen_file[]" multiple
-                                id="exampleFormControlFile1">
+
+                {{-- Upload File Notulen --}}
+                <div class="mt-5">
+                    <x-adminlte-card title="Unggah File Notulen (Jika Ada):" theme="primary" icon="fas fa-file-upload">
+                        <div class="form-group mb-0">
+                            <input type="file" name="notulen_file[]" class="form-control-file" multiple>
                         </div>
                     </x-adminlte-card>
                 </div>
-                <div class="dokumentasi-upload mt-5">
-                    <x-adminlte-card title="Unggah Dokumentasi Rapat :" theme="primary">
-                        <div class="form-group">
-                            <input type="file" name="dokumentasi_file[]" class="form-control-file" multiple
-                                id="exampleFormControlFile1">
+
+                {{-- Upload Dokumentasi --}}
+                <div class="mt-5">
+                    <x-adminlte-card title="Unggah Dokumentasi Rapat:" theme="primary" icon="fas fa-image">
+                        <div class="form-group mb-0">
+                            <input type="file" name="dokumentasi_file[]" class="form-control-file" multiple>
                         </div>
                     </x-adminlte-card>
                 </div>
-                <div class="text-center mx-auto">
-                    <button class="btn btn-primary mt-3">Simpan</button>
+
+                {{-- Submit Button --}}
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
+
     </x-adminlte-card>
 @endsection
 

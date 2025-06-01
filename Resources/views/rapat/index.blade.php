@@ -102,7 +102,10 @@
                             ) {
                                 continue;
                             }
-                            if ($rapat->rapatTindakLanjut()->exists() && $rapat->rapatNotulen()->exists()) {
+                            if (
+                                $rapat->is_penugasan !== null ||
+                                ($rapat->rapatTindakLanjut()->exists() && $rapat->rapatNotulen()->exists())
+                            ) {
                                 continue;
                             }
 

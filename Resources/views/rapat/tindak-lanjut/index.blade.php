@@ -58,7 +58,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 5%;">No</th>
-                                <th style="width: 40%;">Agenda Rapat</th>
+                                <th style="width: 30%;" class="text-left">Agenda Rapat</th>
                                 <th style="width: 10%;">Tanggal Rapat</th>
                                 <th style="width: 10%;">Penyelesaian</th>
                                 <th style="width: 10%;">Aksi</th>

@@ -2,7 +2,7 @@
 @section('title', 'Detail Tindak Lanjut Rapat')
 {{-- @section('plugins.Select2', true) --}}
 @section('content_header')
-    <h5 class="m-0 text-dark">Detail Tindak Lanjut {{ $rapat->agenda_rapat }}</h5>
+    <h5 class="m-0 text-dark">Detail Tindak Lanjut</h5>
 @stop
 
 @push('css')
@@ -27,8 +27,8 @@
                     'TIDAK_SESUAI_EKSPETASI' => 'danger',
                 ];
                 $heads = [
-                    ['label' => 'No', 'width' => 5, 'class' => 'text-center'],
-                    ['label' => 'Nama Peserta', 'width' => 10],
+                    ['label' => 'No', 'width' => 3, 'class' => 'text-center'],
+                    ['label' => 'Nama Peserta', 'width' => 15],
                     ['label' => 'Tugas', 'width' => 10],
                     ['label' => 'Target Penyelesaian', 'width' => 10],
                     ['label' => 'Tanggal Selesai', 'width' => 10],

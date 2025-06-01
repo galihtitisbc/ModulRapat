@@ -15,7 +15,7 @@
         @endphp
 
         <!-- Header Section -->
-        <div class="card-header bg-gradient-success text-white">
+        <div class="card-header bg-gradient-warning text-dark">
             <div class="row align-items-center">
                 <div class="col">
                     <h4 class="card-title mb-0 font-weight-bold">
@@ -40,7 +40,7 @@
                     <!-- Task Information Section -->
                     <div class="card border-0 shadow-sm mb-4">
                         <div class="card-header bg-light border-bottom">
-                            <h6 class="mb-0 font-weight-bold text-secondary">
+                            <h6 class="mb-0 font-weight-bold text-dark">
                                 <i class="fas fa-info-circle mr-2"></i>
                                 Detail Penugasan
                             </h6>
@@ -53,7 +53,7 @@
                                         <div class="d-flex align-items-start mb-3">
                                             <i class="fas fa-tasks text-primary fa-lg mr-3 mt-1"></i>
                                             <div class="flex-grow-1">
-                                                <h6 class="font-weight-bold text-secondary mb-2">Deskripsi Tugas</h6>
+                                                <h6 class="font-weight-bold text-dark mb-2">Deskripsi Tugas</h6>
                                                 <div class="bg-light rounded p-3">
                                                     <p class="mb-0 text-dark">{{ $rapatTindakLanjut->deskripsi_tugas }}</p>
                                                 </div>
@@ -67,7 +67,7 @@
                                     <div class="d-flex align-items-start">
                                         <i class="fas fa-calendar-alt text-warning fa-lg mr-3 mt-1"></i>
                                         <div class="flex-grow-1">
-                                            <h6 class="font-weight-bold text-secondary mb-2">Target Penyelesaian</h6>
+                                            <h6 class="font-weight-bold text-dark mb-2">Target Penyelesaian</h6>
                                             <div class=" bg-opacity-10 border border-warning rounded p-3">
                                                 <p class="mb-0 font-weight-bold text-dark">
                                                     {{ \Carbon\Carbon::parse($rapatTindakLanjut->batas_waktu)->translatedFormat('l, d F Y') }}
@@ -100,7 +100,7 @@
                     <!-- Upload Form Section -->
                     <div class="card border-0 shadow-sm">
                         <div class="card-header bg-white border-bottom">
-                            <h6 class="mb-0 font-weight-bold text-secondary">
+                            <h6 class="mb-0 font-weight-bold text-dark">
                                 <i class="fas fa-file-upload mr-2"></i>
                                 Form Upload Tugas
                             </h6>
@@ -116,7 +116,7 @@
                                     <!-- Task Link/URL -->
                                     <div class="col-lg-6 col-md-12 mb-4">
                                         <div class="form-group">
-                                            <label for="tugas-input" class="form-label font-weight-bold text-secondary">
+                                            <label for="tugas-input" class="form-label font-weight-bold text-dark">
                                                 <i class="fas fa-link mr-2 text-info"></i>
                                                 Link Tugas <span class="badge badge-secondary badge-pill">Opsional</span>
                                             </label>
@@ -139,7 +139,7 @@
                                     <!-- Obstacles/Issues -->
                                     <div class="col-lg-6 col-md-12 mb-4">
                                         <div class="form-group">
-                                            <label for="kendala-input" class="form-label font-weight-bold text-secondary">
+                                            <label for="kendala-input" class="form-label font-weight-bold text-dark">
                                                 <i class="fas fa-exclamation-triangle mr-2 text-warning"></i>
                                                 Kendala <span class="badge badge-secondary badge-pill">Opsional</span>
                                             </label>
@@ -161,7 +161,7 @@
 
                                 <!-- File Upload Section -->
                                 <div class="form-group mb-4">
-                                    <label for="file-input" class="form-label font-weight-bold text-secondary">
+                                    <label for="file-input" class="form-label font-weight-bold text-dark">
                                         <i class="fas fa-paperclip mr-2 text-success"></i>
                                         File Tugas <span class="badge badge-secondary badge-pill">Opsional</span>
                                     </label>

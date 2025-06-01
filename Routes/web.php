@@ -64,6 +64,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
         // tindak lanjut rapat
         Route::prefix('tindak-lanjut-rapat')->group(function () {
             Route::get('/', [TindakLanjutRapatController::class, 'index']);
+            Route::post('/{rapatAgenda:slug}/tidak-ada-tugas', [TindakLanjutRapatController::class, 'tidakAdaTugas']);
             Route::get('/{rapatAgenda:slug}/detail', [TindakLanjutRapatController::class, 'show']);
             Route::get('/{rapatTindakLanjut:slug}/detail/tugas', [TindakLanjutRapatController::class, 'detailTugas']);
             Route::get('/tugas/{rapatTindakLanjut:slug}/unggah-tugas', [TindakLanjutRapatController::class, 'showUploadTugas']);

@@ -20,6 +20,7 @@ class TindakLanjutRapatService
                 'deskripsi_tugas'  => $data['deskripsi'],
                 'batas_waktu'      => $data['batas_waktu'],
             ]);
+            $rapatAgenda->update(['is_penugasan' => true]);
             $rapatAgenda->rapatAgendaPeserta()->syncWithoutDetaching([
                 $pegawai->username => ['is_penugasan' => 1],
             ]);
