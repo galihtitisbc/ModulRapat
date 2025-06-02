@@ -42,6 +42,7 @@ class RapatController extends Controller
             ->when($request->input('status'), function ($query, $status) {
                 $query->where('status', $status);
             })
+            ->where('status', '!=', StatusAgendaRapat::COMPLETED->value)
             ->orderBy('waktu_mulai', 'asc')
             ->paginate(5)
             ->withQueryString();

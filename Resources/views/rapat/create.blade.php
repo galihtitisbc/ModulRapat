@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 @section('title', 'Rapat')
-{{-- @section('plugins.Select2', true) --}}
+@section('plugins.Select2', true)
 @section('content_header')
     <h3 class="m-0 text-dark">Buat Agenda Rapat</h3>
 @stop
@@ -9,10 +9,9 @@
 @endpush
 
 @section('content')
-
     <x-adminlte-card>
         <div class="d-flex justify-content-center">
-            <form method="POST" class="col-lg-8 col-md-12 col-sm-12" id="form-agenda-rapat" enctype="multipart/form-data">
+            <form method="POST" class="col-lg-9 col-md-12 col-sm-12" id="form-agenda-rapat" enctype="multipart/form-data">
                 <div id="form-errors" class="alert alert-danger d-none">
                     <ul id="form-errors-list" class="mb-0"></ul>
                 </div>
@@ -65,7 +64,7 @@
                 <div class="mb-3">
                     <label>Pilih Kepanitiaan : ( Jika Rapat Merupakan Rapat Kepanitiaan )</label>
                     <div class="invalid-feedback" id="error-kepanitiaan_id"></div>
-                    <select class="form-control" id="kepanitiaan" name="kepanitiaan_id">
+                    <select class="form-control select-kepanitiaan" id="kepanitiaan" name="kepanitiaan_id">
                         <option value="">-- Pilih Kepanitiaan --</option>
                         @foreach ($kepanitiaans as $kepanitiaan)
                             <option value="{{ $kepanitiaan->id }}">{{ $kepanitiaan->nama_kepanitiaan }}
@@ -73,70 +72,83 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="mb-3 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12" style="display: none;">
+                    <label>Daftar Anggota Kepanitiaan Yang Akan Diundang :</label>
+                    <table class="table table-hover w-100" id="table-anggota-panitia">
+                        <caption>Daftar Pegawai Yang Akan Di Undang</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Nama Peserta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="my-4" id="peserta-rapat">
+                    <div class="d-flex justify-content-between mb-4">
+                        <label id="peserta-rapat-label">Pilih Peserta Rapat :</label>
+                    </div>
+                    <div class="invalid-feedback" id="error-peserta_rapat"></div>
+                    <table id="table-peserta-rapat" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Nama Peserta</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Pilih</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mb-3">
+                    <label>Lampiran : ( Jika Ada )</label>
+                    <input type="file" name="lampiran[]" class="form-control" id="lampiran-file" multiple>
+                    @error('lampiran.*')
+                        <span class="text-danger d-block">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="my-4">
+                    <label>Pilih Pimpinan Rapat :</label>
+                    <div class="invalid-feedback" id="error-pimpinan_username"></div>
+                    <table id="table-pimpinan-rapat" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Nama Peserta</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Undang</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
                 <div class="mb-3 my-4">
-                    <div class="my-4" id="peserta-rapat">
-                        <div class="d-flex justify-content-between mb-4">
-                            <label>Pilih Peserta Rapat :</label>
-                        </div>
-                        <div class="invalid-feedback" id="error-peserta_rapat"></div>
-                        <table id="table-peserta-rapat" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Peserta</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Pilih</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <label>Pilih Notulis Rapat :</label>
+                    <table id="table-notulis-rapat" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Nama Peserta</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Undang</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="mb-3">
-                        <label>Lampiran : ( Jika Ada )</label>
-                        <input type="file" name="lampiran[]" class="form-control" id="lampiran-file" multiple>
-                        @error('lampiran.*')
-                            <span class="text-danger d-block">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="my-4">
-                        <label>Pilih Pimpinan Rapat :</label>
-                        <div class="invalid-feedback" id="error-pimpinan_username"></div>
-                        <table id="table-pimpinan-rapat" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Peserta</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Undang</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="mb-3 my-4">
-                        <label>Pilih Notulis Rapat :</label>
-                        <table id="table-notulis-rapat" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Peserta</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Undang</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                        <div class="invalid-feedback" id="error-notulis_username"></div>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary mx-auto">Submit</button>
-                    </div>
+                        </tbody>
+                    </table>
+                    <div class="invalid-feedback" id="error-notulis_username"></div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mx-auto">Submit</button>
+                </div>
             </form>
         </div>
     </x-adminlte-card>
@@ -144,6 +156,8 @@
 
 @push('js')
     @include('rapat::js.rapat.variable-js')
+    @include('rapat::js.kepanitiaan.tampilkanAnggotaPanitia-js')
+
     @include('rapat::js.rapat.pesertaRapatTable-js')
     @include('rapat::js.rapat.pimpinanRapatTable-js')
     @include('rapat::js.rapat.notulisRapatTable-js')

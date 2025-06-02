@@ -16,10 +16,12 @@
                 pesertaRapat = [
                     ...new Set([...pesertaManual, ...pesertaKepanitiaan]),
                 ];
-
                 tablePesertaRapat.ajax.reload();
                 tablePimpinanRapat.ajax.reload();
                 tableNotulisRapat.ajax.reload();
+                tableAnggotaPanitia.ajax.reload();
+                $('.table-anggota-panitia-group').removeClass('d-none').show();
+                $('#peserta-rapat-label').text('Pilih Pegawai Diluar Kepanitiaan ( Jika Ada ) :');
             },
             error: function(xhr) {
                 pesertaRapat = [];
@@ -28,6 +30,10 @@
                 tablePesertaRapat.draw();
                 tablePimpinanRapat.draw();
                 tableNotulisRapat.draw();
+                tableAnggotaPanitia.ajax.reload();
+                $('.table-anggota-panitia-group').addClass('d-none').hide();
+                $('#peserta-rapat-label').text('Pilih Peserta Rapat :');
+
             },
         });
     });
