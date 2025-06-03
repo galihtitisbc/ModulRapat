@@ -81,8 +81,7 @@
                     }
                     if (
                         $tindakLanjut->status == $selesaiEnum &&
-                        $tindakLanjut->pegawai_username == Auth::user()->pegawai->username &&
-                        $tindakLanjut->penilaian == KriteriaPenilaian::BELUM_DINILAI->value
+                        $tindakLanjut->pegawai_username == Auth::user()->pegawai->username
                     ) {
                         $aksi .= $btnUpdate;
                     }

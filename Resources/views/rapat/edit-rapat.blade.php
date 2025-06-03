@@ -117,7 +117,8 @@
                 </div>
                 <div class="my-4" id="peserta-rapat">
                     <div class="d-flex justify-content-between mb-4">
-                        <label id="peserta-rapat-label">Pilih Peserta Rapat :</label>
+                        <label
+                            id="peserta-rapat-label">{{ $rapatAgenda->rapatKepanitiaan != null ? 'Pilih Pegawai Diluar Kepanitiaan ( Jika Ada ) :' : 'Pilih Peserta Rapat :' }}</label>
                     </div>
                     <div class="invalid-feedback" id="error-peserta_rapat"></div>
                     <table id="table-peserta-rapat" class="table table-hover">

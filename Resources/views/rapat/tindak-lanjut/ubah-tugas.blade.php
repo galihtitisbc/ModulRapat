@@ -119,7 +119,7 @@
                                         <div class="form-group">
                                             <label for="tugas-input" class="form-label font-weight-bold text-dark">
                                                 <i class="fas fa-link mr-2 text-info"></i>
-                                                Tugas <span class="badge badge-secondary badge-pill">Opsional</span>
+                                                Link Tugas <span class="badge badge-secondary badge-pill">Opsional</span>
                                             </label>
                                             <input type="text" name="tugas"
                                                 class="form-control form-control-lg @error('tugas') is-invalid @enderror"
@@ -130,6 +130,10 @@
                                                     <i class="fas fa-exclamation-circle mr-2"></i> {{ $message }}
                                                 </div>
                                             @enderror
+                                            <small class="form-text text-muted">
+                                                <i class="fas fa-info-circle mr-1"></i>
+                                                Masukkan link jika tugas berupa dokumen online
+                                            </small>
                                         </div>
                                     </div>
 
@@ -147,6 +151,10 @@
                                                     <i class="fas fa-exclamation-circle mr-2"></i> {{ $message }}
                                                 </div>
                                             @enderror
+                                            <small class="form-text text-muted">
+                                                <i class="fas fa-question-circle mr-1"></i>
+                                                Tuliskan kendala yang dialami saat mengerjakan tugas
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
@@ -169,6 +177,10 @@
                                             </div>
                                         @endforeach
                                     @endforeach
+                                    <small class="form-text text-muted">
+                                        <i class="fas fa-upload mr-1"></i>
+                                        Anda dapat memilih beberapa file sekaligus
+                                    </small>
                                 </div>
 
                                 <!-- Submit -->

@@ -153,7 +153,7 @@
                                             @enderror
                                             <small class="form-text text-muted">
                                                 <i class="fas fa-question-circle mr-1"></i>
-                                                Ceritakan kendala yang dialami saat mengerjakan tugas
+                                                Tuliskan kendala yang dialami saat mengerjakan tugas
                                             </small>
                                         </div>
                                     </div>
