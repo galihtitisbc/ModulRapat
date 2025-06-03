@@ -64,7 +64,7 @@
                     <th>Nama Kepanitiaan</th>
                     <th>Tanggal Mulai</th>
                     <th>Tanggal Berakhir</th>
-                    <th>Status</th>
+                    <th>Status Panitia</th>
                     <th>Aksi</th>
                 </thead>
                 <tbody>
@@ -76,30 +76,31 @@
                             <td>{{ $kepanitiaan->tanggal_berakhir }}</td>
                             <td>
                                 <span class="badge bg-{{ $kepanitiaan->status == 'AKTIF' ? 'success' : 'danger' }}">
-                                    {{ $kepanitiaan->status }}
+                                    {{ $kepanitiaan->status == 'AKTIF' ? 'Aktif' : 'Tidak Aktif' }}
                                 </span>
                             </td>
                             <td>
                                 <a href="{{ url('/rapat/panitia/' . $kepanitiaan->slug . '/detail') }}"
-                                    class="btn btn-primary btn-sm">
-                                    <i class="fas fa-eye" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        title="Detail Kepanitiaan"></i>
+                                    class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top"
+                                    title="Detail Kepanitiaan">
+                                    <i class="fas fa-eye"></i>
                                 </a>
-                                @hasrole('kepegawaian')
+                                @if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::kepegawaianRoles()))
                                     <a href="{{ url('/rapat/panitia/' . $kepanitiaan->slug . '/edit') }}"
                                         class="btn btn-warning btn-sm" title="Edit">
                                         <i class="fa fa-fw fa-pen"></i>
                                         <nobr>
                                     </a>
                                     <form action="{{ url('/rapat/panitia/' . $kepanitiaan->slug . '/change-status') }}"
-                                        method="POST" style="display:inline;">
+                                        method="POST" style="display:inline;" class="ubah-status-kepanitiaan">
                                         @csrf
                                         @method('PATCH')
-                                        <button class="btn btn-danger btn-sm" title="Ubah Status">
+                                        <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
+                                            title="Untuk Mengubah Status Kepanitiaan">
                                             <i class="fa fa-fw fa-exchange-alt"></i>
                                         </button>
                                     </form>
-                                @endhasrole
+                                @endif
                                 </nobr>
                             </td>
                         </tr>
@@ -114,6 +115,33 @@
 @endsection
 
 @push('js')
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        let isConfirmed = false;
+        $('.ubah-status-kepanitiaan').submit(function(event) {
+            const form = this;
+            if (!isConfirmed) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Apakah anda yakin?',
+                    text: "Mengubah Status Kepanitiaan ? ",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Ubah Status !',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        isConfirmed = true;
+                        form.submit();
+                    }
+                });
+            }
+        })
+    </script>
     @if (session('swal'))
         <script>
             document.addEventListener("DOMContentLoaded", function() {

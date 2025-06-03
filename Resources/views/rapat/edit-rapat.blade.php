@@ -74,17 +74,44 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="mb-3 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12" style="display: none;">
+                <div class="mb-3 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12"
+                    id="table-anggota-panitia-before">
                     <label>Daftar Anggota Kepanitiaan Yang Akan Diundang :</label>
-                    <table class="table table-hover w-100" id="table-anggota-panitia">
+                    <table class="table table-hover w-100">
                         <caption>Daftar Pegawai Yang Akan Di Undang</caption>
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($rapatAgenda->rapatKepanitiaan->pegawai as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->formatted_name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mb-3 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12" style="display: none;">
+                    <label>Daftar Anggota Kepanitiaan Yang Akan Diundang :</label>
+                    <table class="table table-hover w-100" id="table-anggota-panitia">
+                        <caption>Daftar Pegawai Yang Akan Di Undang</caption>
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Nama Peserta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($rapatAgenda->rapatKepanitiaan->pegawai as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->formatted_name }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -159,9 +186,6 @@
 @push('js')
     @include('rapat::js.rapat.variable-js')
     @include('rapat::js.kepanitiaan.tampilkanAnggotaPanitia-js')
-    <script>
-        tableAnggotaPanitia.ajax.reload();
-    </script>
 
     @include('rapat::js.rapat.pesertaRapatTable-js')
     @include('rapat::js.rapat.pimpinanRapatTable-js')

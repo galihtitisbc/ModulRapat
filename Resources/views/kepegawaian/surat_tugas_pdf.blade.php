@@ -89,8 +89,8 @@
 
     <div class="signature-section">
         <div class="signature-box">
-            <div class="tanggal-tempat">Banyuwangi, {{ $tglTtd }}</div>
-            <div>Direktur,</div>
+            {{-- <div class="tanggal-tempat">Banyuwangi, {{ $tglTtd }}</div>
+            <div>Direktur,</div> --}}
             {{-- <div class="qr-code">
                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="60" height="60" fill="white" />

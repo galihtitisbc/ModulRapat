@@ -76,7 +76,7 @@
                     <label>Daftar Anggota Kepanitiaan Yang Akan Diundang :</label>
                     <table class="table table-hover w-100" id="table-anggota-panitia">
                         <caption>Daftar Pegawai Yang Akan Di Undang</caption>
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>

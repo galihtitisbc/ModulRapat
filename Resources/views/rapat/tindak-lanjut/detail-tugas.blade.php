@@ -45,7 +45,7 @@
         </div>
 
         <!-- Body -->
-        <div class="card-body px-4 py-5">
+        <div class="card-body">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
 
@@ -134,14 +134,12 @@
                             </div>
                         </form>
                     @endif
-
                     <!-- Tampilan Komentar & Penilaian untuk Semua Role yang Diperbolehkan -->
                     @if (
                         ($tindakLanjut->pegawai_username == Auth::user()->pegawai->username &&
                             $tindakLanjut->penilaian != KriteriaPenilaian::BELUM_DINILAI->value) ||
                             (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) &&
                                 $tindakLanjut->penilaian != KriteriaPenilaian::BELUM_DINILAI->value))
-                        <hr class="my-5">
                         <div class="bg-light p-4 rounded shadow-sm">
                             <h6 class="font-weight-bold text-dark mb-3">
                                 <i class="fas fa-check-circle mr-2 text-success"></i>

@@ -38,7 +38,7 @@ class KepegawaianController extends Controller
     }
     public function detail(Kepanitiaan $kepanitiaan)
     {
-        $kepanitiaan->load('ketua');
+        $kepanitiaan->load(['ketua', 'rapatAgenda']);
         $strukturKepanitiaan = json_decode($kepanitiaan->struktur, true);
         $usernames           = array_column($strukturKepanitiaan, 'username'); //ambil data username, untuk dicari di table pegawai, karena butuh data dari table pegawai
         $pegawai             = Pegawai::whereIn('username', $usernames)->get();

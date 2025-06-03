@@ -22,6 +22,8 @@
                 tableAnggotaPanitia.ajax.reload();
                 $('.table-anggota-panitia-group').removeClass('d-none').show();
                 $('#peserta-rapat-label').text('Pilih Pegawai Diluar Kepanitiaan ( Jika Ada ) :');
+                //digunakan untuk menyembuyinkan table anggota panitia yang telah dipilih pada form edit
+                $('#table-anggota-panitia-before').addClass('d-none').hide();
             },
             error: function(xhr) {
                 pesertaRapat = [];
@@ -33,7 +35,6 @@
                 tableAnggotaPanitia.ajax.reload();
                 $('.table-anggota-panitia-group').addClass('d-none').hide();
                 $('#peserta-rapat-label').text('Pilih Peserta Rapat :');
-
             },
         });
     });
