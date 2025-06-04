@@ -11,38 +11,49 @@
             --dark-gray: #666;
             --border-radius: 8px;
             --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-color: #333;
+            --medium-gray: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: white;
+            padding: 40px;
+            max-width: 210mm;
+            margin: 0 auto;
         }
 
         .meeting-title {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 20px;
-            border-radius: var(--border-radius);
+            text-align: center;
+            border: 2px solid var(--border-color);
+            padding: 20px;
             margin-bottom: 30px;
-            box-shadow: var(--box-shadow);
         }
 
         .meeting-title h1 {
-            font-size: 20px;
-            margin: 0;
-            letter-spacing: 0.5px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .meeting-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding: 15px 20px;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+            margin-bottom: 25px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .meeting-info h2 {
-            font-size: 16px;
-            margin: 0;
-            color: var(--primary-color);
+            font-size: 14px;
+            font-weight: normal;
         }
 
         .meeting-info .meeting-date {
@@ -52,92 +63,69 @@
 
         .meeting-info .meeting-date i {
             margin-right: 8px;
-            color: var(--primary-color);
         }
 
         /* Section styling */
         .section {
-            margin-bottom: 30px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--box-shadow);
-            border-left: 4px solid var(--primary-color);
+            margin-bottom: 25px;
+            page-break-inside: avoid;
         }
 
         .section-title {
-            display: flex;
-            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 5px;
             margin-bottom: 15px;
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 8px;
-        }
-
-        .section-title i {
-            margin-right: 10px;
-            font-size: 18px;
         }
 
         .section-title h3 {
-            font-size: 16px;
-            margin: 0;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title i {
+            margin-right: 8px;
+            font-size: 14px;
         }
 
         .attendee-card {
-            background-color: var(--light-gray);
-            padding: 10px;
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dotted var(--border-color);
         }
 
         .attendee-card i {
-            color: var(--primary-color);
             margin-right: 8px;
-            font-size: 16px;
         }
 
         /* Agenda styling */
         .agenda-content {
-            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
             padding: 15px;
-            border-radius: var(--border-radius);
             margin-top: 10px;
+            text-align: justify;
         }
 
         /* Attachments */
         .attachment-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
             margin-top: 10px;
         }
 
         .attachment-item {
             display: flex;
             align-items: center;
-            background-color: var(--light-gray);
-            padding: 8px 12px;
-            border-radius: var(--border-radius);
-            width: fit-content;
-            transition: all 0.3s ease;
-        }
-
-        .attachment-item:hover {
-            background-color: #e0e0e0;
+            padding: 8px 0;
+            border-bottom: 1px dotted var(--medium-gray);
         }
 
         .attachment-item i {
-            color: var(--primary-color);
             margin-right: 8px;
+            width: 20px;
         }
 
         .attachment-item a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
+            color: var(--text-color);
+            text-decoration: underline;
             margin-left: 8px;
         }
 
@@ -146,27 +134,28 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
+            border: 2px solid var(--border-color);
         }
 
         table th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px;
-            text-align: left;
-            font-weight: 500;
+            background-color: var(--light-gray);
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            font-size: 12px;
+            text-transform: uppercase;
         }
 
         table td {
-            padding: 12px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 10px 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 12px;
         }
 
         table tr:nth-child(even) {
             background-color: var(--light-gray);
-        }
-
-        table tr:hover {
-            background-color: #e8f4fd;
         }
 
         /* Status badges */
@@ -180,7 +169,7 @@
 
         .status-pending {
             background-color: #f8d7da;
-            color: red;
+            color: #721c24;
         }
 
         .status-complete {
@@ -196,20 +185,14 @@
         /* Documentation */
         .documentation-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
 
         .gallery-item {
-            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
             overflow: hidden;
-            box-shadow: var(--box-shadow);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.02);
         }
 
         .gallery-item img {
@@ -222,79 +205,93 @@
         .footer {
             margin-top: 40px;
             text-align: center;
-            font-size: 12px;
-            color: var(--dark-gray);
+            font-size: 10px;
             padding: 20px 0;
-            border-top: 1px solid #e0e0e0;
+            border-top: 2px solid var(--border-color);
         }
 
         /* Notes */
         .notes-content {
-            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
             padding: 15px;
-            border-radius: var(--border-radius);
             margin-top: 10px;
-            line-height: 1.7;
+            line-height: 1.8;
+            text-align: justify;
         }
 
-        /* Icons */
-        .material-icons {
-            font-family: 'Material Icons';
-            font-weight: normal;
-            font-style: normal;
-            font-size: 24px;
-            display: inline-block;
-            line-height: 1;
-            text-transform: none;
-            letter-spacing: normal;
-            word-wrap: normal;
-            white-space: nowrap;
-            direction: ltr;
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            border: 1px dashed var(--border-color);
         }
 
         .btn-print {
             margin-top: 30px;
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
+            padding: 8px 16px;
+            background-color: white;
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
             cursor: pointer;
-            font-size: 9pt;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
+        .btn-print:hover {
+            background-color: var(--light-gray);
+        }
+
+        /* Print styles */
         @media print {
+            body {
+                padding: 20px;
+                font-size: 12px;
+            }
+
             .web-only {
                 display: none !important;
             }
 
-            .meeting-title {
-                background-color: var(--primary-color) !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+            .section {
+                page-break-inside: avoid;
             }
 
+            .meeting-title {
+                page-break-after: avoid;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
             body {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                padding: 20px 15px;
+            }
+
+            .documentation-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 10px;
+            }
+
+            table th,
+            table td {
+                padding: 6px 4px;
             }
         }
     </style>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 @endpush
 @section('content')
     @php
         use Carbon\Carbon;
         use Modules\Rapat\Http\Helper\StatusTindakLanjut;
+        use Modules\Rapat\Http\Helper\StatusPesertaRapat;
 
         Carbon::setLocale('id');
         $waktuMulai = Carbon::parse($rapat['waktu_mulai'])->translatedFormat('l, d F Y H:i');
     @endphp
-
     <div class="meeting-title">
         <h1>NOTULENSI RAPAT</h1>
     </div>
@@ -302,7 +299,7 @@
     <div class="meeting-info">
         <div class="meeting-date">
             <i class="fas fa-calendar-alt"></i>
-            <h2>{{ $rapat->waktu_mulai }}</h2>
+            <h2>{{ $waktuMulai }}</h2>
         </div>
     </div>
 
@@ -315,6 +312,7 @@
             <p>{{ $rapat->agenda_rapat }}</p>
         </div>
     </div>
+
     <div class="section">
         <div class="section-title">
             <i class="fas fa-users"></i>
@@ -323,10 +321,12 @@
         <div class="attendees-grid">
             <table>
                 <thead>
-                    <th>No</th>
-                    <th>NIP</th>
-                    <th>Nama</th>
-                    <th>Status</th>
+                    <tr>
+                        <th>No</th>
+                        <th>NIP</th>
+                        <th>Nama</th>
+                        <th>Status</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($rapat->rapatAgendaPeserta as $item)
@@ -341,17 +341,16 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->nip }}</td>
-                            <td>{{ $item->formatted_name }}</td>
+                            <td style="text-align: left">{{ $item->formatted_name }}</td>
                             <td>
                                 <span class="status-badge {{ $statusHadirClass }}">
-                                    {{ $item->pivot->status }}
+                                    {{ StatusPesertaRapat::from($item->pivot->status)->label() }}
                                 </span>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-
         </div>
     </div>
 
@@ -375,8 +374,8 @@
             @foreach ($rapat->rapatLampiran as $item)
                 <div class="attachment-item">
                     <i class="fas fa-file-alt"></i>
+                    <span>{{ $item->nama_file }}</span>
                     <a href="{{ url('/rapat/agenda-rapat/' . $item->nama_file . '/download') }}">
-                        {{ $item->nama_file }}
                         <i class="fas fa-download"></i>
                     </a>
                 </div>
@@ -394,8 +393,8 @@
                 @foreach ($rapat->rapatNotulen->notulenFiles as $item)
                     <div class="attachment-item">
                         <i class="fas fa-file-word"></i>
-                        <a href="{{ url('/rapat/agenda-rapat/notulis/' . $item->nama_file . '/download') }}">
-                            {{ $item->nama_file }}
+                        <span>{{ $item->nama_file }}</span>
+                        <a href="{{ url('/rapat/notulis/' . $item->nama_file . '/download') }}">
                             <i class="fas fa-download"></i>
                         </a>
                     </div>
@@ -419,19 +418,18 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 5%">No</th>
-                        <th style="width: 25%">Nama</th>
-                        <th style="width: 50%">Tugas</th>
-                        <th style="width: 20%">Status</th>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Tugas</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($rapat->rapatTindakLanjut as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->pegawai->formatted_name }}
-                            </td>
-                            <td>{{ $item->deskripsi_tugas }}</td>
+                            <td style="text-align: left">{{ $item->pegawai->formatted_name }}</td>
+                            <td style="text-align: left">{{ $item->deskripsi_tugas }}</td>
                             <td>
                                 @php
                                     $status = StatusTindakLanjut::from($item->status)->value;
@@ -470,4 +468,14 @@
             @endforeach
         </div>
     </div>
+
+    <script>
+        // Set current date
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    </script>
 @endsection

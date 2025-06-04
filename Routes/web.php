@@ -38,7 +38,6 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             Route::get('/ajax-kepanitiaan/{id}', [KepegawaianController::class, 'ajaxKepanitiaanRapat']);
             //-------end fetch data untuk datatable
             Route::get('/{rapatAgenda:slug}/detail', [RapatController::class, 'show']);
-            Route::get('/{file}/download', [RapatController::class, 'downloadLampiran']);
             Route::middleware([PimpinanRapatMiddleware::class])->group(function () {
                 Route::get('/create', [RapatController::class, 'create']);
                 Route::post('/store', [RapatController::class, 'store']);
@@ -51,7 +50,6 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
                 Route::get('/{rapatAgenda:slug}/tugas', [TindakLanjutRapatController::class, 'isiPenugasan']);
                 Route::get('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'tugaskanPesertaRapat']);
                 Route::post('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'createTugasPesertaRapat']);
-                Route::get('/{file}/download', [NotulisController::class, 'downloadNotulen']);
                 //route yang digunakan notulis rapat untuk unggah notulen rapat
                 Route::prefix('notulis')->group(function () {
                     Route::get('/{rapatAgenda:slug}/unggah-notulen', [NotulisController::class, 'formUnggahNotulen']);
@@ -96,6 +94,10 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     //untuk generate pdf laporan hasil rapat
     Route::get('/rapat/riwayat-rapat/{rapatAgenda:slug}/generate-pdf', [ExportPdfController::class, 'generateNotulenRapat']);
 });
+//untuk download file notulen rapat
+Route::get('/rapat/notulis/{file}/download', [NotulisController::class, 'downloadNotulen']);
+Route::get('/rapat/agenda-rapat/{file}/download', [RapatController::class, 'downloadLampiran']);
+
 //function untuk menampilkan halaman konfirmasi kesediaan mengikuti rapat
 Route::get('/rapat/agenda-rapat/konfirmasi/{token}', [RapatController::class, 'formKonfirmasiKesediaanRapat']);
 Route::post('/rapat/agenda-rapat/konfirmasi/{rapatAgenda:slug}/{pegawai}', [RapatController::class, 'konfirmasiKesediaanRapat']);

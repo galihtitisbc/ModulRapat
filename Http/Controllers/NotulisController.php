@@ -37,6 +37,10 @@ class NotulisController extends Controller
     }
     public function downloadNotulen($file)
     {
-        return Storage::download('/public/notulen/' . $file);
+        try {
+            return Storage::download('/public/notulen/' . $file);
+        } catch (\Throwable $th) {
+            return "File Tidak Ditemukan";
+        }
     }
 }
