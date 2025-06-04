@@ -73,18 +73,22 @@
                     </select>
                 </div>
                 <div class="mb-3 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12" style="display: none;">
-                    <label>Daftar Anggota Kepanitiaan Yang Akan Diundang :</label>
-                    <table class="table table-hover w-100" id="table-anggota-panitia">
-                        <caption>Daftar Pegawai Yang Akan Di Undang</caption>
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <label>Daftar Anggota Kepanitiaan Yang Akan Diundang : <x-adminlte-button label="Lihat Anggota Panitia"
+                            data-toggle="modal" data-target="#anggotaPanitiaModal" class="bg-info" /> </label>
+                    <x-adminlte-modal id="anggotaPanitiaModal" title="Daftar Anggota Kepanitiaan" theme="info"
+                        icon="fas fa-users" size='lg' v-centered static-backdrop scrollable>
+                        <table class="table table-hover w-100" id="table-anggota-panitia">
+                            <caption>Daftar Pegawai Yang Akan Di Undang</caption>
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Nama Peserta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </x-adminlte-modal>
                 </div>
                 <div class="my-4" id="peserta-rapat">
                     <div class="d-flex justify-content-between mb-4">

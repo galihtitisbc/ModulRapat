@@ -62,13 +62,9 @@
             .filter((peserta) => !pesertaKepanitiaan.includes(peserta.username))
             .map((peserta) => peserta.username);
 
-        console.log(pesertaManual);
-
         pesertaRapat = [...new Set([...pesertaManual, ...pesertaKepanitiaan])];
 
-        tablePesertaRapat.ajax.reload();
-        tablePimpinanRapat.ajax.reload();
-        tableNotulisRapat.ajax.reload();
+        reloadSemuaTable();
         /////////////////////////////////
 
         //request ajax untuk submit form
