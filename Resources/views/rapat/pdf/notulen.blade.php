@@ -304,7 +304,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">
+        <div class="section-title" style="display: flex; align-items: center">
             <i class="fas fa-calendar-check"></i>
             <h3>Agenda Rapat</h3>
         </div>
@@ -314,7 +314,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">
+        <div class="section-title" style="display: flex; align-items: center">
             <i class="fas fa-users"></i>
             <h3>Daftar Hadir</h3>
         </div>
@@ -355,7 +355,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">
+        <div class="section-title" style="display: flex; align-items: center">
             <i class="fas fa-user-edit"></i>
             <h3>Notulis</h3>
         </div>
@@ -366,7 +366,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">
+        <div class="section-title" style="display: flex; align-items: center">
             <i class="fas fa-paperclip"></i>
             <h3>Lampiran Rapat</h3>
         </div>
@@ -384,7 +384,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">
+        <div class="section-title" style="display: flex; align-items: center">
             <i class="fas fa-file-alt"></i>
             <h3>Notulen Rapat</h3>
         </div>
@@ -410,7 +410,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">
+        <div class="section-title" style="display: flex; align-items: center">
             <i class="fas fa-tasks"></i>
             <h3>Penugasan Tindak Lanjut Rapat</h3>
         </div>
@@ -456,7 +456,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">
+        <div class="section-title" style="display: flex; align-items: center">
             <i class="fas fa-images"></i>
             <h3>Dokumentasi Rapat</h3>
         </div>
