@@ -125,7 +125,7 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Undang</th>
+                                <th scope="col">Pimpinan Rapat</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -141,7 +141,7 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Undang</th>
+                                <th scope="col">Notulis Rapat</th>
                             </tr>
                         </thead>
                         <tbody>

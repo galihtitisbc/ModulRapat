@@ -189,7 +189,7 @@
 
                         <tr>
                             <td class="text-center">{{ $index + 1 }}</td>
-                            <td>{!! $rapat->agenda_rapat !!}</td>
+                            <td>{{ $rapat->agenda_rapat }}</td>
                             <td class="text-center">{{ $startTime }}</td>
                             <td class="text-center">{!! $statusBadge !!}</td>
                             <td class="text-center">{!! $aksi !!}</td>

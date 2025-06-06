@@ -15,7 +15,7 @@
         $pegawaiList = collect([$pegawaiKetua])->merge($pegawaiAnggota);
     @endphp
     <div class="judul-surat">
-        SURAT KEPUTUSAN PEMBENTUKAN KEPANITIAAN
+        SURAT TUGAS
     </div>
 
     {{-- <div class="nomor-sk">
@@ -23,33 +23,11 @@
 </div> --}}
 
     <div class="content">
-        <p>Yang bertanda tangan di bawah ini, dengan ini membentuk kepanitiaan dan menugaskan kepada nama-nama yang
-            tercantum di bawah ini untuk menjadi panitia pelaksana kegiatan sebagai berikut:</p>
-    </div>
-
-    <div class="kepanitiaan-info">
-        <table>
-            <tr>
-                <td>Nama Kepanitiaan</td>
-                <td>: {{ $kepanitiaan->nama_kepanitiaan }}</td>
-            </tr>
-            <tr>
-                <td>Periode Kepanitiaan</td>
-                <td>: {{ $rentangTanggal }}</td>
-            </tr>
-            <tr>
-                <td>Tujuan Kepanitiaan</td>
-                <td>: {{ $kepanitiaan->tujuan }}</td>
-            </tr>
-            <tr>
-                <td>Deskripsi Kepanitiaan</td>
-                <td>: {{ $kepanitiaan->deskripsi }}</td>
-            </tr>
-        </table>
+        <p>{{ $kepanitiaan->deskripsi }}</p>
     </div>
 
     <div class="content">
-        <p><strong>Struktur Kepanitiaan:</strong></p>
+        <p><strong>Struktur Kepanitiaan: {{ $kepanitiaan->nama_kepanitiaan }}</strong></p>
     </div>
 
     <div class="anggota-list">
