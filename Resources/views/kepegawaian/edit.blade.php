@@ -88,7 +88,6 @@
 @push('js')
     @include('rapat::js.rapat.variable-js')
     @include('rapat::js.rapat.pesertaRapatTable-js')
-    @include('rapat::js.kepanitiaan.strukturKepanitiaanTableCreate-js')
     @include('rapat::js.kepanitiaan.strukturKepanitiaanTableUpdate-js')
 
     <script>

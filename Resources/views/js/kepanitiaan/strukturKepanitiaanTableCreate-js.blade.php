@@ -74,12 +74,21 @@
         // Kembalikan semua ke input (reset dari "Ketua Panitia" jika sebelumnya sudah diganti)
         $("#table-struktur-kepanitiaan .jabatan-cell").each(function() {
             const id = $(this).data("id");
+            // Cek apakah elemen saat ini adalah input atau "Ketua Panitia"
+            let currentValue = "";
+            const input = $(this).find("input.jabatan-input");
+            if (input.length) {
+                currentValue = input.val();
+            }
+
+            // Render ulang input dengan value yang lama
             const inputHtml = `<input 
-            type="text" 
-            class="form-control jabatan-input" 
-            data-id="${id}" 
-            placeholder="Jabatan Dalam Panitia"
-        >`;
+                        type="text" 
+                        class="form-control jabatan-input" 
+                        data-id="${id}" 
+                        placeholder="Jabatan Dalam Panitia"
+                        value="${currentValue}"
+                    >`;
             $(this).html(inputHtml);
         });
 
