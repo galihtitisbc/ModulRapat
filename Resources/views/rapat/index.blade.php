@@ -102,10 +102,10 @@
                             ) {
                                 continue;
                             }
-                            if (
-                                $rapat->is_penugasan !== null ||
-                                ($rapat->rapatTindakLanjut()->exists() && $rapat->rapatNotulen()->exists())
-                            ) {
+                            // if ($rapat->rapatTindakLanjut()->exists() && $rapat->rapatNotulen()->exists()) {
+                            //     continue;
+                            // }
+                            if ($rapat->is_penugasan !== null && $rapat->rapatNotulen()->exists()) {
                                 continue;
                             }
 
@@ -166,9 +166,9 @@
                                     url('rapat/agenda-rapat/notulis/' . $rapat->slug . '/unggah-notulen') .
                                     '" class="btn btn-success btn-sm mx-2">Isi Notulen</a>';
                             }
-
                             $tugas = '';
                             if (
+                                $rapat->is_penugasan === null &&
                                 in_array(Auth::user()->pegawai->username, [
                                     $rapat->notulis_username,
                                     $rapat->pimpinan_username,

@@ -30,7 +30,8 @@ class TindakLanjutRapatController extends Controller
         } else {
             $tindakLanjutRapat = RapatTindakLanjut::listAgendaRapatHaveTugas(Auth::user()->pegawai->username)->with('rapatAgenda');
         }
-        $tindakLanjutRapat = $tindakLanjutRapat
+        //mengambil rapat agenda id agar hanya menampilkan 1 data jika ada rapat agenda id yang sama
+        $rapatAgendaId = $tindakLanjutRapat
             ->when($request->input('cari'), function ($query, $cari) {
                 $query->whereHas('rapatAgenda', function ($q) use ($cari) {
                     $q->where('agenda_rapat', 'like', "%$cari%");
@@ -46,9 +47,16 @@ class TindakLanjutRapatController extends Controller
                     $q->whereDate('waktu_mulai', '<=', $sampai);
                 });
             })
+            ->distinct('rapat_agenda_id')
+            ->get('rapat_agenda_id')
+            ->pluck('rapat_agenda_id');
+
+        //ambil data tindak lanjut berdasarkan rapat agenda id yang telah di distinct
+        $tindakLanjutRapat = RapatTindakLanjut::with('rapatAgenda')
+            ->whereIn('rapat_agenda_id', $rapatAgendaId)
             ->orderBy('created_at', 'asc')
-            ->get();
-        // return $tindakLanjutRapat;
+            ->paginate(10);
+
         return view('rapat::rapat.tindak-lanjut.index', [
             'tindakLanjutRapat' => $tindakLanjutRapat,
         ]);

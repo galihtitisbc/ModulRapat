@@ -59,8 +59,8 @@
                             <tr class="text-center">
                                 <th style="width: 5%;">No</th>
                                 <th style="width: 30%;" class="text-left">Agenda Rapat</th>
-                                <th style="width: 10%;">Tanggal Rapat</th>
-                                <th style="width: 10%;">Penyelesaian</th>
+                                <th style="width: 20%;">Tanggal Rapat</th>
+                                <th style="width: 10%;">Penyelesaian Penugasan</th>
                                 <th style="width: 10%;">Aksi</th>
                             </tr>
                         </thead>
@@ -78,7 +78,7 @@
                                     @continue
                                 @endif
                                 <tr>
-                                    <td class="text-center">{{ $no + 1 }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $tindakLanjut->rapatAgenda->agenda_rapat }}</td>
                                     <td class="text-center">
                                         {{ \Carbon\Carbon::parse($tindakLanjut->rapatAgenda->waktu_mulai)->locale('id')->translatedFormat('l, d F Y') }}
@@ -111,6 +111,9 @@
                             @endforelse
                         </tbody>
                     </table>
+                    <div class="mx-auto">
+                        {{ $tindakLanjutRapat->links() }}
+                    </div>
                 </x-adminlte-card>
             @endif
         </div>

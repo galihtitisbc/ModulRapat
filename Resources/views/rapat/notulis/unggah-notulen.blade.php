@@ -31,7 +31,7 @@
             $heads = [
                 'No',
                 'Nama Peserta',
-                ['label' => 'Whatsapp'],
+                ['label' => 'Email'],
                 ['label' => 'Status Konfirmasi'],
                 ['label' => 'Hadir'],
             ];
