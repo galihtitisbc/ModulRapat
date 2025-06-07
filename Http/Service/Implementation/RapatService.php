@@ -35,7 +35,13 @@ class RapatService
                 //simpan lampiran ke storage
                 $namaLampiran = [];
                 foreach ($data['lampiran'] as $index => $lampiran) {
-                    $fileName = time() . "_{$index}_" . $lampiran->getClientOriginalName();
+                    $originalName = $lampiran->getClientOriginalName();
+                    $extension    = $lampiran->getClientOriginalExtension();
+                    $baseName     = pathinfo($originalName, PATHINFO_FILENAME);
+                    $timestamp    = time();
+                    $suffix       = "{$timestamp}_{$index}";
+                    $fileName     = "{$baseName}_{$suffix}.{$extension}";
+
                     Storage::putFileAs('public/rapat', $lampiran, $fileName);
                     $namaLampiran[] = [
                         'nama_file' => $fileName,
@@ -111,7 +117,14 @@ class RapatService
                 //upload lampiran
                 $namaLampiran = [];
                 foreach ($data['lampiran'] as $index => $lampiran) {
-                    $fileName = time() . "_{$index}_" . $lampiran->getClientOriginalName();
+                    $originalName = $lampiran->getClientOriginalName();
+                    $extension    = $lampiran->getClientOriginalExtension();
+                    $baseName     = pathinfo($originalName, PATHINFO_FILENAME);
+
+                    $timestamp = time();
+                    $suffix    = "{$timestamp}_{$index}";
+                    $fileName  = "{$baseName}_{$suffix}.{$extension}";
+
                     Storage::putFileAs('public/rapat', $lampiran, $fileName);
                     $namaLampiran[] = [
                         'nama_file' => $fileName,

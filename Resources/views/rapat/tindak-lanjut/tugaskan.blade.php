@@ -142,6 +142,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </x-adminlte-card>
 @endsection
 

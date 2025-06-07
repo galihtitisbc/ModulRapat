@@ -109,7 +109,7 @@
                         <div class="col-lg-4 col-sm-12 mb-3">
                             <p class="mb-1" style="font-size: 1.2rem">Pimpinan Rapat :</p>
                             <span class="btn btn-secondary px-4">
-                                {{ $agendaRapat->rapatAgendaPimpinan->nama }}
+                                {{ $agendaRapat->rapatAgendaPimpinan->formatted_name }}
                             </span>
                         </div>
                     </div>

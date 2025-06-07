@@ -21,7 +21,13 @@ class NotulisService
             if (isset($data['notulen_file'])) {
                 $fileNotulen = [];
                 foreach ($data['notulen_file'] as $index => $fileNotulen) {
-                    $fileName = time() . "_{$index}_" . $fileNotulen->getClientOriginalName();
+                    $originalName = $fileNotulen->getClientOriginalName();
+                    $extension    = $fileNotulen->getClientOriginalExtension();
+                    $baseName     = pathinfo($originalName, PATHINFO_FILENAME);
+                    $timestamp    = time();
+                    $suffix       = "{$timestamp}_{$index}";
+                    $fileName     = "{$baseName}_{$suffix}.{$extension}";
+
                     Storage::putFileAs('public/notulen', $fileNotulen, $fileName);
                     $namafileNotulen[] = [
                         'nama_file' => $fileName,
