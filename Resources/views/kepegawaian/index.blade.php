@@ -32,7 +32,7 @@
                     <div class="col-lg-5 col-md-12 col-sm-12 mb-2">
                         <input type="text" name="nama_kepanitiaan" class="form-control mb-2"
                             placeholder="Cari Kepanitiaan" value="{{ request('nama_kepanitiaan') }}">
-                        <select name="status" class="form-control" id="">
+                        <select name="status" class="form-control" id="" onchange="this.form.submit()">
                             <option value="" selected>-- Pilih Status --</option>
                             <option value="AKTIF" {{ request('status') == 'AKTIF' ? 'selected' : '' }}>Aktif</option>
                             <option value="NON_AKTIF" {{ request('status') == 'NON_AKTIF' ? 'selected' : '' }}>Tidak Aktif

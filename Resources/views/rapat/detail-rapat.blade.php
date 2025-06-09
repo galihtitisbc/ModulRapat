@@ -81,6 +81,22 @@
                             </h5>
                         </div>
                         <div class="card-body">
+                            @if ($rapat->rapatKepanitiaan)
+                                <!-- Jika Rapat Kepanitiaan -->
+                                <div class="media mb-4">
+                                    <div class="mr-3">
+                                        <div class="rounded-circle bg-success text-white text-center p-3"
+                                            style="width: 50px; height: 50px;">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6 class="text-muted mb-1">Nama Kepanitiaan</h6>
+                                        <p class="font-weight-bold"> {{ $rapat->rapatKepanitiaan->nama_kepanitiaan }}
+                                        </p>
+                                    </div>
+                                </div>
+                            @endif
                             <!-- Pimpinan Rapat -->
                             <div class="media mb-4">
                                 <div class="mr-3">

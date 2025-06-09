@@ -28,18 +28,22 @@
                     <textarea name="deskripsi" class="form-control" required>{{ old('deskripsi', $kepanitiaan->deskripsi ?? '') }}</textarea>
                 </div>
 
-                <div class="mb-3">
-                    <label>Tanggal Mulai</label>
-                    <input type="date" name="tanggal_mulai" class="form-control"
-                        value="{{ old('tanggal_mulai', $kepanitiaan->tanggal_mulai ?? '') }}" required>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label>Tanggal Mulai</label>
+                            <input type="date" name="tanggal_mulai" class="form-control"
+                                value="{{ old('tanggal_mulai', $kepanitiaan->tanggal_mulai ?? '') }}" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label>Tanggal Berakhir</label>
+                            <input type="date" name="tanggal_berakhir" class="form-control"
+                                value="{{ old('tanggal_berakhir', $kepanitiaan->tanggal_berakhir ?? '') }}" required>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="mb-3">
-                    <label>Tanggal Berakhir</label>
-                    <input type="date" name="tanggal_berakhir" class="form-control"
-                        value="{{ old('tanggal_berakhir', $kepanitiaan->tanggal_berakhir ?? '') }}" required>
-                </div>
-
                 <div class="mb-3">
                     <label>Tujuan</label>
                     <input type="text" name="tujuan" class="form-control"

@@ -61,64 +61,71 @@
                     <textarea class="form-control" id="agenda-rapat" name="agenda_rapat" placeholder="Agenda Rapat"></textarea>
                     <div class="invalid-feedback" id="error-agenda_rapat"></div>
                 </div>
-                <div class="mb-3">
-                    <label>Pilih Kepanitiaan : ( Jika Rapat Merupakan Rapat Kepanitiaan )</label>
-                    <div class="invalid-feedback" id="error-kepanitiaan_id"></div>
-                    <select class="form-control select-kepanitiaan" id="kepanitiaan" name="kepanitiaan_id">
-                        <option value="">-- Pilih Kepanitiaan --</option>
-                        @foreach ($kepanitiaans as $kepanitiaan)
-                            <option value="{{ $kepanitiaan->id }}"
-                                {{ $rapatAgenda->kepanitiaan_id == $kepanitiaan->id ? 'selected' : '' }}>
-                                {{ $kepanitiaan->nama_kepanitiaan }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                @if ($rapatAgenda->rapatKepanitiaan !== null)
-                    <div class="mb-3 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12"
-                        id="table-anggota-panitia-before">
-                        <label>Daftar Anggota Kepanitiaan Yang Akan Diundang : <x-adminlte-button
-                                label="Lihat Anggota Panitia" data-toggle="modal" data-target="#anggotaPanitiaModalBefore"
-                                class="bg-info" /> </label>
-                        <x-adminlte-modal id="anggotaPanitiaModalBefore" title="Daftar Anggota Kepanitiaan" theme="info"
-                            icon="fas fa-users" size='lg' v-centered static-backdrop scrollable>
-                            <table class="table table-hover w-100">
-                                <caption>Daftar Pegawai Yang Akan Di Undang</caption>
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Nama Peserta</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($rapatAgenda->rapatKepanitiaan->pegawai as $item)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->formatted_name }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </x-adminlte-modal>
+                <div class="row">
+                    <div class="col-lg-7 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label>Pilih Kepanitiaan : ( Jika Rapat Merupakan Rapat Kepanitiaan )</label>
+                            <div class="invalid-feedback" id="error-kepanitiaan_id"></div>
+                            <select class="form-control select-kepanitiaan" id="kepanitiaan" name="kepanitiaan_id">
+                                <option value="">-- Pilih Kepanitiaan --</option>
+                                @foreach ($kepanitiaans as $kepanitiaan)
+                                    <option value="{{ $kepanitiaan->id }}"
+                                        {{ $rapatAgenda->kepanitiaan_id == $kepanitiaan->id ? 'selected' : '' }}>
+                                        {{ $kepanitiaan->nama_kepanitiaan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                @endif
-                <div class="mb-3 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12" style="display: none;">
-                    <label>Daftar Anggota Kepanitiaan Yang Akan Diundang : <x-adminlte-button label="Lihat Anggota Panitia"
-                            data-toggle="modal" data-target="#anggotaPanitiaModalAfter" class="bg-info" /> </label>
-                    <x-adminlte-modal id="anggotaPanitiaModalAfter" title="Daftar Anggota Kepanitiaan" theme="info"
-                        icon="fas fa-users" size='lg' v-centered static-backdrop scrollable>
-                        <table class="table table-hover w-100" id="table-anggota-panitia">
-                            <caption>Daftar Pegawai Yang Akan Di Undang</caption>
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Peserta</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </x-adminlte-modal>
+                    <div class="col-lg-4 col-md-3 col-sm-3">
+                        @if ($rapatAgenda->rapatKepanitiaan !== null)
+                            <div class="mt-2 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12"
+                                id="table-anggota-panitia-before">
+                                <label>Daftar Anggota Kepanitiaan Yang Akan Diundang : <x-adminlte-button
+                                        label="Lihat Anggota Panitia" data-toggle="modal"
+                                        data-target="#anggotaPanitiaModalBefore" class="bg-info" /> </label>
+                                <x-adminlte-modal id="anggotaPanitiaModalBefore" title="Daftar Anggota Kepanitiaan"
+                                    theme="info" icon="fas fa-users" size='lg' v-centered static-backdrop scrollable>
+                                    <table class="table table-hover w-100">
+                                        <caption>Daftar Pegawai Yang Akan Di Undang</caption>
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">No</th>
+                                                <th scope="col">Nama Peserta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($rapatAgenda->rapatKepanitiaan->pegawai as $item)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $item->formatted_name }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </x-adminlte-modal>
+                            </div>
+                        @endif
+                        <div class="mt-2 table-anggota-panitia-group col-lg-12 col-md-12 col-sm-12" style="display: none;">
+                            <label>Daftar Anggota Kepanitiaan Yang Akan Diundang : <x-adminlte-button
+                                    label="Lihat Anggota Panitia" data-toggle="modal"
+                                    data-target="#anggotaPanitiaModalAfter" class="bg-info" /> </label>
+                            <x-adminlte-modal id="anggotaPanitiaModalAfter" title="Daftar Anggota Kepanitiaan"
+                                theme="info" icon="fas fa-users" size='lg' v-centered static-backdrop scrollable>
+                                <table class="table table-hover w-100" id="table-anggota-panitia">
+                                    <caption>Daftar Pegawai Yang Akan Di Undang</caption>
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Nama Peserta</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </x-adminlte-modal>
+                        </div>
+                    </div>
                 </div>
                 <div class="my-4" id="peserta-rapat">
                     <div class="d-flex justify-content-between mb-4">
@@ -131,7 +138,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
-                                <th scope="col">Whatsapp</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Pilih</th>
                             </tr>
                         </thead>
@@ -155,7 +162,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
-                                <th scope="col">Whatsapp</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Undang</th>
                             </tr>
                         </thead>
@@ -171,7 +178,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
-                                <th scope="col">Whatsapp</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Undang</th>
                             </tr>
                         </thead>

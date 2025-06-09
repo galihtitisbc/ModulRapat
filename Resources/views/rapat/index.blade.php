@@ -48,7 +48,7 @@
                     <div class="col-lg-5 col-md-12 col-sm-12 mb-2">
                         <input type="text" name="agenda_rapat" class="form-control mb-2" placeholder="Cari Agenda Rapat"
                             value="{{ request('agenda_rapat') }}">
-                        <select name="status" class="form-control" id="">
+                        <select name="status" class="form-control" id="" onchange="this.form.submit()">
                             <option value="" selected>-- Pilih Status --</option>
                             <option value="{{ StatusAgendaRapat::STARTED->value }}"
                                 {{ request('status') == 'STARTED' ? 'selected' : '' }}>
@@ -57,6 +57,10 @@
                             <option value="{{ StatusAgendaRapat::SCHEDULED->value }}"
                                 {{ request('status') == 'SCHEDULED' ? 'selected' : '' }}>
                                 {{ StatusAgendaRapat::SCHEDULED->label() }}
+                            </option>
+                            <option value="{{ StatusAgendaRapat::CANCELLED->value }}"
+                                {{ request('status') == 'CANCELLED' ? 'selected' : '' }}>
+                                {{ StatusAgendaRapat::CANCELLED->label() }}
                             </option>
                         </select>
                     </div>
@@ -158,7 +162,7 @@
 
                             if (
                                 Auth::user()->pegawai->username === $rapat->notulis_username &&
-                                $rapat->status !== 'CANCELED' &&
+                                $rapat->status !== StatusAgendaRapat::CANCELLED->value &&
                                 $rapat->status == StatusAgendaRapat::STARTED->value
                             ) {
                                 $aksi .=

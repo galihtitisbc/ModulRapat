@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Rapat\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -27,6 +28,19 @@ class RiwayatRapatController extends Controller
             })
             ->when($request->input('sampai_tgl'), function ($query, $sampai) {
                 $query->whereDate('waktu_mulai', '<=', $sampai);
+            })
+            ->when($request->input('filter'), function ($query, $filter) {
+                if ($filter === 'minggu') {
+                    $query->whereBetween('waktu_mulai', [
+                        Carbon::now('Asia/Jakarta')->startOfWeek(),
+                        Carbon::now('Asia/Jakarta')->endOfWeek(),
+                    ]);
+                } elseif ($filter === 'bulan') {
+                    $query->whereBetween('waktu_mulai', [
+                        Carbon::now('Asia/Jakarta')->startOfMonth(),
+                        Carbon::now('Asia/Jakarta')->endOfMonth(),
+                    ]);
+                }
             })
             ->where('status', StatusAgendaRapat::COMPLETED->value)
             ->orderBy('created_at', 'desc')

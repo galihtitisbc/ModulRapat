@@ -29,16 +29,20 @@
                     <textarea id="deskripsi" name="deskripsi" class="form-control"></textarea>
                 </div>
 
-                <div class="mb-3">
-                    <label>Tanggal Mulai</label>
-                    <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="form-control">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label>Tanggal Mulai</label>
+                            <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="mb-3">
+                            <label>Tanggal Berakhir</label>
+                            <input type="date" id="tanggal_berakhir" name="tanggal_berakhir" class="form-control">
+                        </div>
+                    </div>
                 </div>
-
-                <div class="mb-3">
-                    <label>Tanggal Berakhir</label>
-                    <input type="date" id="tanggal_berakhir" name="tanggal_berakhir" class="form-control">
-                </div>
-
                 <div class="mb-3">
                     <label>Tujuan</label>
                     <input type="text" id="tujuan" name="tujuan" class="form-control">

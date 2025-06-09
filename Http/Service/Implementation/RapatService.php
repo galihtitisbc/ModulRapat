@@ -78,6 +78,10 @@ class RapatService
     public function ubahStatusAgendaRapat(RapatAgenda $agendaRapat)
     {
         try {
+            $now = Carbon::now('Asia/Jakarta');
+            if (Carbon::parse($agendaRapat->waktu_mulai)->lessThan($now)) {
+                throw new Exception("Waktu Mulai Rapat sudah melebihi waktu sekarang, silahkan ubah waktu mulai rapat terlebih dahulu");
+            }
             if (StatusAgendaRapat::SCHEDULED->value == $agendaRapat->status) {
                 $agendaRapat->status = StatusAgendaRapat::CANCELLED->value;
                 $agendaRapat->save();

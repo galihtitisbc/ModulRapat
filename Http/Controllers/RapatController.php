@@ -13,6 +13,7 @@ use Modules\Rapat\Entities\Kepanitiaan;
 use Modules\Rapat\Entities\Pegawai;
 use Modules\Rapat\Entities\RapatAgenda;
 use Modules\Rapat\Http\Helper\FlashMessage;
+use Modules\Rapat\Http\Helper\RoleGroupHelper;
 use Modules\Rapat\Http\Helper\StatusAgendaRapat;
 use Modules\Rapat\Http\Helper\StatusPesertaRapat;
 use Modules\Rapat\Http\Requests\CreateRapatRequest;
@@ -61,6 +62,9 @@ class RapatController extends Controller
     public function create()
     {
         $kepanitiaan = Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->pegawai->username)->where('status', 'AKTIF')->get();
+        if (! RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRapatRoles())) {
+            $kepanitiaan = $kepanitiaan->where('pimpinan_username', Auth::user()->username);
+        }
         return view('rapat::rapat.create', [
             'kepanitiaans' => $kepanitiaan,
         ]);
@@ -138,7 +142,7 @@ class RapatController extends Controller
 
     public function show(RapatAgenda $rapatAgenda)
     {
-        $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran', 'rapatAgendaPeserta.user']);
+        $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran', 'rapatAgendaPeserta.user', 'rapatKepanitiaan']);
         return view('rapat::rapat.detail-rapat', [
             'rapat' => $rapatAgenda,
         ]);

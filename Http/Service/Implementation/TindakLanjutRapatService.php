@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Rapat\Http\Service\Implementation;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Modules\Rapat\Entities\Pegawai;
@@ -55,7 +56,7 @@ class TindakLanjutRapatService
                 'status'          => StatusTindakLanjut::SELESAI->value,
                 'tugas'           => $data['tugas'],
                 'kendala'         => $data['kendala'],
-                'tanggal_selesai' => now(),
+                'tanggal_selesai' => Carbon::now('Asia/Jakarta'),
             ]);
             DB::commit();
         } catch (\Throwable $e) {
@@ -87,7 +88,7 @@ class TindakLanjutRapatService
                 'status'          => StatusTindakLanjut::SELESAI->value,
                 'tugas'           => $data['tugas'],
                 'kendala'         => $data['kendala'],
-                'tanggal_selesai' => now(),
+                'tanggal_selesai' => Carbon::now('Asia/Jakarta'),
             ]);
             DB::commit();
         } catch (\Throwable $e) {
@@ -112,7 +113,6 @@ class TindakLanjutRapatService
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th->getMessage());
         }
     }
 }
