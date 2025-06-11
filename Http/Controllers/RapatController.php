@@ -43,10 +43,15 @@ class RapatController extends Controller
             ->when($request->input('status'), function ($query, $status) {
                 $query->where('status', $status);
             })
-            ->where('status', '!=', StatusAgendaRapat::COMPLETED->value)
+            ->where(function ($query) {
+                $query->where('status', '<>', StatusAgendaRapat::COMPLETED->value)
+                    ->orWhereNull('is_penugasan');
+            })
             ->orderBy('waktu_mulai', 'asc')
             ->paginate(5)
             ->withQueryString();
+
+        // untuk mengubah status agenda rapat
         $now = Carbon::now('Asia/Jakarta')->toDateTimeString();
         foreach ($rapat as $rapatItem) {
             $tglMulai = Carbon::parse($rapatItem->waktu_mulai)->toDateTimeString();

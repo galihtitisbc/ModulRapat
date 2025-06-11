@@ -102,13 +102,14 @@
                         @php
                             if (
                                 $rapat->status == StatusAgendaRapat::COMPLETED->value &&
-                                Auth::user()->pegawai->username !== $rapat->notulis_username
+                                Auth::user()->pegawai->username !== $rapat->notulis_username &&
+                                Auth::user()->pegawai->username !== $rapat->pimpinan_username
                             ) {
                                 continue;
                             }
-                            // if ($rapat->rapatTindakLanjut()->exists() && $rapat->rapatNotulen()->exists()) {
-                            //     continue;
-                            // }
+                            if ($rapat->rapatTindakLanjut()->exists() && $rapat->rapatNotulen()->exists()) {
+                                continue;
+                            }
                             if ($rapat->is_penugasan !== null && $rapat->rapatNotulen()->exists()) {
                                 continue;
                             }

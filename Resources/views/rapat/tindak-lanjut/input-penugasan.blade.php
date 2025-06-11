@@ -62,29 +62,32 @@
                     <!-- No Assignment Option -->
                     <div class="card border-warning mb-4">
                         <div class="card-body bg-light">
-                            <div class="row align-items-center">
-                                <div class="col-md-8">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-info-circle text-warning fa-2x mr-3"></i>
-                                        <div>
-                                            <h6 class="mb-1 font-weight-bold">Rapat Tanpa Penugasan</h6>
-                                            <p class="mb-0 text-muted">Klik tombol Sebelah Kanan jika rapat tidak memiliki
-                                                penugasan tindak lanjut</p>
+                            @if (!$rapat->rapatTindakLanjut->isNotEmpty())
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-info-circle text-warning fa-2x mr-3"></i>
+                                            <div>
+                                                <h6 class="mb-1 font-weight-bold">Rapat Tanpa Penugasan</h6>
+                                                <p class="mb-0 text-muted">Klik tombol Sebelah Kanan jika rapat tidak
+                                                    memiliki
+                                                    penugasan tindak lanjut</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-4 text-md-right mt-3 mt-md-0">
+                                        <form
+                                            action="{{ url('/rapat/tindak-lanjut-rapat/' . $rapat->slug . '/tidak-ada-tugas') }}"
+                                            method="post" id="rapat-tidak-ada-tugas">
+                                            @csrf
+                                            <button class="btn btn-warning shadow-sm">
+                                                <i class="fas fa-times-circle mr-2"></i>
+                                                Tidak Ada Penugasan
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 text-md-right mt-3 mt-md-0">
-                                    <form
-                                        action="{{ url('/rapat/tindak-lanjut-rapat/' . $rapat->slug . '/tidak-ada-tugas') }}"
-                                        method="post" id="rapat-tidak-ada-tugas">
-                                        @csrf
-                                        <button class="btn btn-warning shadow-sm">
-                                            <i class="fas fa-times-circle mr-2"></i>
-                                            Tidak Ada Penugasan
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
 

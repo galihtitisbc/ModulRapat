@@ -2,6 +2,7 @@
 namespace Modules\Rapat\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Rapat\Rules\DateTimeOrSelesaiRule;
 
 class CreateRapatRequest extends FormRequest
 {
@@ -20,7 +21,7 @@ class CreateRapatRequest extends FormRequest
             'notulis_username'  => 'required|exists:pegawais,username',
             'nomor_surat'       => 'required|string|max:255',
             'waktu_mulai'       => 'required|after:now',
-            'waktu_selesai'     => 'required',
+            'waktu_selesai'     => ['required', new DateTimeOrSelesaiRule],
             'agenda_rapat'      => 'required|string',
             'tempat'            => 'required|string|max:255',
             'lampiran.*'        => 'nullable|file|mimes:jpg,jpeg,png,doc,docx,xls,xlsx,pdf,txt|max:2048',
@@ -49,9 +50,7 @@ class CreateRapatRequest extends FormRequest
             'waktu_mulai.date_format'     => 'Format waktu mulai tidak sesuai (Y-m-d H:i:s).',
 
             'waktu_selesai.required'      => 'Waktu selesai rapat harus diisi.',
-            'waktu_selesai.date_format'   => 'Format waktu selesai tidak sesuai (Y-m-d H:i:s).',
-            'waktu_selesai.after'         => 'Waktu selesai harus setelah waktu mulai.',
-
+            'waktu_mulai.after'           => 'Waktu mulai harus setelah waktu saat ini.',
             'agenda_rapat.required'       => 'Agenda rapat harus diisi.',
             'agenda_rapat.string'         => 'Agenda rapat harus berupa teks.',
 

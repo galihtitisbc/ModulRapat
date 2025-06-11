@@ -17,6 +17,9 @@ class NotulisController extends Controller
     }
     public function formUnggahNotulen(RapatAgenda $rapatAgenda)
     {
+        if ($rapatAgenda->rapatNotulen) {
+            abort(403);
+        }
         $rapat = $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatAgendaNotulis', 'rapatAgendaPeserta']);
 
         return view('rapat::rapat.notulis.unggah-notulen', [

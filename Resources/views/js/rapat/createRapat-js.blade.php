@@ -61,6 +61,15 @@
             pesertaRapat.forEach((username) => {
                 formData.append("peserta_rapat[]", username);
             });
+            //cek jika peserta rapat tidak dipilih
+            if (!pesertaRapat.length) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validasi Gagal',
+                    text: 'Minimal satu peserta harus dipilih',
+                });
+                return;
+            }
             //cek apakah pimpinan rapat termasuk dalam daftar peserta rapat
             if (!pesertaRapat.includes(pimpinanRapatUsername)) {
                 Swal.fire({
