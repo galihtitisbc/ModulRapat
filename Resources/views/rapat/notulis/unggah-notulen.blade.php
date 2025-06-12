@@ -20,47 +20,12 @@
     @endphp
     <x-adminlte-card>
         @php
-
             $statusKehadiran = [
                 'BERSEDIA' => 'primary',
                 'TIDAK_BERSEDIA' => 'danger',
                 'HADIR' => 'success',
                 'TIDAK_HADIR' => 'secondary',
                 'MENUNGGU' => 'warning',
-            ];
-            $heads = [
-                'No',
-                'Nama Peserta',
-                ['label' => 'Email'],
-                ['label' => 'Status Konfirmasi'],
-                ['label' => 'Hadir'],
-            ];
-            $data = [];
-            foreach ($agendaRapat->rapatAgendaPeserta as $key => $rapat) {
-                $checkBox =
-                    ' <input class="form-check-input" type="checkbox" name="peserta_hadir[]" value="' .
-                    $rapat->username .
-                    '"' .
-                    (in_array($rapat->username, old('peserta_hadir', [])) ? ' checked' : '') .
-                    '>';
-                $status =
-                    '<span class="badge badge-' .
-                    $statusKehadiran[$rapat->pivot->status] .
-                    '">' .
-                    StatusPesertaRapat::from($rapat->pivot->status)->label() .
-                    '</span>';
-                $data[] = [$key + 1, $rapat->formatted_name, $rapat->user->email, $status, $checkBox];
-            }
-            $config = [
-                'data' => $data,
-                'order' => [[0, 'asc']],
-                'columns' => [
-                    ['className' => 'text-center'],
-                    null,
-                    ['orderable' => false],
-                    ['className' => 'text-center'],
-                    ['className' => 'text-center', 'orderable' => false],
-                ],
             ];
         @endphp
         <div class="col-sm-12 col-lg-9 mx-auto">
@@ -78,7 +43,7 @@
             <hr>
 
             <form action="{{ url('/rapat/agenda-rapat/notulis/' . $agendaRapat->slug . '/unggah-notulen') }}" method="POST"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" id="form-notulen">
                 @csrf
 
                 {{-- Error Handling --}}
@@ -117,17 +82,49 @@
 
                 {{-- Daftar Peserta --}}
                 <div class="mt-5">
-                    <h4>Daftar Peserta :</h4>
-                    <hr>
-                    <x-adminlte-datatable id="table1" :heads="$heads" :config="$config">
-                        @foreach ($config['data'] as $row)
+                    <div class="check-all d-flex justify-content-between">
+                        <h4>Daftar Peserta :</h4>
+                        <hr>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="check-all-peserta">
+                            <label class="form-check-label" for="defaultCheck1">
+                                <b> Semua Peserta Hadir</b>
+                            </label>
+                        </div>
+                    </div>
+                    <table id="table-daftar-peserta" class="table table-striped">
+                        <thead>
                             <tr>
-                                @foreach ($row as $cell)
-                                    <td>{!! $cell !!}</td>
-                                @endforeach
+                                <th>No</th>
+                                <th>Nama Peserta</th>
+                                <th>Email</th>
+                                <th>Status Konfirmasi</th>
+                                <th>
+                                    Hadir
+                                </th>
                             </tr>
-                        @endforeach
-                    </x-adminlte-datatable>
+                        </thead>
+                        <tbody>
+                            @foreach ($agendaRapat->rapatAgendaPeserta as $key => $rapat)
+                                <tr>
+                                    <td class="text-center">{{ $key + 1 }}</td>
+                                    <td>{{ $rapat->formatted_name }}</td>
+                                    <td>{{ $rapat->user->email }}</td>
+                                    <td class="text-center">
+                                        <span class="badge badge-{{ $statusKehadiran[$rapat->pivot->status] }}">
+                                            {{ StatusPesertaRapat::from($rapat->pivot->status)->label() }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <input class="form-check-input peserta-checkbox" type="checkbox"
+                                            name="peserta_hadir[]" value="{{ $rapat->username }}"
+                                            {{ in_array($rapat->username, old('peserta_hadir', [])) ? 'checked' : '' }}>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
                 </div>
 
                 {{-- Catatan Rapat --}}
@@ -169,4 +166,43 @@
 
 @push('js')
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <script>
+        document.getElementById('check-all-peserta').addEventListener('change', function() {
+            const isChecked = this.checked;
+            const checkboxes = document.querySelectorAll('input[name="peserta_hadir[]"]');
+            checkboxes.forEach(cb => cb.checked = isChecked);
+        });
+        let table = $('#table-daftar-peserta').DataTable({
+            paging: false,
+            order: [
+                [0, 'asc']
+            ],
+            columnDefs: [{
+                    targets: 0,
+                    className: 'text-center'
+                },
+                {
+                    targets: 3,
+                    className: 'text-center'
+                },
+                {
+                    targets: 4,
+                    className: 'text-center',
+                    orderable: false
+                },
+                {
+                    targets: 2,
+                    orderable: false
+                }
+            ]
+        });
+        $('#check-all-peserta').on('change', function() {
+            const isChecked = this.checked;
+            table.rows().every(function() {
+                const row = this.node();
+                const checkbox = $(row).find('input.peserta-checkbox');
+                checkbox.prop('checked', isChecked);
+            });
+        });
+    </script>
 @endpush

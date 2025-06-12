@@ -174,10 +174,7 @@
                             $tugas = '';
                             if (
                                 $rapat->is_penugasan === null &&
-                                in_array(Auth::user()->pegawai->username, [
-                                    $rapat->notulis_username,
-                                    $rapat->pimpinan_username,
-                                ]) &&
+                                in_array(Auth::user()->pegawai->username, [$rapat->notulis_username]) &&
                                 in_array($rapat->status, [
                                     StatusAgendaRapat::COMPLETED->value,
                                     StatusAgendaRapat::STARTED->value,
