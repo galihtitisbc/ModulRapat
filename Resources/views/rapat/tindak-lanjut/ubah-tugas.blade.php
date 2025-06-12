@@ -26,7 +26,6 @@
                 <div class="col-auto">
                     <span class="badge badge-light px-3 py-2">
                         <i class="fas fa-pencil-alt mr-1"></i>
-                        Edit Task
                     </span>
                 </div>
             </div>

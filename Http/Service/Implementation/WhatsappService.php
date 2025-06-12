@@ -27,7 +27,7 @@ class WhatsappService
                     $headerMsg = "*[Pemberitahuan Jadwal Ulang Rapat]*\n\n";
                     break;
                 case 'updateRapat':
-                    $headerMsg = "*[Pemberitahuan Perubahan Rapat, Silahkan Melakukan Konfirmasi Ulang]*\n\n";
+                    $headerMsg = "*[Pemberitahuan Perubahan Rapat]*\n\n";
                     break;
                 default:
                     break;

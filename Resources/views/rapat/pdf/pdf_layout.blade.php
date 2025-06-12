@@ -221,10 +221,12 @@
             <img src="{{ asset('assets/img/pdf/Logo_Politeknik_Negeri_Banyuwangi.png') }}"
                 alt="Logo Politeknik Negeri Banyuwangi">
             <div class="kop-surat-text">
-                <strong>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</strong><br>
+                <strong>KEMENTERIAN PENDIDIKAN TINGGI, SAINS,</strong><br>
+                <strong>DAN TEKNOLOGI</strong><br>
                 <strong>POLITEKNIK NEGERI BANYUWANGI</strong><br>
-                Jalan Raya Jember KM 13 Labanasem Kabat-Banyuwangi, 68461<br>
-                Telp/Fax: (0333) 636780; E-mail: poliwangi@poliwangi.ac.id; Laman: poliwangi.ac.id
+                Jl. Raya Jember kilometer 13 Labanasem, Kabat, Banyuwangi, 68461<br>
+                Telp/Faks: (0333) 636780 <br>
+                E-mail: <u>poliwangi@poliwangi.ac.id</u> ; <u>Website : http//www.poliwangi.ac.id</u>
             </div>
         </div>
         @yield('content')

@@ -11,7 +11,7 @@
 @section('content')
     @php
         use Modules\Rapat\Http\Helper\StatusTindakLanjut;
-
+        use Modules\Rapat\Http\Helper\RoleGroupHelper;
     @endphp
     <div class="row">
         <div class="col-12">
@@ -86,7 +86,8 @@
                                     <td class="text-center">
                                         @if (
                                             $tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username ||
-                                                $tindakLanjut->rapatAgenda->notulis_username == Auth::user()->pegawai->username)
+                                                $tindakLanjut->rapatAgenda->notulis_username == Auth::user()->pegawai->username ||
+                                                RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()))
                                             {{ $tindakLanjut->rapatAgenda->status_persentase_penyelesaian }}%
                                         @else
                                             <span class="badge badge-{{ $statusTindakLanjut[$tindakLanjut->status] }}">

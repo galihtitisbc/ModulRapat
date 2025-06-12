@@ -2,7 +2,7 @@
 @section('title', 'Rapat')
 {{-- @section('plugins.Select2', true) --}}
 @section('content_header')
-    <h1 class="m-0 text-dark">List Agenda Rapat</h1>
+    <h1 class="m-0 text-dark">Daftar Agenda Rapat</h1>
 @stop
 
 @push('css')

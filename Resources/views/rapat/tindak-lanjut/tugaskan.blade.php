@@ -22,7 +22,6 @@
                 <div class="col-auto">
                     <span class="badge badge-light px-3 py-2">
                         <i class="fas fa-clipboard-list mr-1"></i>
-                        Assign Task
                     </span>
                 </div>
             </div>

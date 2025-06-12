@@ -26,7 +26,6 @@
                 <div class="col-auto">
                     <span class="badge badge-light px-3 py-2">
                         <i class="fas fa-clock mr-1"></i>
-                        Submit Task
                     </span>
                 </div>
             </div>

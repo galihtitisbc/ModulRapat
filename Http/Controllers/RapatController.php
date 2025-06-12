@@ -50,7 +50,7 @@ class RapatController extends Controller
             ->orderBy('waktu_mulai', 'asc')
             ->paginate(5)
             ->withQueryString();
-
+        // return $rapat;
         // untuk mengubah status agenda rapat
         $now = Carbon::now('Asia/Jakarta')->toDateTimeString();
         foreach ($rapat as $rapatItem) {
