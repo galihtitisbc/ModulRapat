@@ -128,16 +128,18 @@
                                     </thead>
                                     <tbody>
                                         @forelse($panitia->rapatAgenda as $index => $rapat)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $rapat->agenda_rapat }}</td>
-                                                <td>{{ Carbon::parse($rapat->waktu_mulai)->translatedFormat('l, d F Y') }}
-                                                </td>
-                                                <td class="text-center"><a target="_blank"
-                                                        href="{{ url('/rapat/riwayat-rapat/' . $rapat->slug . '/generate-pdf') }}">
-                                                        Unduh Laporan Rapat
-                                                    </a></td>
-                                            </tr>
+                                            @if ($rapat->status == \Modules\Rapat\Http\Helper\StatusAgendaRapat::COMPLETED->value)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $rapat->agenda_rapat }}</td>
+                                                    <td>{{ Carbon::parse($rapat->waktu_mulai)->translatedFormat('l, d F Y') }}
+                                                    </td>
+                                                    <td class="text-center"><a target="_blank"
+                                                            href="{{ url('/rapat/riwayat-rapat/' . $rapat->slug . '/generate-pdf') }}">
+                                                            Unduh Laporan Rapat
+                                                        </a></td>
+                                                </tr>
+                                            @endif
                                         @empty
                                             <tr>
                                                 <td colspan="5" class="text-center">Kepanitiaan Ini Tidak Memiliki

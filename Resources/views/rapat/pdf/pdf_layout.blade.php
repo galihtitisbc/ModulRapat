@@ -45,8 +45,8 @@
         }
 
         .kop-surat img {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
             margin-right: 20px;
             object-fit: contain;
         }

@@ -56,7 +56,7 @@ class TindakLanjutRapatController extends Controller
             ->whereIn('rapat_agenda_id', $rapatAgendaId)
             ->orderBy('created_at', 'asc')
             ->paginate(10);
-
+        // return $tindakLanjutRapat;
         return view('rapat::rapat.tindak-lanjut.index', [
             'tindakLanjutRapat' => $tindakLanjutRapat,
         ]);

@@ -71,14 +71,15 @@
                                     'BELUM_SELESAI' => 'danger',
                                 ];
                                 $doubleAgendaRapat = [];
+                                $no = 1;
                             @endphp
 
-                            @forelse ($tindakLanjutRapat as $no => $tindakLanjut)
+                            @forelse ($tindakLanjutRapat as $index => $tindakLanjut)
                                 @if (in_array($tindakLanjut->rapatAgenda->agenda_rapat, $doubleAgendaRapat))
                                     @continue
                                 @endif
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $no++ }}</td>
                                     <td>{{ $tindakLanjut->rapatAgenda->agenda_rapat }}</td>
                                     <td class="text-center">
                                         {{ \Carbon\Carbon::parse($tindakLanjut->rapatAgenda->waktu_mulai)->locale('id')->translatedFormat('l, d F Y') }}
@@ -87,7 +88,8 @@
                                         @if (
                                             $tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username ||
                                                 $tindakLanjut->rapatAgenda->notulis_username == Auth::user()->pegawai->username ||
-                                                RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()))
+                                                (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) &&
+                                                    $tindakLanjut->pegawai_username !== Auth::user()->pegawai->username))
                                             {{ $tindakLanjut->rapatAgenda->status_persentase_penyelesaian }}%
                                         @else
                                             <span class="badge badge-{{ $statusTindakLanjut[$tindakLanjut->status] }}">
