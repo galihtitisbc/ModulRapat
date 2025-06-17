@@ -19,6 +19,9 @@ class RapatDashboardController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        return $user->getPermissionsViaRoles();
+
         $tahunSekarang       = date('Y');
         $username            = Auth::user()->pegawai->username;
         $totalRapatMendatang = RapatAgenda::whereHas('rapatAgendaPeserta', function ($q) use ($username) {

@@ -1,10 +1,9 @@
 <?php
-
 namespace Modules\Rapat\Console;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class MigrationRapat extends Command
 {
@@ -43,10 +42,11 @@ class MigrationRapat extends Command
             '--path' => 'database/migrations',
         ]);
         $this->call('module:migrate-refresh', [
-            'module' => 'Rapat'
+            'module' => 'Rapat',
         ]);
         $this->info('Migration for core And Rapat executed successfully.');
         $this->call('db:seed', ['--class' => 'DatabaseSeeder']);
+        $this->call('permission:create-permission-routes-sync');
         $this->call('module:seed', ['module' => 'Rapat']);
 
         $this->info('Seeder for core And Rapat executed successfully.');
