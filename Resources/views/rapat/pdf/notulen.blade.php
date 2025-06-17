@@ -217,6 +217,7 @@
             margin-top: 10px;
             line-height: 1.8;
             text-align: justify;
+            margin: 5px;
         }
 
         .empty-state {

@@ -21,7 +21,7 @@ class RapatDatabaseSeeder extends Seeder
             RoleSeederTableSeeder::class,
             PegawaiSeederTableSeeder::class,
             UserSeederTableSeeder::class,
-            PesertaRapatTableSeeder::class,
+            // PesertaRapatTableSeeder::class,
             RapatKepanitiaanTableSeeder::class,
         ]);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

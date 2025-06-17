@@ -16,42 +16,19 @@ class RapatKepanitiaanTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $pegawai      = ['tefa', 'dimdim', 'jaeni', 'eka'];
-        $kepanitiaans = [
-            [
-                'pimpinan_username' => 'tefa',
-                'nama_kepanitiaan'  => 'Panitia Seminar Teknologi',
-                'slug'              => 'panitia-seminar-teknologi',
-                'deskripsi'         => 'Panitia yang bertanggung jawab atas seminar teknologi tahunan.',
-                'tanggal_mulai'     => now()->subDays(10)->toDateString(),
-                'tanggal_berakhir'  => now()->addDays(10)->toDateString(),
-                'tujuan'            => 'Menyelenggarakan seminar teknologi bagi mahasiswa.',
-                'status'            => 'AKTIF',
-                'struktur'          => json_encode([
-                    'ketua' => 'tefa',
-                ]),
-                'created_at'        => now(),
-                'updated_at'        => now(),
-            ],
-        ];
-        Kepanitiaan::insert($kepanitiaans);
-        Kepanitiaan::each(function ($kepanitiaan) use ($pegawai) {
-            $kepanitiaan->pegawai()->attach($pegawai);
-        });
+
         $panitia = Kepanitiaan::create([
-            'pimpinan_username' => 'haris',
-            'nama_kepanitiaan'  => 'Panitia Konsumsi',
-            'slug'              => 'panitia-konsumsi',
-            'deskripsi'         => 'Panitia yang mengorganisir konsumsi tahunan',
+            'pimpinan_username' => 'banksonk',
+            'nama_kepanitiaan'  => 'Panitia infrastruktur',
+            'slug'              => 'panitia-infrastruktur',
+            'deskripsi'         => 'Panitia yang mengorganisir infrastruktur tahunan',
             'tanggal_mulai'     => now()->subDays(20)->toDateString(),
             'tanggal_berakhir'  => now()->addDays(5)->toDateString(),
-            'tujuan'            => 'menyediakan konsumsi.',
+            'tujuan'            => 'menyediakan infrastruktur.',
             'status'            => 'AKTIF',
-            'struktur'          => json_encode([
-                'ketua' => 'haris',
-            ]),
+            'struktur'          => "[{\"jabatan\":\"Wakil Ketua\",\"username\":\"adityawisanjaya\"},{\"jabatan\":\"Sekretaris\",\"username\":\"afikamilda\"},{\"jabatan\":\"Anggota\",\"username\":\"ahanafi\"},{\"jabatan\":\"Anggota\",\"username\":\"agungnursabilillah\"}]",
         ]);
-        $pegawai = ['eka', 'haris', 'erna'];
+        $pegawai = ['adityawisanjaya', 'afikamilda', 'ahanafi', 'agungnursabilillah'];
         $panitia->pegawai()->attach($pegawai);
     }
 }
