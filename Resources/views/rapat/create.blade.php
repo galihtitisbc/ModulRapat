@@ -98,25 +98,17 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="my-4" id="peserta-rapat">
-                    <div class="d-flex justify-content-between mb-4">
+                    <div class="d-flex justify-content-between mb-2">
                         <label id="peserta-rapat-label">Pilih Peserta Rapat :</label>
                     </div>
                     <div class="invalid-feedback" id="error-peserta_rapat"></div>
-                    <table id="table-peserta-rapat" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Pilih</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                    <select class="duallistbox-peserta-rapat" style="width: 100%;" name="pesertaRapat[]" required
+                        multiple>
+                        @foreach ($pegawais as $pegawai)
+                            <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label>Lampiran : ( Jika Ada )</label>
@@ -128,35 +120,21 @@
                 <div class="my-4">
                     <label>Pilih Pimpinan Rapat :</label>
                     <div class="invalid-feedback" id="error-pimpinan_username"></div>
-                    <table id="table-pimpinan-rapat" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Pimpinan Rapat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                    <select class="duallistbox-pimpinan-rapat" style="width: 100%;" name="pimpinanRapat" required>
+                        <option value="" selected>--- Pilih Pimpinan Rapat ---</option>
+                        @foreach ($pegawais as $pegawai)
+                            <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-3 my-4">
                     <label>Pilih Notulis Rapat :</label>
-                    <table id="table-notulis-rapat" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Notulis Rapat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                    <select class="duallistbox-notulis-rapat" style="width: 100%;" name="notulisRapat" required>
+                        <option value="" selected>--- Pilih Notulis Rapat ---</option>
+                        @foreach ($pegawais as $pegawai)
+                            <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
+                        @endforeach
+                    </select>
                     <div class="invalid-feedback" id="error-notulis_username"></div>
                 </div>
                 <div class="text-center">
@@ -168,14 +146,17 @@
 @endsection
 
 @push('js')
-    @include('rapat::js.rapat.variable-js')
-    @include('rapat::js.kepanitiaan.tampilkanAnggotaPanitia-js')
-
+    {{-- @include('rapat::js.rapat.variable-js')
+    
     @include('rapat::js.rapat.pesertaRapatTable-js')
     @include('rapat::js.rapat.pimpinanRapatTable-js')
-    @include('rapat::js.rapat.notulisRapatTable-js')
+    @include('rapat::js.rapat.notulisRapatTable-js') --}}
+    @include('rapat::js.rapat.variable-js')
+    @include('rapat::js.rapat.duallistbox-js')
+    @include('rapat::js.kepanitiaan.tampilkanAnggotaPanitia-js')
     @include('rapat::js.rapat.kepanitiaanRapat-js')
     @include('rapat::js.rapat.createRapat-js')
+    <script></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             window.addEventListener("swal", (event) => {

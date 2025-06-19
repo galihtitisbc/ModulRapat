@@ -72,6 +72,7 @@ class RapatController extends Controller
         }
         return view('rapat::rapat.create', [
             'kepanitiaans' => $kepanitiaan,
+            'pegawais'     => Pegawai::all(),
         ]);
     }
     public function ajaxPesertaRapat(Request $request)

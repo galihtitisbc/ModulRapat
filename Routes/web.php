@@ -33,15 +33,12 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             Route::get('/ajax-kepanitiaan/{id}', [KepegawaianController::class, 'ajaxKepanitiaanRapat'])->name('rapat.agenda.ajax.kepanitiaan');
             //-------end fetch data untuk datatable
             Route::get('/{rapatAgenda:slug}/detail', [RapatController::class, 'show'])->name('rapat.agenda.detail');
-            // Route::middleware([PimpinanRapatMiddleware::class])->group(function () {
             Route::get('/create', [RapatController::class, 'create'])->name('rapat.agenda.create');
             Route::post('/store', [RapatController::class, 'store'])->name('rapat.agenda.store');
             Route::get('/{rapatAgenda:slug}/edit', [RapatController::class, 'edit'])->name('rapat.agenda.edit');
             Route::get('/ajax-edit/{rapatAgenda:slug}', [RapatController::class, 'ajaxEditRapat'])->name('rapat.agenda.ajax.edit');
             Route::put('/{rapatAgenda:slug}/update', [RapatController::class, 'update'])->name('rapat.agenda.update');
             Route::get('/{rapatAgenda:slug}/batal', [RapatController::class, 'ubahStatusRapat'])->name('rapat.agenda.batal');
-            // });
-            // Route::middleware([NotulisMiddleware::class])->group(function () {
             Route::get('/{rapatAgenda:slug}/tugas', [TindakLanjutRapatController::class, 'isiPenugasan'])->name('rapat.agenda.tugas');
             Route::get('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'tugaskanPesertaRapat'])->name('rapat.agenda.tugaskan.form');
             Route::post('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'createTugasPesertaRapat'])->name('rapat.agenda.tugaskan.submit');
@@ -65,9 +62,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             Route::post('/tugas/{rapatTindakLanjut:slug}/unggah-tugas', [TindakLanjutRapatController::class, 'uploadTugas'])->name('rapat.tindak-lanjut.tugas.unggah.submit');
             Route::get('/tugas/{rapatTindakLanjut:slug}/ubah-tugas', [TindakLanjutRapatController::class, 'showEditTugas'])->name('rapat.tindak-lanjut.tugas.edit.form');
             Route::put('/tugas/{rapatTindakLanjut:slug}/ubah-tugas', [TindakLanjutRapatController::class, 'editTugas'])->name('rapat.tindak-lanjut.tugas.edit.submit');
-            // Route::middleware([PimpinanRapatMiddleware::class])->group(function () {
             Route::post('/{rapatTindakLanjut:slug}/detail/simpan-tugas', [TindakLanjutRapatController::class, 'simpanTugas'])->name('rapat.tindak-lanjut.simpan-tugas');
-            // });
         });
         //----- end route untuk tindak lanjut rapat
 
@@ -75,13 +70,11 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             Route::get('/', [KepegawaianController::class, 'index'])->name('rapat.panitia.index');
             Route::get('{kepanitiaan}/detail', [KepegawaianController::class, 'detail'])->name('rapat.panitia.detail');
             Route::get('/download/{kepanitiaan}', [KepegawaianController::class, 'download'])->name('rapat.panitia.download');
-            // Route::middleware([KepegawaianMiddleware::class])->group(function () {
             Route::get('/create', [KepegawaianController::class, 'create'])->name('rapat.panitia.create');
             Route::post('/', [KepegawaianController::class, 'store'])->name('rapat.panitia.store');
             Route::get('/{kepanitiaan}/edit', [KepegawaianController::class, 'edit'])->name('rapat.panitia.edit');
             Route::put('/{kepanitiaan}', [KepegawaianController::class, 'update'])->name('rapat.panitia.update');
             Route::patch('/{kepanitiaan}/change-status', [KepegawaianController::class, 'changeStatus'])->name('rapat.panitia.change-status');
-            // });
         });
 
         Route::prefix('/riwayat-rapat')->group(function () {

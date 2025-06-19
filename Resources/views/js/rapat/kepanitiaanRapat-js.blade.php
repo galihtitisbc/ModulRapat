@@ -13,13 +13,26 @@
                 pesertaKepanitiaan = response.pegawai.map(
                     (pegawai) => pegawai.username
                 );
+                lastPesertaKepanitiaan = [...pesertaKepanitiaan];
                 pesertaRapat = [
                     ...new Set([...pesertaManual, ...pesertaKepanitiaan]),
                 ];
-                tablePesertaRapat.ajax.reload();
-                tablePimpinanRapat.ajax.reload();
-                tableNotulisRapat.ajax.reload();
+                /// untuk rapat kepanitiaan
                 tableAnggotaPanitia.ajax.reload();
+
+                // ✅ Select pesertaKepanitiaan di duallistPesertaRapat
+                let $selectPeserta = $(".duallistbox-peserta-rapat");
+                $selectPeserta.val([...new Set([...$selectPeserta.val() || [], ...
+                    pesertaKepanitiaan
+                ])]);
+                // ✅ Trigger change agar updateOpsiBerdasarkanPeserta dijalankan
+                $selectPeserta.trigger('change');
+                // ✅ Refresh semua duallistbox
+                $selectPeserta.bootstrapDualListbox('refresh');
+                $(".duallistbox-pimpinan-rapat").bootstrapDualListbox('refresh');
+                $(".duallistbox-notulis-rapat").bootstrapDualListbox('refresh');
+
+
                 $('.table-anggota-panitia-group').removeClass('d-none').show();
                 $('#peserta-rapat-label').text('Pilih Pegawai Diluar Kepanitiaan ( Jika Ada ) :');
                 //digunakan untuk menyembuyinkan table anggota panitia yang telah dipilih pada form edit
@@ -29,9 +42,19 @@
                 pesertaRapat = [];
                 pesertaKepanitiaan = [];
                 pesertaRapat = [...pesertaManual];
-                tablePesertaRapat.draw();
-                tablePimpinanRapat.draw();
-                tableNotulisRapat.draw();
+
+                let $selectPeserta = $(".duallistbox-peserta-rapat");
+                let currentSelected = $selectPeserta.val() || [];
+                let filteredSelected = currentSelected.filter((val) => !lastPesertaKepanitiaan
+                    .includes(val));
+                $selectPeserta.val(filteredSelected);
+                $selectPeserta.trigger('change');
+                console.log('Data Telah terhapus');
+
+                $selectPeserta.bootstrapDualListbox('refresh');
+                $(".duallistbox-pimpinan-rapat").bootstrapDualListbox('refresh');
+                $(".duallistbox-notulis-rapat").bootstrapDualListbox('refresh');
+
                 tableAnggotaPanitia.ajax.reload();
                 $('.table-anggota-panitia-group').addClass('d-none').hide();
                 $('#peserta-rapat-label').text('Pilih Peserta Rapat :');
