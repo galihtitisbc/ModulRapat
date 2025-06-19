@@ -36,7 +36,6 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             Route::get('/create', [RapatController::class, 'create'])->name('rapat.agenda.create');
             Route::post('/store', [RapatController::class, 'store'])->name('rapat.agenda.store');
             Route::get('/{rapatAgenda:slug}/edit', [RapatController::class, 'edit'])->name('rapat.agenda.edit');
-            Route::get('/ajax-edit/{rapatAgenda:slug}', [RapatController::class, 'ajaxEditRapat'])->name('rapat.agenda.ajax.edit');
             Route::put('/{rapatAgenda:slug}/update', [RapatController::class, 'update'])->name('rapat.agenda.update');
             Route::get('/{rapatAgenda:slug}/batal', [RapatController::class, 'ubahStatusRapat'])->name('rapat.agenda.batal');
             Route::get('/{rapatAgenda:slug}/tugas', [TindakLanjutRapatController::class, 'isiPenugasan'])->name('rapat.agenda.tugas');

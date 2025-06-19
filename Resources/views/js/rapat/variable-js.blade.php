@@ -3,10 +3,4 @@
     let pesertaManual = [];
     //peserta yang berasal dari kepanitiaan
     let pesertaKepanitiaan = [];
-
-    //gabungan pesertaManual dan pesertaKepanitiaan
-    let pesertaRapat = [];
-    let pimpinanRapatUsername = "";
-    let notulisRapatUsername = "";
-    let pimpinanKepanitiaan = "";
 </script>

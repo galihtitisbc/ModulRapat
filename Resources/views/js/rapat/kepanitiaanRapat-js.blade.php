@@ -14,9 +14,6 @@
                     (pegawai) => pegawai.username
                 );
                 lastPesertaKepanitiaan = [...pesertaKepanitiaan];
-                pesertaRapat = [
-                    ...new Set([...pesertaManual, ...pesertaKepanitiaan]),
-                ];
                 /// untuk rapat kepanitiaan
                 tableAnggotaPanitia.ajax.reload();
 
@@ -39,10 +36,6 @@
                 $('#table-anggota-panitia-before').addClass('d-none').hide();
             },
             error: function(xhr) {
-                pesertaRapat = [];
-                pesertaKepanitiaan = [];
-                pesertaRapat = [...pesertaManual];
-
                 let $selectPeserta = $(".duallistbox-peserta-rapat");
                 let currentSelected = $selectPeserta.val() || [];
                 let filteredSelected = currentSelected.filter((val) => !lastPesertaKepanitiaan

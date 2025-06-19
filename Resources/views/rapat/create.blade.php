@@ -103,8 +103,7 @@
                         <label id="peserta-rapat-label">Pilih Peserta Rapat :</label>
                     </div>
                     <div class="invalid-feedback" id="error-peserta_rapat"></div>
-                    <select class="duallistbox-peserta-rapat" style="width: 100%;" name="pesertaRapat[]" required
-                        multiple>
+                    <select class="duallistbox-peserta-rapat" style="width: 100%;" name="pesertaRapat[]" multiple>
                         @foreach ($pegawais as $pegawai)
                             <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
                         @endforeach
@@ -120,7 +119,7 @@
                 <div class="my-4">
                     <label>Pilih Pimpinan Rapat :</label>
                     <div class="invalid-feedback" id="error-pimpinan_username"></div>
-                    <select class="duallistbox-pimpinan-rapat" style="width: 100%;" name="pimpinanRapat" required>
+                    <select class="duallistbox-pimpinan-rapat" style="width: 100%;" name="pimpinanRapat">
                         <option value="" selected>--- Pilih Pimpinan Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
                             <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
@@ -129,7 +128,7 @@
                 </div>
                 <div class="mb-3 my-4">
                     <label>Pilih Notulis Rapat :</label>
-                    <select class="duallistbox-notulis-rapat" style="width: 100%;" name="notulisRapat" required>
+                    <select class="duallistbox-notulis-rapat" style="width: 100%;" name="notulisRapat">
                         <option value="" selected>--- Pilih Notulis Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
                             <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
@@ -146,11 +145,6 @@
 @endsection
 
 @push('js')
-    {{-- @include('rapat::js.rapat.variable-js')
-    
-    @include('rapat::js.rapat.pesertaRapatTable-js')
-    @include('rapat::js.rapat.pimpinanRapatTable-js')
-    @include('rapat::js.rapat.notulisRapatTable-js') --}}
     @include('rapat::js.rapat.variable-js')
     @include('rapat::js.rapat.duallistbox-js')
     @include('rapat::js.kepanitiaan.tampilkanAnggotaPanitia-js')

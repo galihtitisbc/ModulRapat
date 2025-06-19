@@ -30,8 +30,11 @@ class RoleSeederTableSeeder extends Seeder
             'users.editprofile',
             'users.updateprofile',
             // end permission yang sudah ada
+
+            //default permission yang dimiliki semua role
             "rapat.dashboard",
             "rapat.agenda.index",
+            "rapat.agenda.detail",
             "rapat.riwayat.index",
             "rapat.riwayat.generate-pdf",
             "rapat.notulis.download",
@@ -55,16 +58,16 @@ class RoleSeederTableSeeder extends Seeder
             "rapat.panitia.edit",
             "rapat.panitia.update",
             "rapat.panitia.change-status",
+            'rapat.agenda.ajax.peserta',
+            'rapat.agenda.ajax.selected.peserta',
         ];
 // Permission untuk pimpinan rapat
         $pimpinanRapatPermissions = [
             "rapat.agenda.create",
             "rapat.agenda.store",
             "rapat.agenda.edit",
-            "rapat.agenda.ajax.edit",
             "rapat.agenda.update",
             "rapat.agenda.batal",
-            "rapat.agenda.detail",
             'rapat.agenda.ajax.peserta',
             'rapat.agenda.ajax.selected.peserta',
             'rapat.agenda.ajax.kepanitiaan',

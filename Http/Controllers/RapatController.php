@@ -163,18 +163,22 @@ class RapatController extends Controller
     }
     public function edit(RapatAgenda $rapatAgenda)
     {
+        if (
+            $rapatAgenda->pimpinan_username !== Auth::user()->pegawai->username &&
+            $rapatAgenda->pegawai_username !== Auth::user()->pegawai->username
+        ) {
+            abort(403);
+        }
+
         $kepanitiaan = Kepanitiaan::where('status', 'AKTIF')->get();
         $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatKepanitiaan', 'rapatKepanitiaan.pegawai', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran']);
         return view('rapat::rapat.edit-rapat', [
-            'slug'         => $rapatAgenda->slug,
-            'rapatAgenda'  => $rapatAgenda,
-            'kepanitiaans' => $kepanitiaan,
+            'slug'            => $rapatAgenda->slug,
+            'rapatAgenda'     => $rapatAgenda,
+            'kepanitiaans'    => $kepanitiaan,
+            'pegawais'        => Pegawai::all(),
+            'selectedPegawai' => $rapatAgenda->rapatAgendaPeserta->pluck('username'),
         ]);
-    }
-    public function ajaxEditRapat(RapatAgenda $rapatAgenda)
-    {
-        $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatKepanitiaan', 'rapatKepanitiaan.pegawai', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran']);
-        return response()->json($rapatAgenda);
     }
     public function update(RapatAgenda $rapatAgenda, UpdateRapatRequest $request)
     {

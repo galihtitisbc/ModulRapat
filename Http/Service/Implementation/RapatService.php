@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Rapat\Http\Service\Implementation;
 
+use App\Models\Core\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Crypt;
@@ -10,6 +11,7 @@ use Modules\Rapat\Entities\RapatAgenda;
 use Modules\Rapat\Http\Helper\StatusAgendaRapat;
 use Modules\Rapat\Jobs\CreateMeetingZoom;
 use Modules\Rapat\Jobs\WhatsappSender;
+use Spatie\Permission\Models\Permission;
 
 class RapatService
 {
@@ -62,6 +64,8 @@ class RapatService
                 ];
             }
             $agendaRapat->rapatAgendaPeserta()->attach($pivotData);
+            //berikan permission ke pimpinan rapat untuk melakukan update dan pembatalan rapat
+            $this->tambahkanPermissionKepadaPimpinanRapat($agendaRapat->rapatAgendaPimpinan->user);
             if ($data['tempat'] == 'zoom') {
                 CreateMeetingZoom::dispatch($agendaRapat)->chain([
                     new WhatsappSender($agendaRapat, 'rapat', 'tambahRapat'),
@@ -149,6 +153,9 @@ class RapatService
                 ];
             }
             $agendaRapat->rapatAgendaPeserta()->sync($pivotData);
+            //berikan permission ke pimpinan rapat untuk melakukan update dan pembatalan rapat
+            $this->tambahkanPermissionKepadaPimpinanRapat($agendaRapat->rapatAgendaPimpinan->user);
+
             //jika tempat rapat diubah dari tempat lain ke zoom
             if ($oldTempat != 'zoom' && $data['tempat'] == 'zoom') {
                 CreateMeetingZoom::dispatch($agendaRapat)->chain([
@@ -162,6 +169,13 @@ class RapatService
             DB::rollBack();
             throw new Exception("Gagal Mengubah Agenda Rapat : " . $th->getMessage());
         }
+    }
+
+    private function tambahkanPermissionKepadaPimpinanRapat(User $user)
+    {
+        $kecuali     = ['rapat.agenda.create', 'rapat.agenda.store'];
+        $permissions = Permission::where('name', 'like', '%' . 'rapat.agenda' . '%')->whereNotIn('name', $kecuali)->get();
+        $user->givePermissionTo($permissions);
     }
     function generateGoogleCalendarLink(array $data)
     {
