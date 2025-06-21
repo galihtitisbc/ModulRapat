@@ -38,9 +38,9 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
             Route::get('/{rapatAgenda:slug}/edit', [RapatController::class, 'edit'])->name('rapat.agenda.edit');
             Route::put('/{rapatAgenda:slug}/update', [RapatController::class, 'update'])->name('rapat.agenda.update');
             Route::get('/{rapatAgenda:slug}/batal', [RapatController::class, 'ubahStatusRapat'])->name('rapat.agenda.batal');
-            Route::get('/{rapatAgenda:slug}/tugas', [TindakLanjutRapatController::class, 'isiPenugasan'])->name('rapat.agenda.tugas');
-            Route::get('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'tugaskanPesertaRapat'])->name('rapat.agenda.tugaskan.form');
-            Route::post('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'createTugasPesertaRapat'])->name('rapat.agenda.tugaskan.submit');
+            Route::get('/{rapatAgenda:slug}/tugas', [TindakLanjutRapatController::class, 'isiPenugasan'])->name('rapat.tindak-lanjut.tugaskan');
+            Route::get('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'tugaskanPesertaRapat'])->name('rapat.tindak-lanjut.tugaskan.form');
+            Route::post('/{rapatAgenda:slug}/tugaskan/{pegawai}', [TindakLanjutRapatController::class, 'createTugasPesertaRapat'])->name('rapat.tindak-lanjut.tugaskan.submit');
             //route yang digunakan notulis rapat untuk unggah notulen rapat
             Route::prefix('notulis')->group(function () {
                 Route::get('/{rapatAgenda:slug}/unggah-notulen', [NotulisController::class, 'formUnggahNotulen'])->name('rapat.notulis.unggah.form');

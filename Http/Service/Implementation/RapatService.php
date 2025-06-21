@@ -66,6 +66,8 @@ class RapatService
             $agendaRapat->rapatAgendaPeserta()->attach($pivotData);
             //berikan permission ke pimpinan rapat untuk melakukan update dan pembatalan rapat
             $this->tambahkanPermissionKepadaPimpinanRapat($agendaRapat->rapatAgendaPimpinan->user);
+            //berikan permission ke notulis rapat untuk melakukan unggah notulen
+            $this->tambahkanPermissionKepadaNotulisRapat($agendaRapat->rapatAgendaNotulis->user);
             if ($data['tempat'] == 'zoom') {
                 CreateMeetingZoom::dispatch($agendaRapat)->chain([
                     new WhatsappSender($agendaRapat, 'rapat', 'tambahRapat'),
@@ -155,6 +157,8 @@ class RapatService
             $agendaRapat->rapatAgendaPeserta()->sync($pivotData);
             //berikan permission ke pimpinan rapat untuk melakukan update dan pembatalan rapat
             $this->tambahkanPermissionKepadaPimpinanRapat($agendaRapat->rapatAgendaPimpinan->user);
+            //berikan permission ke notulis rapat untuk melakukan unggah notulen
+            $this->tambahkanPermissionKepadaNotulisRapat($agendaRapat->rapatAgendaNotulis->user);
 
             //jika tempat rapat diubah dari tempat lain ke zoom
             if ($oldTempat != 'zoom' && $data['tempat'] == 'zoom') {
@@ -175,6 +179,16 @@ class RapatService
     {
         $kecuali     = ['rapat.agenda.create', 'rapat.agenda.store'];
         $permissions = Permission::where('name', 'like', '%' . 'rapat.agenda' . '%')->whereNotIn('name', $kecuali)->get();
+        $user->givePermissionTo($permissions);
+    }
+    private function tambahkanPermissionKepadaNotulisRapat(User $user)
+    {
+        //permission untuk upload notulen
+        $permissions = Permission::where('name', 'like', '%' . 'rapat.notulis' . '%')->get();
+        $user->givePermissionTo($permissions);
+
+        //permission untuk menugaskan tindak lanjut rapat
+        $permissions = Permission::where('name', 'like', '%' . 'rapat.tindak-lanjut.tugaskan' . '%')->get();
         $user->givePermissionTo($permissions);
     }
     function generateGoogleCalendarLink(array $data)

@@ -75,12 +75,22 @@
                             @endphp
 
                             @forelse ($tindakLanjutRapat as $index => $tindakLanjut)
+                                {{-- untuk menampilkan hanya 1 daftar agenda rapat jika ada 2 atau lebih penugasan dari agenda
+                                rapat yang sama --}}
                                 @if (in_array($tindakLanjut->rapatAgenda->agenda_rapat, $doubleAgendaRapat))
                                     @continue
                                 @endif
                                 <tr>
                                     <td class="text-center">{{ $no++ }}</td>
-                                    <td>{{ $tindakLanjut->rapatAgenda->agenda_rapat }}</td>
+                                    <td>
+                                        @if ($tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username)
+                                            <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
+                                        @elseif ($tindakLanjut->rapatAgenda->notulis_username == Auth::user()->pegawai->username)
+                                            <span class="badge bg-primary mb-1">Notulis Rapat</span><br>
+                                        @endif
+                                        {{ $tindakLanjut->rapatAgenda->agenda_rapat }}
+                                    </td>
+
                                     <td class="text-center">
                                         {{ \Carbon\Carbon::parse($tindakLanjut->rapatAgenda->waktu_mulai)->locale('id')->translatedFormat('l, d F Y') }}
                                     </td>
@@ -88,8 +98,7 @@
                                         @if (
                                             $tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username ||
                                                 $tindakLanjut->rapatAgenda->notulis_username == Auth::user()->pegawai->username ||
-                                                (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) &&
-                                                    $tindakLanjut->pegawai_username !== Auth::user()->pegawai->username))
+                                                RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()))
                                             {{ $tindakLanjut->rapatAgenda->status_persentase_penyelesaian }}%
                                         @else
                                             <span class="badge badge-{{ $statusTindakLanjut[$tindakLanjut->status] }}">
