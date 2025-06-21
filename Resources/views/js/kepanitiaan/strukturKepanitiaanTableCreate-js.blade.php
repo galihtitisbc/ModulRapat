@@ -30,12 +30,12 @@
                     return gelarDepan + namaFormatted + gelarBelakang;
                 },
             },
-            // {
-            //     data: "user.email",
-            //     render: function (data, type, row) {
-            //         return data ? data : "-";
-            //     },
-            // },
+            {
+                data: "kepanitiaans_aktif_bulan_ini_count",
+                render: function(data, type, row) {
+                    return data + 1;
+                },
+            },
             {
                 data: null,
                 render: function(data, type, row) {

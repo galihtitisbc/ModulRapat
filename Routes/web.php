@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
         //route untuk agenda rapat yang digunakan untuk CRUD, upload notulen pada agenda rapat
         Route::prefix('agenda-rapat')->group(function () {
             Route::get('/', [RapatController::class, 'index'])->name('rapat.agenda.index');
-            //fetch data untuk datatables
+            //fetch data untuk datatables di menu kepanitiaan
             Route::get('/ajax-peserta-rapat', [RapatController::class, 'ajaxPesertaRapat'])->name('rapat.agenda.ajax.peserta');
             Route::get('/ajax-selected-peserta/', [RapatController::class, 'ajaxSelectedPesertaRapat'])->name('rapat.agenda.ajax.selected.peserta');
             Route::get('/ajax-kepanitiaan/{id}', [KepegawaianController::class, 'ajaxKepanitiaanRapat'])->name('rapat.agenda.ajax.kepanitiaan');

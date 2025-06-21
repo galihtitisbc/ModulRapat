@@ -28,7 +28,7 @@ class RapatKepanitiaanTableSeeder extends Seeder
             'status'            => 'AKTIF',
             'struktur'          => "[{\"jabatan\":\"Wakil Ketua\",\"username\":\"adityawisanjaya\"},{\"jabatan\":\"Sekretaris\",\"username\":\"afikamilda\"},{\"jabatan\":\"Anggota\",\"username\":\"ahanafi\"},{\"jabatan\":\"Anggota\",\"username\":\"agungnursabilillah\"}]",
         ]);
-        $pegawai = ['adityawisanjaya', 'afikamilda', 'ahanafi', 'agungnursabilillah'];
+        $pegawai = ['banksonk', 'adityawisanjaya', 'afikamilda', 'ahanafi', 'agungnursabilillah'];
         $panitia->pegawai()->attach($pegawai);
     }
 }

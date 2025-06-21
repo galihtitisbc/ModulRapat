@@ -2,6 +2,7 @@
 namespace Modules\Rapat\Http\Controllers;
 
 use App\Models\Core\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,11 @@ class KepegawaianController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
+
+        Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->pegawai->username)
+            ->whereDate('tanggal_berakhir', '<', Carbon::today())
+            ->where('status', 'AKTIF')
+            ->update(['status' => 'NON_AKTIF']);
         return view('rapat::kepegawaian.index', [
             'kepanitiaans' => $kepanitiaans,
         ]);
