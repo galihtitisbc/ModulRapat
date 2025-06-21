@@ -52,6 +52,9 @@ class TindakLanjutRapatController extends Controller
                     $q->whereDate('waktu_mulai', '<=', $sampai);
                 });
             })
+            ->when($request->input('status'), function ($query, $status) {
+                $query->where('status', $status);
+            })
         // Group by rapat_agenda_id agar hanya ambil 1 ID dari tiap agenda
             ->groupBy('rapat_agenda_id')
         // Ambil hasilnya sebagai array ID

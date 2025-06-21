@@ -31,22 +31,40 @@
                             <div class="row">
                                 <div class="col-lg-5 col-sm-12 mb-2">
                                     <input type="text" name="cari" class="form-control"
-                                        placeholder="Cari Agenda Rapat" value="{{ request('cari') }}">
+                                        placeholder="Cari Agenda Rapat">
                                 </div>
-                                <div class="col-lg-3 col-sm-12 mb-2">
-                                    <input type="date" name="dari_tgl" class="form-control"
-                                        placeholder="Rapat Dari Tanggal" value="{{ request('dari_tgl') }}">
+                                <div class="col-lg-6 col-sm-12 mb-2">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-12 mb-2">
+                                            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')"
+                                                name="dari_tgl" class="form-control mb-2" value="{{ request('dari_tgl') }}"
+                                                placeholder="Rapat Dari Tanggal">
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12 mb-2">
+                                            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')"
+                                                name="sampai_tgl" class="form-control" value="{{ request('sampai_tgl') }}"
+                                                placeholder="Rapat Sampai Tanggal">
+                                        </div>
+                                        <div class="col-lg-12 col-sm-12 mb-2">
+                                            <select class="form-control" id="filterRapat" name="status"
+                                                onchange="this.form.submit()">
+                                                <option value="">-- Pilih Status Penyelesaian --</option>
+                                                <option value="SELESAI"
+                                                    {{ request('status') == 'SELESAI' ? 'selected' : '' }}>
+                                                    Selesai</option>
+                                                <option value="BELUM_SELESAI"
+                                                    {{ request('status') == 'BELUM_SELESAI' ? 'selected' : '' }}>
+                                                    Belum Selesai</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-12 mb-2">
-                                    <input type="date" name="sampai_tgl" class="form-control"
-                                        placeholder="Rapat Sampai Tanggal" value="{{ request('sampai_tgl') }}">
-                                </div>
-                                <div class="col-lg-1 col-sm-12 d-flex justify-content-between">
+                                <div class="col-lg-1 col-md-12 col-sm-12">
                                     <button class="btn btn-primary col-sm-12"><i class="fas fa-search"></i></button>
-                                    @if (request('cari') || request('dari_tgl') || request('sampai_tgl'))
+                                    @if (request('cari') || request('dari_tgl') || request('sampai_tgl') || request('status'))
                                         <button type="button"
                                             onclick="this.form.reset(); window.location='{{ url('rapat/tindak-lanjut-rapat') }}'"
-                                            class="btn btn-danger mx-4">
+                                            class="btn btn-danger mt-2 col-sm-12">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     @endif
