@@ -31,25 +31,37 @@ class TindakLanjutRapatController extends Controller
             $tindakLanjutRapat = RapatTindakLanjut::listAgendaRapatHaveTugas(Auth::user()->pegawai->username)->with('rapatAgenda');
         }
 
-        $tindakLanjutRapat = $tindakLanjutRapat
+        // Langkah 1: Ambil satu ID dari setiap grup rapat_agenda_id
+        // Di sini kita pakai MIN(id) agar mengambil data pertama/tertua dari masing-masing rapat_agenda_id
+        $distinctIds = $tindakLanjutRapat->selectRaw('MIN(id) as id')
+        // Filter jika ada input pencarian berdasarkan nama agenda rapat
             ->when($request->input('cari'), function ($query, $cari) {
                 $query->whereHas('rapatAgenda', function ($q) use ($cari) {
                     $q->where('agenda_rapat', 'like', "%$cari%");
                 });
             })
+        // Filter berdasarkan tanggal mulai dari input 'dari_tgl'
             ->when($request->input('dari_tgl'), function ($query, $dari) {
                 $query->whereHas('rapatAgenda', function ($q) use ($dari) {
                     $q->whereDate('waktu_mulai', '>=', $dari);
                 });
             })
+        // Filter berdasarkan tanggal sampai dari input 'sampai_tgl'
             ->when($request->input('sampai_tgl'), function ($query, $sampai) {
                 $query->whereHas('rapatAgenda', function ($q) use ($sampai) {
                     $q->whereDate('waktu_mulai', '<=', $sampai);
                 });
             })
+        // Group by rapat_agenda_id agar hanya ambil 1 ID dari tiap agenda
+            ->groupBy('rapat_agenda_id')
+        // Ambil hasilnya sebagai array ID
+            ->pluck('id');
+        // Langkah 2: Ambil data lengkap dari RapatTindakLanjut berdasarkan ID yang telah dipilih di atas
+        $tindakLanjutRapat = RapatTindakLanjut::with('rapatAgenda.rapatTindakLanjut')
+            ->whereIn('id', $distinctIds) // hanya ambil data yang ID-nya sesuai dengan hasil langkah 1
             ->orderBy('created_at', 'asc')
             ->paginate(10);
-
+        // return $tindakLanjutRapat;
         return view('rapat::rapat.tindak-lanjut.index', [
             'tindakLanjutRapat' => $tindakLanjutRapat,
         ]);
