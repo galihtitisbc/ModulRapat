@@ -29,15 +29,15 @@
             'STARTED' => ['fas fa-play-circle', '#0275d8'],
         ];
         $showTugasColumn = $rapats->getCollection()->contains(function ($rapat) {
-            return $rapat->pimpinan_username === Auth::user()->pegawai->username ||
-                $rapat->notulis_username === Auth::user()->pegawai->username;
+            return $rapat->notulis_username === Auth::user()->pegawai->username;
+            // return $rapat->pimpinan_username === Auth::user()->pegawai->username ||
+            //     $rapat->notulis_username === Auth::user()->pegawai->username;
         });
 
     @endphp
     <x-adminlte-card>
         {{-- jika user adalah pimpinan rapat, dan ketua panitia, maka button create rapat akan muncul --}}
-        @if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRapatRoles()) ||
-                Auth::user()->pegawai->ketuaPanitia->isNotEmpty())
+        @if (Auth::user()->hasPermissionTo('rapat.agenda.create'))
             <div class="btn-tambah d-flex justify-content-end my-2">
                 <a href="{{ url('rapat/agenda-rapat/create') }}" class="btn btn-primary">Tambah Rapat</a>
             </div>
@@ -191,7 +191,14 @@
 
                         <tr>
                             <td class="text-center">{{ $index + 1 }}</td>
-                            <td>{{ $rapat->agenda_rapat }}</td>
+                            <td>
+                                @if ($rapat->pimpinan_username == Auth::user()->pegawai->username)
+                                    <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
+                                @elseif ($rapat->notulis_username == Auth::user()->pegawai->username)
+                                    <span class="badge bg-primary mb-1">Notulis Rapat</span><br>
+                                @endif
+                                {{ $rapat->agenda_rapat }}
+                            </td>
                             <td class="text-center">{{ $startTime }}</td>
                             <td class="text-center">{!! $statusBadge !!}</td>
                             <td class="text-center">{!! $aksi !!}</td>

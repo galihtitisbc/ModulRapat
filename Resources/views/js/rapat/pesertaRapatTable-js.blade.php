@@ -35,6 +35,12 @@
                 },
             },
             {
+                data: "kepanitiaans_aktif_bulan_ini_count",
+                render: function(data, type, row) {
+                    return data;
+                },
+            },
+            {
                 data: null,
                 render: function(data, type, row) {
                     return `<input type="checkbox" ${
@@ -64,7 +70,7 @@
             pesertaManual.push(username);
         }
         pesertaRapat = [...new Set([...pesertaManual, ...pesertaKepanitiaan])];
-        reloadSemuaTable();
+        reloadTable();
 
     });
 </script>

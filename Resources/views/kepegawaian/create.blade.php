@@ -55,6 +55,7 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Total</th>
                                 <th scope="col">Pilih</th>
                             </tr>
                         </thead>
@@ -71,7 +72,7 @@
                             <tr>
                                 <th scope="col" width="5%">No</th>
                                 <th scope="col" width="35%">Nama Peserta</th>
-                                {{-- <th scope="col">Email</th> --}}
+                                <th scope="col" width="10%">Total</th>
                                 <th scope="col">Jabatan</th>
                                 <th scope="col" width="15%" title="Pilih satu anggota sebagai ketua panitia">Pilih
                                     Ketua Panitia</th>

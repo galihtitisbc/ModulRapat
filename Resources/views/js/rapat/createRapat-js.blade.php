@@ -43,6 +43,11 @@
                 pilihanWaktuSelesai.val() == "manual" ?
                 formatDateTimeLocalToYMDHIS($("#waktu-selesai").val()) :
                 "SELESAI";
+            // Ambil semua value (username) dari opsi yang terpilih
+            let pesertaRapat = $('.duallistbox-peserta-rapat').val() || [];
+            let pimpinanRapat = $('.duallistbox-pimpinan-rapat').val();
+            let notulisRapat = $('.duallistbox-notulis-rapat').val();
+
             let formData = new FormData(this);
 
             let tempat =
@@ -61,6 +66,7 @@
             pesertaRapat.forEach((username) => {
                 formData.append("peserta_rapat[]", username);
             });
+
             //cek jika peserta rapat tidak dipilih
             if (!pesertaRapat.length) {
                 Swal.fire({
@@ -71,7 +77,7 @@
                 return;
             }
             //cek apakah pimpinan rapat termasuk dalam daftar peserta rapat
-            if (!pesertaRapat.includes(pimpinanRapatUsername)) {
+            if (!pesertaRapat.includes(pimpinanRapat)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Validasi Gagal',
@@ -80,7 +86,7 @@
                 return;
             }
             //cek apakah notulis rapat termasuk dalam daftar peserta rapat
-            if (!pesertaRapat.includes(notulisRapatUsername)) {
+            if (!pesertaRapat.includes(notulisRapat)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Validasi Gagal',
@@ -88,8 +94,8 @@
                 });
                 return;
             }
-            formData.append("pimpinan_username", pimpinanRapatUsername);
-            formData.append("notulis_username", notulisRapatUsername);
+            formData.append("pimpinan_username", pimpinanRapat);
+            formData.append("notulis_username", notulisRapat);
             formData.append(
                 "kepanitiaan_id",
                 $('select[name="kepanitiaan_id"]').val()

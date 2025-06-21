@@ -102,7 +102,15 @@
                             <tr>
                                 <th scope="row">
                                     {{ ($rapats->currentPage() - 1) * $rapats->perPage() + $loop->iteration }}</th>
-                                <td>{{ $rapat->agenda_rapat }}</td>
+                                <td>
+                                    @if ($rapat->pimpinan_username == Auth::user()->pegawai->username)
+                                        <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
+                                    @elseif ($rapat->notulis_username == Auth::user()->pegawai->username)
+                                        <span class="badge bg-primary mb-1">Notulis Rapat</span><br>
+                                    @endif
+                                    {{ $rapat->agenda_rapat }}
+                                </td>
+
                                 <td>{{ Carbon::parse($rapat->waktu_mulai)->translatedFormat('l, j F Y') }}</td>
                                 <td class="text-center"><a
                                         href="{{ url('rapat/agenda-rapat/' . $rapat->slug . '/detail') }}">

@@ -133,19 +133,13 @@
                             id="peserta-rapat-label">{{ $rapatAgenda->rapatKepanitiaan != null ? 'Pilih Pegawai Diluar Kepanitiaan ( Jika Ada ) :' : 'Pilih Peserta Rapat :' }}</label>
                     </div>
                     <div class="invalid-feedback" id="error-peserta_rapat"></div>
-                    <table id="table-peserta-rapat" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Pilih</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                    <select class="duallistbox-peserta-rapat" style="width: 100%;" name="pesertaRapat[]" multiple>
+                        @foreach ($pegawais as $pegawai)
+                            <option value="{{ $pegawai->username }}"
+                                {{ $selectedPegawai->contains($pegawai->username) ? 'selected' : '' }}>
+                                {{ $pegawai->formatted_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label>Lampiran : ( Jika Ada )</label>
@@ -157,35 +151,25 @@
                 <div class="my-4">
                     <label>Pilih Pimpinan Rapat :</label>
                     <div class="invalid-feedback" id="error-pimpinan_username"></div>
-                    <table id="table-pimpinan-rapat" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Undang</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                    <select class="duallistbox-pimpinan-rapat" style="width: 100%;" name="pimpinanRapat">
+                        <option value="" selected>--- Pilih Pimpinan Rapat ---</option>
+                        @foreach ($pegawais as $pegawai)
+                            <option value="{{ $pegawai->username }}"
+                                {{ $pegawai->username == $rapatAgenda->pimpinan_username ? 'selected' : '' }}>
+                                {{ $pegawai->formatted_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-3 my-4">
                     <label>Pilih Notulis Rapat :</label>
-                    <table id="table-notulis-rapat" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Peserta</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Undang</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
+                    <select class="duallistbox-notulis-rapat" style="width: 100%;" name="notulisRapat">
+                        <option value="" selected>--- Pilih Notulis Rapat ---</option>
+                        @foreach ($pegawais as $pegawai)
+                            <option value="{{ $pegawai->username }}"
+                                {{ $pegawai->username == $rapatAgenda->notulis_username ? 'selected' : '' }}>
+                                {{ $pegawai->formatted_name }}</option>
+                        @endforeach
+                    </select>
                     <div class="invalid-feedback" id="error-notulis_username"></div>
                 </div>
                 <div class="text-center">
@@ -198,11 +182,9 @@
 
 @push('js')
     @include('rapat::js.rapat.variable-js')
-    @include('rapat::js.kepanitiaan.tampilkanAnggotaPanitia-js')
+    @include('rapat::js.rapat.duallistbox-js')
 
-    @include('rapat::js.rapat.pesertaRapatTable-js')
-    @include('rapat::js.rapat.pimpinanRapatTable-js')
-    @include('rapat::js.rapat.notulisRapatTable-js')
+    @include('rapat::js.kepanitiaan.tampilkanAnggotaPanitia-js')
     @include('rapat::js.rapat.kepanitiaanRapat-js')
     @include('rapat::js.rapat.editRapat-js')
     <script>

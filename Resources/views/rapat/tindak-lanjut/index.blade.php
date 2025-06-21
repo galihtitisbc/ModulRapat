@@ -70,17 +70,21 @@
                                     'SELESAI' => 'success',
                                     'BELUM_SELESAI' => 'danger',
                                 ];
-                                $doubleAgendaRapat = [];
                                 $no = 1;
                             @endphp
 
                             @forelse ($tindakLanjutRapat as $index => $tindakLanjut)
-                                @if (in_array($tindakLanjut->rapatAgenda->agenda_rapat, $doubleAgendaRapat))
-                                    @continue
-                                @endif
                                 <tr>
                                     <td class="text-center">{{ $no++ }}</td>
-                                    <td>{{ $tindakLanjut->rapatAgenda->agenda_rapat }}</td>
+                                    <td>
+                                        @if ($tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username)
+                                            <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
+                                        @elseif ($tindakLanjut->rapatAgenda->notulis_username == Auth::user()->pegawai->username)
+                                            <span class="badge bg-primary mb-1">Notulis Rapat</span><br>
+                                        @endif
+                                        {{ $tindakLanjut->rapatAgenda->agenda_rapat }}
+                                    </td>
+
                                     <td class="text-center">
                                         {{ \Carbon\Carbon::parse($tindakLanjut->rapatAgenda->waktu_mulai)->locale('id')->translatedFormat('l, d F Y') }}
                                     </td>
@@ -88,13 +92,26 @@
                                         @if (
                                             $tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username ||
                                                 $tindakLanjut->rapatAgenda->notulis_username == Auth::user()->pegawai->username ||
-                                                (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) &&
-                                                    $tindakLanjut->pegawai_username !== Auth::user()->pegawai->username))
+                                                RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()))
+                                            {{-- Jika user adalah pimpinan, notulis, atau memiliki role pimpinan, tampilkan persentase penyelesaian --}}
                                             {{ $tindakLanjut->rapatAgenda->status_persentase_penyelesaian }}%
                                         @else
-                                            <span class="badge badge-{{ $statusTindakLanjut[$tindakLanjut->status] }}">
-                                                {{ StatusTindakLanjut::from($tindakLanjut->status)->label() }}
-                                            </span>
+                                            {{-- Jika bukan, tampilkan status tugas pribadi (pegawai_username) --}}
+                                            @php
+                                                // Cari status tugas user saat ini pada agenda yang sama
+                                                $userTugas = $tindakLanjut->rapatAgenda->rapatTindakLanjut->firstWhere(
+                                                    'pegawai_username',
+                                                    Auth::user()->pegawai->username,
+                                                );
+                                            @endphp
+
+                                            @if ($userTugas)
+                                                <span class="badge badge-{{ $statusTindakLanjut[$userTugas->status] }}">
+                                                    {{ StatusTindakLanjut::from($userTugas->status)->label() }}
+                                                </span>
+                                            @else
+                                                <span class="text-muted">Tidak ada tugas</span>
+                                            @endif
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -104,9 +121,6 @@
                                         </a>
                                     </td>
                                 </tr>
-                                @php
-                                    $doubleAgendaRapat[] = $tindakLanjut->rapatAgenda->agenda_rapat;
-                                @endphp
                             @empty
                                 <tr>
                                     <td colspan="4" class="text-center">Tidak ada data.</td>

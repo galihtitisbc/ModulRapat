@@ -72,11 +72,22 @@ class RapatController extends Controller
         }
         return view('rapat::rapat.create', [
             'kepanitiaans' => $kepanitiaan,
+            'pegawais'     => Pegawai::all(),
         ]);
     }
     public function ajaxPesertaRapat(Request $request)
     {
-        $query = Pegawai::with(['user', 'rapatAgendaPeserta', 'kepanitiaans']);
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth   = Carbon::now()->endOfMonth();
+        $query        = Pegawai::with(['user', 'rapatAgendaPeserta'])
+            ->withCount(['kepanitiaans as kepanitiaans_aktif_bulan_ini_count' => function ($query) use ($startOfMonth, $endOfMonth) {
+                $query->where('status', 'AKTIF')
+                    ->where(function ($q) use ($startOfMonth, $endOfMonth) {
+                        $q->whereDate('tanggal_mulai', '<=', $endOfMonth)
+                            ->whereDate('tanggal_berakhir', '>=', $startOfMonth);
+                    });
+            }]);
+
         if ($search = $request->input('search.value')) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
@@ -101,7 +112,18 @@ class RapatController extends Controller
     public function ajaxSelectedPesertaRapat(Request $request)
     {
         $usernamePeserta = explode(',', $request->username);
-        $query           = Pegawai::whereIn('username', $usernamePeserta)->with(['user', 'rapatAgendaPeserta', 'kepanitiaans']);
+        $startOfMonth    = Carbon::now()->startOfMonth();
+        $endOfMonth      = Carbon::now()->endOfMonth();
+        $query           = Pegawai::whereIn('username', $usernamePeserta)
+            ->with(['user', 'rapatAgendaPeserta'])
+            ->withCount(['kepanitiaans as kepanitiaans_aktif_bulan_ini_count' => function ($query) use ($startOfMonth, $endOfMonth) {
+                $query->where('status', 'AKTIF')
+                    ->where(function ($q) use ($startOfMonth, $endOfMonth) {
+                        $q->whereDate('tanggal_mulai', '<=', $endOfMonth)
+                            ->whereDate('tanggal_berakhir', '>=', $startOfMonth);
+                    });
+            }]);
+
         if ($search = $request->input('search.value')) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
@@ -162,21 +184,32 @@ class RapatController extends Controller
     }
     public function edit(RapatAgenda $rapatAgenda)
     {
+        if (
+            $rapatAgenda->pimpinan_username !== Auth::user()->pegawai->username &&
+            $rapatAgenda->pegawai_username !== Auth::user()->pegawai->username
+        ) {
+            abort(403);
+        }
+
         $kepanitiaan = Kepanitiaan::where('status', 'AKTIF')->get();
         $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatKepanitiaan', 'rapatKepanitiaan.pegawai', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran']);
         return view('rapat::rapat.edit-rapat', [
-            'slug'         => $rapatAgenda->slug,
-            'rapatAgenda'  => $rapatAgenda,
-            'kepanitiaans' => $kepanitiaan,
+            'slug'            => $rapatAgenda->slug,
+            'rapatAgenda'     => $rapatAgenda,
+            'kepanitiaans'    => $kepanitiaan,
+            'pegawais'        => Pegawai::all(),
+            'selectedPegawai' => $rapatAgenda->rapatAgendaPeserta->pluck('username'),
         ]);
-    }
-    public function ajaxEditRapat(RapatAgenda $rapatAgenda)
-    {
-        $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatKepanitiaan', 'rapatKepanitiaan.pegawai', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran']);
-        return response()->json($rapatAgenda);
     }
     public function update(RapatAgenda $rapatAgenda, UpdateRapatRequest $request)
     {
+        if (
+            $rapatAgenda->pimpinan_username !== Auth::user()->pegawai->username &&
+            $rapatAgenda->pegawai_username !== Auth::user()->pegawai->username
+        ) {
+            abort(403);
+        }
+
         $validated = $request->validated();
         try {
             $this->rapatService->update($validated, $rapatAgenda);
@@ -199,6 +232,13 @@ class RapatController extends Controller
     }
     public function ubahStatusRapat(RapatAgenda $rapatAgenda)
     {
+        if (
+            $rapatAgenda->pimpinan_username !== Auth::user()->pegawai->username &&
+            $rapatAgenda->pegawai_username !== Auth::user()->pegawai->username
+        ) {
+            abort(403);
+        }
+
         try {
             $this->rapatService->ubahStatusAgendaRapat($rapatAgenda);
             FlashMessage::success('Status rapat berhasil diubah');

@@ -32,8 +32,7 @@
         $('input[name="nomor_surat"]').val(rapat.nomor_surat);
         $('input[name="waktu_mulai"]').val(rapat.waktu_mulai);
         $("#agenda-rapat").val(rapat.agenda_rapat);
-        pimpinanRapatUsername = rapat.rapat_agenda_pimpinan.username;
-        notulisRapatUsername = rapat.rapat_agenda_notulis.username;
+
         if (rapat.waktu_selesai !== null) {
             waktuSelesai.show();
             selectWaktuSelesai.val("manual");
@@ -57,14 +56,9 @@
             pesertaKepanitiaan = rapat.rapat_kepanitiaan.pegawai.map(
                 (pegawai) => pegawai.username
             );
+            lastPesertaKepanitiaan = [...pesertaKepanitiaan];
+
         }
-        pesertaManual = rapat.rapat_agenda_peserta
-            .filter((peserta) => !pesertaKepanitiaan.includes(peserta.username))
-            .map((peserta) => peserta.username);
-
-        pesertaRapat = [...new Set([...pesertaManual, ...pesertaKepanitiaan])];
-
-        reloadSemuaTable();
         /////////////////////////////////
 
         //request ajax untuk submit form
@@ -81,6 +75,10 @@
                 selectWaktuSelesai.val() == "manual" ?
                 formatDateTimeLocalToYMDHIS($("#waktu-selesai").val()) :
                 "SELESAI";
+            // Ambil semua value (username) dari opsi yang terpilih
+            let pesertaRapat = $('.duallistbox-peserta-rapat').val() || [];
+            let pimpinanRapat = $('.duallistbox-pimpinan-rapat').val();
+            let notulisRapat = $('.duallistbox-notulis-rapat').val();
 
             let formData = new FormData(this);
 
@@ -109,7 +107,7 @@
                 return;
             }
             //cek apakah pimpinan rapat termasuk dalam daftar peserta rapat
-            if (!pesertaRapat.includes(pimpinanRapatUsername)) {
+            if (!pesertaRapat.includes(pimpinanRapat) && pimpinanRapat !== null) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Validasi Gagal',
@@ -118,7 +116,7 @@
                 return;
             }
             //cek apakah notulis rapat termasuk dalam daftar peserta rapat
-            if (!pesertaRapat.includes(notulisRapatUsername)) {
+            if (!pesertaRapat.includes(notulisRapat) && notulisRapat !== null) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Validasi Gagal',
@@ -126,8 +124,8 @@
                 });
                 return;
             }
-            formData.append("pimpinan_username", pimpinanRapatUsername);
-            formData.append("notulis_username", notulisRapatUsername);
+            formData.append("pimpinan_username", pimpinanRapat);
+            formData.append("notulis_username", notulisRapat);
             formData.append(
                 "kepanitiaan_id",
                 $('select[name="kepanitiaan_id"]').val()
@@ -158,7 +156,6 @@
                 },
                 error: function(xhr) {
                     let errors = xhr.responseJSON.errors;
-                    console.log(xhr);
 
                     $(".invalid-feedback").text("");
                     $("input, select, textarea").removeClass("is-invalid");
