@@ -100,6 +100,7 @@
                 <tbody>
                     @foreach ($rapats as $index => $rapat)
                         @php
+                            // Filter: jika status rapat selesai dan user bukan notulis maupun pimpinan → skip
                             if (
                                 $rapat->status == StatusAgendaRapat::COMPLETED->value &&
                                 Auth::user()->pegawai->username !== $rapat->notulis_username &&
@@ -107,32 +108,36 @@
                             ) {
                                 continue;
                             }
+                            // Filter: jika sudah ada tindak lanjut dan notulen, skip
                             if ($rapat->rapatTindakLanjut()->exists() && $rapat->rapatNotulen()->exists()) {
                                 continue;
                             }
+                            // Filter: jika sudah penugasan dan sudah ada notulen, skip
                             if ($rapat->is_penugasan !== null && $rapat->rapatNotulen()->exists()) {
                                 continue;
                             }
-
                             $startTime = Carbon::parse($rapat->waktu_mulai)->translatedFormat('l, d F Y H:i');
+                            // Buat badge status rapat dari array mapping warna dan label status
                             $statusBadge =
                                 '<span class="badge bg-' .
                                 $statusRapat[$rapat->status][0] .
                                 '">' .
                                 $statusRapat[$rapat->status][1] .
                                 '</span>';
-
+                            // Aksi default: tombol lihat detail rapat
                             $aksi =
                                 '<a href="' .
                                 url('rapat/agenda-rapat/' . $rapat->slug . '/detail') .
-                                '">
-                                        <i class="fas fa-eye fa-lg" title="Detail Rapat"></i>
+                                '" >
+                                        <i class="fas fa-eye fa-lg" title="Detail Rapat" data-toggle="tooltip" data-placement="top"
+                                                title="Untuk Mengubah Status Kepanitiaan"></i>
                                     </a>';
-
+                            // Jika user adalah pegawai yang menginput atau pimpinan rapat
                             if (
                                 Auth::user()->pegawai->username === $rapat->pegawai_username ||
                                 Auth::user()->pegawai->username === $rapat->pimpinan_username
                             ) {
+                                // Jika status rapat masih terjadwal atau dibatalkan, tampilkan tombol edit dan batal/jadwal ulang
                                 if (
                                     in_array($rapat->status, [
                                         StatusAgendaRapat::CANCELLED->value,
@@ -143,7 +148,8 @@
                                         '<a href="' .
                                         url('rapat/agenda-rapat/' . $rapat->slug . '/edit') .
                                         '" class="mx-2 my-2">
-                                                <i class="fas fa-edit fa-lg" style="color: #FFD43B;" title="Edit Rapat"></i>
+                                                <i class="fas fa-edit fa-lg" style="color: #FFD43B;" data-toggle="tooltip" data-placement="top"
+                                                title="Edit Agenda Rapat"></i>
                                               </a>';
                                     $aksi .=
                                         '<a href="' .
@@ -156,11 +162,12 @@
                                         ' fa-lg"
                                                    style="color: ' .
                                         $statusKeaktifan[$rapat->status][1] .
-                                        ';" title="Batalkan / Jadwal Ulang"></i>
+                                        ';" data-toggle="tooltip" data-placement="top"
+                                                title="Untuk Batalkan Atau Jadwalkan Kembali Rapat"></i>
                                               </a>';
                                 }
                             }
-
+                            // Jika user adalah notulis, status rapat berjalan, dan belum dibatalkan → tampilkan tombol isi notulen
                             if (
                                 Auth::user()->pegawai->username === $rapat->notulis_username &&
                                 $rapat->status !== StatusAgendaRapat::CANCELLED->value &&
@@ -169,9 +176,11 @@
                                 $aksi .=
                                     '<a href="' .
                                     url('rapat/agenda-rapat/notulis/' . $rapat->slug . '/unggah-notulen') .
-                                    '" class="btn btn-success btn-sm mx-2">Isi Notulen</a>';
+                                    '" class="btn btn-success btn-sm mx-2" data-toggle="tooltip" data-placement="top"
+                                                title="Untuk Unggah Notulen Rapat">Isi Notulen</a>';
                             }
                             $tugas = '';
+                            // Jika belum ada penugasan, user adalah notulis, dan status rapat sudah selesai atau sedang berlangsung
                             if (
                                 $rapat->is_penugasan === null &&
                                 in_array(Auth::user()->pegawai->username, [$rapat->notulis_username]) &&
@@ -184,7 +193,8 @@
                                     '<a href="' .
                                     url('rapat/agenda-rapat/' . $rapat->slug . '/tugas') .
                                     '">
-                                            <span class="badge bg-primary p-2">Input Tugas</span>
+                                            <span class="badge bg-primary p-2" data-toggle="tooltip" data-placement="top"
+                                                title="Untuk Penugasan Tindak Lanjut Rapat">Input Tugas</span>
                                           </a>';
                             }
                         @endphp
@@ -219,10 +229,12 @@
 @push('js')
 
     <script>
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl =>
-            new bootstrap.Tooltip(tooltipTriggerEl)
-        );
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body',
+                boundary: 'window'
+            });
+        });
 
         function batalkanRapat(event, url, status) {
             event.preventDefault();

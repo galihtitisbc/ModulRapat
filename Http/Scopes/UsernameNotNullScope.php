@@ -12,7 +12,7 @@ class UsernameNotNullScope implements Scope
         $builder->whereNotNull('username')
             ->whereNotNull('status_karyawan')
             ->where('status_karyawan', '<>', '')
-            ->where('nip', '<>', '-')
+        // ->where('nip', '<>', '-')
             ->orderBy('nama', 'asc');
     }
 }

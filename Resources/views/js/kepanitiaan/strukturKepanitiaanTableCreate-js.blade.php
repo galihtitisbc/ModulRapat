@@ -2,6 +2,7 @@
     let tableStrukturKepanitiaan = $("#table-struktur-kepanitiaan").DataTable({
         serverSide: true,
         processing: true,
+        ordering: false,
         ajax: {
             url: `/rapat/agenda-rapat/ajax-selected-peserta`,
             type: "GET",
@@ -10,6 +11,11 @@
             },
             dataSrc: "data",
         },
+        columnDefs: [{
+                orderable: false,
+                targets: '_all'
+            } // Nonaktifkan semua kolom
+        ],
         columns: [{
                 data: null,
                 render: function(data, type, row, meta) {

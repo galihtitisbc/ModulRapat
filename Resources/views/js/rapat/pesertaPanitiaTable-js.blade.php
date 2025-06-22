@@ -1,13 +1,19 @@
 <script>
-    //untuk menampilkan daftar pegawai untuk dijadikan sebagai peserta rapat
-    let tablePesertaRapat = $("#table-peserta-rapat").DataTable({
+    //untuk menampilkan daftar pegawai untuk dijadikan sebagai peserta panitia
+    let tablePesertaRapat = $("#table-peserta-panitia").DataTable({
         serverSide: true,
         processing: true,
+        ordering: false,
         ajax: {
             url: "/rapat/agenda-rapat/ajax-peserta-rapat",
             type: "GET",
             dataSrc: "data",
         },
+        columnDefs: [{
+                orderable: false,
+                targets: '_all'
+            } // Nonaktifkan semua kolom
+        ],
         columns: [{
                 data: null,
                 render: function(data, type, row, meta) {
@@ -56,8 +62,8 @@
         searching: true,
         ordering: true,
     });
-    //function untuk menambahkan data peserta rapat ke dalam array
-    $("#table-peserta-rapat").on("click", ".add-peserta", function(event) {
+    //function untuk menambahkan data peserta panitia ke dalam array
+    $("#table-peserta-panitia").on("click", ".add-peserta", function(event) {
         const username = $(this).data("id");
 
         if (pesertaManual.includes(username)) {

@@ -86,7 +86,7 @@
             Ir. M. Shofi'ul Amin, S.T., M.T
             {{-- {{ $perjalanan->pejabat->pegawai->gelar_dpn ?? '' }}{{ $perjalanan->pejabat->pegawai->gelar_dpn ? ' ' : '' }}{{ $perjalanan->pejabat->pegawai->nama }}{{ $perjalanan->pejabat->pegawai->gelar_blk ? ', ' . $perjalanan->pejabat->pegawai->gelar_blk : '' }} --}}
         </p>
-        <p style="margin: 3px 0;">NIP
+        <p style="margin: 3px 0;">
             {{-- {{ $perjalanan->pejabat->pegawai->nip }} --}}
         </p>
     </div>

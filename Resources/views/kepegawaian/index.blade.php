@@ -77,9 +77,10 @@
                                     title="Detail Kepanitiaan">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                @if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::kepegawaianRoles()))
+                                @if (Auth::user()->hasPermissionTo('rapat.panitia.create'))
                                     <a href="{{ url('/rapat/panitia/' . $kepanitiaan->slug . '/edit') }}"
-                                        class="btn btn-warning btn-sm" title="Edit">
+                                        class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
+                                        title="Untuk Mengubah Kepanitiaan">
                                         <i class="fa fa-fw fa-pen"></i>
                                         <nobr>
                                     </a>
@@ -87,9 +88,9 @@
                                         method="POST" style="display:inline;" class="ubah-status-kepanitiaan">
                                         @csrf
                                         @method('PATCH')
-                                        <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
-                                            title="Untuk Mengubah Status Kepanitiaan">
-                                            <i class="fa fa-fw fa-exchange-alt"></i>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fa fa-fw fa-exchange-alt" data-toggle="tooltip" data-placement="top"
+                                                title="Untuk Mengubah Status Kepanitiaan"></i>
                                         </button>
                                     </form>
                                 @endif

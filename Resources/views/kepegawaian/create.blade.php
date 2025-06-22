@@ -11,7 +11,7 @@
 @section('content')
 
     <x-adminlte-card>
-        <div class="col-lg-8 col-sm-12 col-md-12 mx-auto">
+        <div class="col-lg-9 col-sm-12 col-md-12 mx-auto">
             <div class="alert alert-danger d-none" id="error-alert">
                 <strong>Terjadi kesalahan:</strong>
                 <ul id="error-list"></ul>
@@ -48,14 +48,19 @@
                     <input type="text" id="tujuan" name="tujuan" class="form-control">
                 </div>
                 <div class="mb-3">
-                    <label>Peserta Kepanitiaan :</label>
-                    <table id="table-peserta-rapat" class="table table-hover">
+                    <label>Pilih Peserta Kepanitiaan :</label>
+                    <table id="table-peserta-panitia" class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Total</th>
+                                <th scope="col">
+                                    <i class="fas fa-question-circle text-secondary ms-1" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Jumlah Penugasan Kepanitiaan Dalam Satu Bulan">
+                                    </i>
+                                    Total
+                                </th>
                                 <th scope="col">Pilih</th>
                             </tr>
                         </thead>
@@ -72,7 +77,12 @@
                             <tr>
                                 <th scope="col" width="5%">No</th>
                                 <th scope="col" width="35%">Nama Peserta</th>
-                                <th scope="col" width="10%">Total</th>
+                                <th scope="col" width="10%">
+                                    <i class="fas fa-question-circle text-secondary ms-1" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Jumlah Penugasan Kepanitiaan Dalam Satu Bulan">
+                                    </i>
+                                    Total
+                                </th>
                                 <th scope="col">Jabatan</th>
                                 <th scope="col" width="15%" title="Pilih satu anggota sebagai ketua panitia">Pilih
                                     Ketua Panitia</th>
@@ -91,9 +101,15 @@
 
 @push('js')
     @include('rapat::js.rapat.variable-js')
-    @include('rapat::js.rapat.pesertaRapatTable-js')
+    @include('rapat::js.rapat.pesertaPanitiaTable-js')
     @include('rapat::js.kepanitiaan.strukturKepanitiaanTableCreate-js')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            tooltipTriggerList.forEach(function(tooltipTriggerEl) {
+                new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
         $.ajaxSetup({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
