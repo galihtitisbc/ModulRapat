@@ -18,6 +18,7 @@ class CreateKepanitiaansTable extends Migration
             $table->string('pimpinan_username');
             $table->foreign('pimpinan_username')->references('username')->on('pegawais');
             $table->string('nama_kepanitiaan');
+            $table->string('access_token');
             $table->string('slug')->unique();
             $table->text('struktur');
             $table->text('deskripsi');

@@ -3,6 +3,7 @@ namespace Modules\Rapat\Database\Seeders;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Modules\Rapat\Entities\Kepanitiaan;
 use Modules\Rapat\Entities\Pegawai;
 
@@ -16,11 +17,11 @@ class RapatKepanitiaanTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
         $panitia = Kepanitiaan::create([
             'pimpinan_username' => 'banksonk',
             'nama_kepanitiaan'  => 'Panitia infrastruktur',
             'slug'              => 'panitia-infrastruktur',
+            'access_token'      => Str::uuid(),
             'deskripsi'         => 'Panitia yang mengorganisir infrastruktur tahunan',
             'tanggal_mulai'     => now()->subDays(20)->toDateString(),
             'tanggal_berakhir'  => now()->addDays(5)->toDateString(),

@@ -22,6 +22,7 @@ class MenuRapatTableSeeder extends Seeder
             'url'       => '',
             // 'can' => serialize(['pimpinan', 'pejabat', 'sekretaris', 'kepegawaian', 'dosen']),
             'can'       => serialize([
+                'admin',
                 'kepegawaian',
                 'dosen',
                 'pegawai',
@@ -48,6 +49,7 @@ class MenuRapatTableSeeder extends Seeder
             'url'       => 'rapat/dashboard',
             // 'can' => serialize(['pimpinan', 'pejabat', 'sekretaris', 'kepegawaian', 'dosen']),
             'can'       => serialize([
+                'admin',
                 'kepegawaian',
                 'dosen',
                 'pegawai',
@@ -73,6 +75,7 @@ class MenuRapatTableSeeder extends Seeder
             'label'     => 'Kepanitiaan',
             'url'       => 'rapat/panitia',
             'can'       => serialize([
+                'admin',
                 'kepegawaian',
                 'dosen',
                 'pegawai',
@@ -99,6 +102,7 @@ class MenuRapatTableSeeder extends Seeder
             'url'       => 'rapat/agenda-rapat',
             // 'can' => serialize(['pimpinan', 'pejabat', 'sekretaris', 'kepegawaian', 'dosen']),
             'can'       => serialize([
+                'admin',
                 'kepegawaian',
                 'dosen',
                 'pegawai',
@@ -125,6 +129,7 @@ class MenuRapatTableSeeder extends Seeder
             'url'       => 'rapat/tindak-lanjut-rapat',
             // 'can' => serialize(['pimpinan', 'pejabat', 'sekretaris', 'kepegawaian', 'dosen']),
             'can'       => serialize([
+                'admin',
                 'kepegawaian',
                 'dosen',
                 'pegawai',
@@ -151,6 +156,7 @@ class MenuRapatTableSeeder extends Seeder
             'url'       => 'rapat/riwayat-rapat',
             // 'can' => serialize(['pimpinan', 'pejabat', 'sekretaris', 'kepegawaian', 'dosen']),
             'can'       => serialize([
+                'admin',
                 'kepegawaian',
                 'dosen',
                 'pegawai',

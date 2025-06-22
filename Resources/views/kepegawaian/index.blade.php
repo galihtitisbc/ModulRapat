@@ -11,17 +11,9 @@
 @section('content')
     @php
         use Modules\Rapat\Http\Helper\RoleGroupHelper;
-        $heads = [
-            'ID',
-            'Nama Kepanitiaan',
-            'Tanggal Mulai',
-            'Tanggal Berakhir',
-            'Status',
-            ['label' => 'Actions', 'no-export' => true, 'width' => 15],
-        ];
     @endphp
     <x-adminlte-card>
-        @if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::kepegawaianRoles()))
+        @if (Auth::user()->hasPermissionTo('rapat.panitia.create'))
             <div class="btn-tambah d-flex justify-content-end my-2">
                 <a href="{{ url('rapat/panitia/create') }}" class="btn btn-primary">Tambah Kepanitiaan</a>
             </div>

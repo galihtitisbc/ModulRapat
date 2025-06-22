@@ -65,42 +65,38 @@
             baik demi kelancaran kegiatan yang dimaksud.</p>
     </div>
 
-    <div class="signature-section">
-        <div class="signature-box">
-            {{-- <div class="tanggal-tempat">Banyuwangi, {{ $tglTtd }}</div>
-            <div>Direktur,</div> --}}
-            {{-- <div class="qr-code">
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="60" height="60" fill="white" />
-                    <rect x="5" y="5" width="50" height="50" fill="none" stroke="black" stroke-width="1" />
-                    <rect x="8" y="8" width="8" height="8" fill="black" />
-                    <rect x="20" y="8" width="4" height="4" fill="black" />
-                    <rect x="28" y="8" width="4" height="4" fill="black" />
-                    <rect x="36" y="8" width="4" height="4" fill="black" />
-                    <rect x="44" y="8" width="8" height="8" fill="black" />
-                    <rect x="8" y="16" width="4" height="4" fill="black" />
-                    <rect x="16" y="16" width="4" height="4" fill="black" />
-                    <rect x="24" y="16" width="8" height="8" fill="black" />
-                    <rect x="36" y="16" width="4" height="4" fill="black" />
-                    <rect x="44" y="16" width="4" height="4" fill="black" />
-                    <rect x="8" y="24" width="4" height="4" fill="black" />
-                    <rect x="16" y="24" width="8" height="8" fill="black" />
-                    <rect x="28" y="24" width="4" height="4" fill="black" />
-                    <rect x="36" y="24" width="8" height="8" fill="black" />
-                    <rect x="48" y="24" width="4" height="4" fill="black" />
-                    <rect x="8" y="32" width="8" height="8" fill="black" />
-                    <rect x="20" y="32" width="4" height="4" fill="black" />
-                    <rect x="28" y="32" width="8" height="8" fill="black" />
-                    <rect x="40" y="32" width="4" height="4" fill="black" />
-                    <rect x="48" y="32" width="4" height="4" fill="black" />
-                    <rect x="8" y="44" width="8" height="8" fill="black" />
-                    <rect x="20" y="44" width="4" height="4" fill="black" />
-                    <rect x="28" y="44" width="4" height="4" fill="black" />
-                    <rect x="36" y="44" width="8" height="8" fill="black" />
-                    <rect x="48" y="44" width="4" height="4" fill="black" />
-                </svg>
+    <div class="signature-footer">
+        <p style="margin: 3px 0;">Mengetahui,</p>
+        <p style="margin: 3px 0;">Pejabat Pembuat Komitmen,</p>
+        <div class="digital-stamp">
+            <div class="stamp-logo">
+                <img src="{{ asset('assets/img/logo.png') }}" alt="Logo Instansi">
             </div>
-            <div class="jabatan">Prof. Dr. Ir. Supriadi, M.T.<br>NIP. 196512201990031002</div> --}}
+            <div class="stamp-text">
+                Ditandatangani secara elektronik oleh<br>
+                Direktur Politeknik Negeri Banyuwangi<br>
+                selaku Pejabat yang Berwenang
+            </div>
+            <div>
+                <img src="data:image/svg+xml;base64,{{ base64_encode($qrCodeImage) }}" alt="QR Code"
+                    style="width: 50px; height: 50px;" />
+            </div>
         </div>
+        <p class="signature-name">
+            Ir. M. Shofi'ul Amin, S.T., M.T
+            {{-- {{ $perjalanan->pejabat->pegawai->gelar_dpn ?? '' }}{{ $perjalanan->pejabat->pegawai->gelar_dpn ? ' ' : '' }}{{ $perjalanan->pejabat->pegawai->nama }}{{ $perjalanan->pejabat->pegawai->gelar_blk ? ', ' . $perjalanan->pejabat->pegawai->gelar_blk : '' }} --}}
+        </p>
+        <p style="margin: 3px 0;">NIP
+            {{-- {{ $perjalanan->pejabat->pegawai->nip }} --}}
+        </p>
     </div>
+    {{-- <div class="signature-section">
+        <div class="signature-box">
+            <div class="tanggal-tempat">Banyuwangi, {{ $tglTtd }}</div>
+            <div>Direktur,</div>
+            <img src="data:image/svg+xml;base64,{{ base64_encode($qrCodeImage) }}" alt="QR Code"
+                style="width: 80px; height: 80px;" />
+            <div class="jabatan">Prof. Dr. Ir. Supriadi, M.T.<br>NIP. 196512201990031002</div>
+        </div>
+    </div> --}}
 @endsection

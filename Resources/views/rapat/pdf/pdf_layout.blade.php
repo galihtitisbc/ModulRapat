@@ -192,6 +192,45 @@
             transition: all 0.3s ease;
         }
 
+        /* Styling untuk Mengetahui */
+        .signature-footer {
+            text-align: center;
+            margin-top: 15px;
+            page-break-inside: avoid;
+            padding-bottom: 20px;
+        }
+
+        .signature-name {
+            margin-top: 40px;
+            font-weight: bold;
+        }
+
+        .digital-stamp {
+            display: flex;
+            align-items: center;
+            border: 1px solid #000;
+            padding: 2px 4px;
+            max-width: 260px;
+            font-size: 7pt;
+            line-height: 1.1;
+            margin: 5px auto 0 auto;
+            background-color: white;
+        }
+
+        .stamp-logo {
+            flex-shrink: 0;
+            margin-right: 6px;
+        }
+
+        .stamp-logo img {
+            width: 28px;
+            height: auto;
+        }
+
+        .stamp-text {
+            flex-grow: 1;
+        }
+
         @media print {
             body {
                 -webkit-print-color-adjust: exact;

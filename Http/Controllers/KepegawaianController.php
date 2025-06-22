@@ -12,6 +12,7 @@ use Modules\Rapat\Http\Helper\FlashMessage;
 use Modules\Rapat\Http\Requests\KepanitiaanRequest;
 use Modules\Rapat\Http\Requests\UpdateKepanitiaanRequest;
 use Modules\Rapat\Jobs\WhatsappSenderKepanitiaan;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KepegawaianController extends Controller
 {
@@ -140,6 +141,8 @@ class KepegawaianController extends Controller
         $strukturKepanitiaan = json_decode($kepanitiaan->struktur, true);
         $usernames           = array_column($strukturKepanitiaan, 'username'); //ambil data username, untuk dicari di table pegawai, karena butuh data dari table pegawai
         $pegawai             = Pegawai::whereIn('username', $usernames)->get();
+        $qrCodeUrl           = url("/scan-surattugas/" . $kepanitiaan->access_token);
+        $qrCodeImage         = QrCode::format('svg')->size(100)->generate($qrCodeUrl);
 
         $dataStruktur = [];
         foreach ($strukturKepanitiaan as $value) {
@@ -154,6 +157,7 @@ class KepegawaianController extends Controller
         return view('rapat::kepegawaian.surat_tugas_pdf', [
             'kepanitiaan' => $kepanitiaan,
             'struktur'    => $dataStruktur,
+            'qrCodeImage' => $qrCodeImage,
         ]);
     }
 }
