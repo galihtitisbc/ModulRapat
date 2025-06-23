@@ -14,58 +14,78 @@ class WhatsappService
     public function sendMessageRapat($agendaRapat, $status)
     {
         try {
-            $tempatRapat = '';
-            $headerMsg   = '';
+            $headerMsg       = '';
+            $messageTemplate = '';
+
             switch ($status) {
-                case 'tambahRapat':
-                    $headerMsg = "*[Pemberitahuan Rapat]*\n\n";
-                    break;
                 case 'batalRapat':
-                    $headerMsg = "*[Pemberitahuan Pembatalan Rapat]*\n\n";
-                    break;
                 case 'jadwalUlangRapat':
-                    $headerMsg = "*[Pemberitahuan Jadwal Ulang Rapat]*\n\n";
+                    $headerMsg = $status === 'batalRapat'
+                    ? "*[Pemberitahuan Pembatalan Rapat]*\n\n"
+                    : "*[Pemberitahuan Jadwal Ulang Rapat]*\n\n";
+
+                    $waktu = Carbon::parse($agendaRapat->waktu_mulai)
+                        ->translatedFormat('l, d F Y') . ", Pukul " .
+                    Carbon::parse($agendaRapat->waktu_mulai)->format('H:i') . " WIB";
+
+                    $tempat = $agendaRapat->tempat === 'zoom'
+                    ? "Zoom Meeting (🔗 " . $agendaRapat->zoom_link . ")"
+                    : $agendaRapat->tempat;
+                    $keterangan = $status === 'batalRapat'
+                    ? "🔔 Rapat ini telah *dibatalkan*.\n"
+                    : "🔔 Rapat ini telah *dijadwalkan ulang*.\n\n" . "Informasi Lebih Lanjut Bisa Klik Link Berikut: " . env('APP_URL') . "/rapat/agenda-rapat/" . $agendaRapat->slug . "/detail";
+
+                    $messageTemplate = $headerMsg .
+                    "📌 *Agenda Rapat:* " . $agendaRapat->agenda_rapat . "\n" .
+                        "🗓️ *Waktu:* " . $waktu . "\n" .
+                        "📍 *Tempat:* " . $tempat . "\n\n" .
+                        $keterangan;
+
                     break;
-                case 'updateRapat':
-                    $headerMsg = "*[Pemberitahuan Perubahan Rapat]*\n\n";
-                    break;
+
                 default:
+                    // Template lengkap untuk selain pembatalan dan penjadwalan ulang
+                    $headerMsg = match ($status) {
+                        'tambahRapat' => "*[Pemberitahuan Rapat]*\n\n",
+                        'updateRapat' => "*[Pemberitahuan Perubahan Rapat]*\n\n",
+                        default => '',
+                    };
+
+                    $tempatRapat = $agendaRapat->tempat === 'zoom'
+                    ? "📍 *Tempat (Online):* \nZoom Meeting\n🔗 " . $agendaRapat->zoom_link . "\n"
+                    : "📍 *Tempat:* \n" . $agendaRapat->tempat . "\n\n";
+
+                    $waktuSelesai = $agendaRapat->waktu_selesai == null
+                    ? "SELESAI"
+                    : Carbon::parse($agendaRapat->waktu_selesai)->format('H:i');
+
+                    $messageTemplate = $headerMsg .
+                    "Yth. Bapak/Ibu/Saudara/i,\n\n" .
+                    "Dengan hormat, kami mengundang Anda untuk hadir dalam rapat yang akan dilaksanakan dengan rincian sebagai berikut:\n\n" .
+                    "📌 *Agenda Rapat:* \n" . $agendaRapat->agenda_rapat . "\n\n" .
+                    "🗓️ *Waktu:* \n" . Carbon::parse($agendaRapat->waktu_mulai)->translatedFormat('l, d F Y') . ", Pukul " .
+                    Carbon::parse($agendaRapat->waktu_mulai)->format('H:i') . " - " . $waktuSelesai . " WIB\n\n" .
+                    $tempatRapat .
+                    "👤 *Pimpinan Rapat:* \n" . $agendaRapat->rapatAgendaPimpinan->formatted_name . "\n\n" .
+                    "✅ *Konfirmasi Kesediaan Hadir:* \n" .
+                    "🔗 {{link_konfirmasi}}\n\n" .
+                    "📅 *Tambahkan ke Google Calendar:* \n" .
+                    "🔗 " . $agendaRapat->calendar_link . "\n\n" .
+                        "Demikian pemberitahuan ini kami sampaikan. Mohon kesediaannya untuk hadir tepat waktu. Atas perhatian dan partisipasinya, kami ucapkan terima kasih.\n\n" .
+                        "Hormat kami,\nPoliteknik Negeri Banyuwangi";
                     break;
             }
-            if ($agendaRapat->tempat === 'zoom') {
-                $tempatRapat =
-                "📍 *Tempat (Online):* \nZoom Meeting\n" .
-                "🔗 " . $agendaRapat->zoom_link . "\n";
-            } else {
-                $tempatRapat =
-                "📍 *Tempat:* \n" . $agendaRapat->tempat . "\n\n";
-            }
-            $waktuSelesai    = $agendaRapat->waktu_selesai == null ? "SELESAI" : Carbon::parse($agendaRapat->waktu_selesai)->format('H:i');
-            $messageTemplate = $headerMsg .
-            "Yth. Bapak/Ibu/Saudara/i,\n\n" .
-            "Dengan hormat, kami mengundang Anda untuk hadir dalam rapat yang akan dilaksanakan dengan rincian sebagai berikut:\n\n" .
-            "📌 *Agenda Rapat:* \n" . $agendaRapat->agenda_rapat . "\n\n" .
-            "🗓️ *Waktu:* \n" . Carbon::parse($agendaRapat->waktu_mulai)->translatedFormat('l, d F Y') . ", Pukul " . Carbon::parse($agendaRapat->waktu_mulai)->format('H:i')
-            . " - " . $waktuSelesai . " WIB\n\n" .
-            $tempatRapat .
-            "👤 *Pimpinan Rapat:* \n" . $agendaRapat->rapatAgendaPimpinan->formatted_name . "\n\n" .
-            "✅ *Konfirmasi Kesediaan Hadir:* \n" .
-            "🔗 {{link_konfirmasi}}\n\n" .
-            "📅 *Tambahkan ke Google Calendar:* \n" .
-            "🔗 " . $agendaRapat->calendar_link . "\n\n" .
-                "Demikian pemberitahuan ini kami sampaikan. Mohon kesediaannya untuk hadir tepat waktu. Atas perhatian dan partisipasinya, kami ucapkan terima kasih.\n\n" .
-                "Hormat kami,\nPoliteknik Negeri Banyuwangi";
 
             foreach ($agendaRapat->rapatAgendaPeserta as $value) {
                 $linkKonfirmasiKesediaanRapat = $value->pivot->link_konfirmasi;
                 $message                      = str_replace('{{link_konfirmasi}}', $linkKonfirmasiKesediaanRapat, $messageTemplate);
-                //mengirim pesan
                 $this->sendMessage($value->username, $message);
             }
         } catch (\Throwable $th) {
             logger()->error($th->getMessage());
         }
     }
+
     public function sendMessagePenugasan($agendaRapat, $tindakLanjut, $status)
     {
         $agenda            = $agendaRapat->agenda_rapat;

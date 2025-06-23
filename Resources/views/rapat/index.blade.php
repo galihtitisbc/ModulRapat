@@ -36,7 +36,6 @@
 
     @endphp
     <x-adminlte-card>
-        {{-- jika user adalah pimpinan rapat, dan ketua panitia, maka button create rapat akan muncul --}}
         @if (Auth::user()->hasPermissionTo('rapat.agenda.create'))
             <div class="btn-tambah d-flex justify-content-end my-2">
                 <a href="{{ url('rapat/agenda-rapat/create') }}" class="btn btn-primary">Tambah Rapat</a>
