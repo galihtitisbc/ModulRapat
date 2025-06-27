@@ -18,7 +18,7 @@ class KepegawaianController extends Controller
 {
     public function index(Request $request)
     {
-        $kepanitiaans = Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->pegawai->username)->with('pegawai')
+        $kepanitiaans = Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->username)->with('pegawai')
             ->when($request->input('nama_kepanitiaan'), function ($query, $namaKepanitiaan) {
                 $query->where('nama_kepanitiaan', 'like', '%' . $namaKepanitiaan . '%');
             })
@@ -35,7 +35,7 @@ class KepegawaianController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->pegawai->username)
+        Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->username)
             ->whereDate('tanggal_berakhir', '<', Carbon::today())
             ->where('status', 'AKTIF')
             ->update(['status' => 'NON_AKTIF']);

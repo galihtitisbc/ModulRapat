@@ -20,7 +20,7 @@ class RapatDashboardController extends Controller
     public function index()
     {
         $tahunSekarang       = date('Y');
-        $username            = Auth::user()->pegawai->username;
+        $username            = Auth::user()->username;
         $totalRapatMendatang = RapatAgenda::whereHas('rapatAgendaPeserta', function ($q) use ($username) {
             $q->where('pegawai_username', $username);
         })->whereYear('waktu_mulai', $tahunSekarang)

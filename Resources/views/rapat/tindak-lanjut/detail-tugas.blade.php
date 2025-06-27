@@ -93,7 +93,7 @@
                         </ul>
                     </div>
                     <!-- Form Penilaian untuk Pimpinan -->
-                    @if ($tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username)
+                    @if ($tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->username)
                         <form
                             action="{{ url('/rapat/tindak-lanjut-rapat/' . $tindakLanjut->slug . '/detail/simpan-tugas') }}"
                             method="POST">
@@ -136,7 +136,7 @@
                     @endif
                     <!-- Tampilan Komentar & Penilaian untuk Semua Role yang Diperbolehkan -->
                     @if (
-                        ($tindakLanjut->pegawai_username == Auth::user()->pegawai->username &&
+                        ($tindakLanjut->pegawai_username == Auth::user()->username &&
                             $tindakLanjut->penilaian != KriteriaPenilaian::BELUM_DINILAI->value) ||
                             (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) &&
                                 $tindakLanjut->penilaian != KriteriaPenilaian::BELUM_DINILAI->value))

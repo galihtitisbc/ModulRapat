@@ -11,7 +11,7 @@ class PegawaiAnggotaKepanitiaan implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        $pegawai = Auth::user()->pegawai->username;
+        $pegawai = Auth::user()->username;
         $builder
             ->when(! RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::kepegawaianRoles()), function ($query) use ($pegawai) {
                 return $query->where('pimpinan_username', $pegawai)

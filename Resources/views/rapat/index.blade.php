@@ -29,9 +29,9 @@
             'STARTED' => ['fas fa-play-circle', '#0275d8'],
         ];
         $showTugasColumn = $rapats->getCollection()->contains(function ($rapat) {
-            return $rapat->notulis_username === Auth::user()->pegawai->username;
-            // return $rapat->pimpinan_username === Auth::user()->pegawai->username ||
-            //     $rapat->notulis_username === Auth::user()->pegawai->username;
+            return $rapat->notulis_username === Auth::user()->username;
+            // return $rapat->pimpinan_username === Auth::user()->username ||
+            //     $rapat->notulis_username === Auth::user()->username;
         });
 
     @endphp
@@ -102,8 +102,8 @@
                             // Filter: jika status rapat selesai dan user bukan notulis maupun pimpinan → skip
                             if (
                                 $rapat->status == StatusAgendaRapat::COMPLETED->value &&
-                                Auth::user()->pegawai->username !== $rapat->notulis_username &&
-                                Auth::user()->pegawai->username !== $rapat->pimpinan_username
+                                Auth::user()->username !== $rapat->notulis_username &&
+                                Auth::user()->username !== $rapat->pimpinan_username
                             ) {
                                 continue;
                             }
@@ -133,8 +133,8 @@
                                     </a>';
                             // Jika user adalah pegawai yang menginput atau pimpinan rapat
                             if (
-                                Auth::user()->pegawai->username === $rapat->pegawai_username ||
-                                Auth::user()->pegawai->username === $rapat->pimpinan_username
+                                Auth::user()->username === $rapat->pegawai_username ||
+                                Auth::user()->username === $rapat->pimpinan_username
                             ) {
                                 // Jika status rapat masih terjadwal atau dibatalkan, tampilkan tombol edit dan batal/jadwal ulang
                                 if (
@@ -168,7 +168,7 @@
                             }
                             // Jika user adalah notulis, status rapat berjalan, dan belum dibatalkan → tampilkan tombol isi notulen
                             if (
-                                Auth::user()->pegawai->username === $rapat->notulis_username &&
+                                Auth::user()->username === $rapat->notulis_username &&
                                 $rapat->status !== StatusAgendaRapat::CANCELLED->value &&
                                 $rapat->status == StatusAgendaRapat::STARTED->value
                             ) {
@@ -182,7 +182,7 @@
                             // Jika belum ada penugasan, user adalah notulis, dan status rapat sudah selesai atau sedang berlangsung
                             if (
                                 $rapat->is_penugasan === null &&
-                                in_array(Auth::user()->pegawai->username, [$rapat->notulis_username]) &&
+                                in_array(Auth::user()->username, [$rapat->notulis_username]) &&
                                 in_array($rapat->status, [
                                     StatusAgendaRapat::COMPLETED->value,
                                     StatusAgendaRapat::STARTED->value,
@@ -201,9 +201,9 @@
                         <tr>
                             <td class="text-center">{{ $index + 1 }}</td>
                             <td>
-                                @if ($rapat->pimpinan_username == Auth::user()->pegawai->username)
+                                @if ($rapat->pimpinan_username == Auth::user()->username)
                                     <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
-                                @elseif ($rapat->notulis_username == Auth::user()->pegawai->username)
+                                @elseif ($rapat->notulis_username == Auth::user()->username)
                                     <span class="badge bg-primary mb-1">Notulis Rapat</span><br>
                                 @endif
                                 {{ $rapat->agenda_rapat }}

@@ -66,7 +66,7 @@
                     $aksi = $tindakLanjut->status == $selesaiEnum ? $btnDetail : '-';
                     if (
                         $tindakLanjut->status == $belumSelesaiEnum &&
-                        $tindakLanjut->pegawai_username == Auth::user()->pegawai->username
+                        $tindakLanjut->pegawai_username == Auth::user()->username
                     ) {
                         $aksi =
                             '<a href="' .
@@ -75,17 +75,17 @@
                     }
                     if (
                         $tindakLanjut->status == $belumSelesaiEnum &&
-                        $tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->pegawai->username
+                        $tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->username
                     ) {
                         $aksi = '-';
                     }
                     if (
                         $tindakLanjut->status == $selesaiEnum &&
-                        $tindakLanjut->pegawai_username == Auth::user()->pegawai->username
+                        $tindakLanjut->pegawai_username == Auth::user()->username
                     ) {
                         $aksi .= $btnUpdate;
                     }
-                    if ($tindakLanjut->rapatAgenda->notulis_username == Auth::user()->pegawai->username) {
+                    if ($tindakLanjut->rapatAgenda->notulis_username == Auth::user()->username) {
                         $aksi = '-';
                     }
                     $data[] = [

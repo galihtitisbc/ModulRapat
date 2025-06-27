@@ -28,7 +28,7 @@ class TindakLanjutRapatController extends Controller
         if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles())) {
             $tindakLanjutRapat = RapatTindakLanjut::with('rapatAgenda');
         } else {
-            $tindakLanjutRapat = RapatTindakLanjut::listAgendaRapatHaveTugas(Auth::user()->pegawai->username)->with('rapatAgenda');
+            $tindakLanjutRapat = RapatTindakLanjut::listAgendaRapatHaveTugas(Auth::user()->username)->with('rapatAgenda');
         }
 
         // Langkah 1: Ambil satu ID dari setiap grup rapat_agenda_id

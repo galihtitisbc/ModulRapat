@@ -71,6 +71,8 @@ class WhatsappService
                     "🔗 {{link_konfirmasi}}\n\n" .
                     "📅 *Tambahkan ke Google Calendar:* \n" .
                     "🔗 " . $agendaRapat->calendar_link . "\n\n" .
+                        "Silakan klik link berikut untuk melihat detail lengkapnya.\n\n" .
+                        "Link: {{link}}\n\n" .
                         "Demikian pemberitahuan ini kami sampaikan. Mohon kesediaannya untuk hadir tepat waktu. Atas perhatian dan partisipasinya, kami ucapkan terima kasih.\n\n" .
                         "Hormat kami,\nPoliteknik Negeri Banyuwangi";
                     break;
@@ -78,7 +80,12 @@ class WhatsappService
 
             foreach ($agendaRapat->rapatAgendaPeserta as $value) {
                 $linkKonfirmasiKesediaanRapat = $value->pivot->link_konfirmasi;
-                $message                      = str_replace('{{link_konfirmasi}}', $linkKonfirmasiKesediaanRapat, $messageTemplate);
+                $message                      = str_replace(
+                    ['{{link_konfirmasi}}', '{{link}}'],
+                    [$linkKonfirmasiKesediaanRapat, env('APP_URL') . '/rapat/agenda-rapat/' . $agendaRapat->slug . '/detail'],
+                    $messageTemplate
+                );
+
                 $this->sendMessage($value->username, $message);
             }
         } catch (\Throwable $th) {
