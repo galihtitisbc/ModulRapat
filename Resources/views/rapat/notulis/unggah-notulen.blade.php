@@ -28,7 +28,7 @@
                 'MENUNGGU' => 'warning',
             ];
         @endphp
-        <div class="col-sm-12 col-lg-9 mx-auto">
+        <div class="col-sm-12 col-lg-10 mx-auto">
             <!-- Agenda Rapat Title -->
             <div class="row mb-4">
                 <div class="col-12">
