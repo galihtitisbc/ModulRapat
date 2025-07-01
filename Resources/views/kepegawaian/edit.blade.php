@@ -51,12 +51,18 @@
                 </div>
                 <div class="mb-3">
                     <label>Peserta Kepanitiaan :</label>
-                    <table id="table-peserta-rapat" class="table table-hover">
+                    <table id="table-peserta-panitia" class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Peserta</th>
                                 <th scope="col">Whatsapp</th>
+                                <th scope="col">
+                                    <i class="fas fa-question-circle text-secondary ms-1" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Jumlah Penugasan Kepanitiaan Dalam Satu Bulan">
+                                    </i>
+                                    Total
+                                </th>
                                 <th scope="col">Pilih</th>
                             </tr>
                         </thead>
@@ -91,10 +97,16 @@
 
 @push('js')
     @include('rapat::js.rapat.variable-js')
-    @include('rapat::js.rapat.pesertaRapatTable-js')
+    @include('rapat::js.rapat.pesertaPanitiaTable-js')
     @include('rapat::js.kepanitiaan.strukturKepanitiaanTableUpdate-js')
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            tooltipTriggerList.forEach(function(tooltipTriggerEl) {
+                new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
         //mendapatkan data pegawai dari kepanitiaan yang dikirim controller, dan menambahkan ke array pesertaRapat sebagai anggota panitia
         const kepanitiaan = <?php echo json_encode($kepanitiaan); ?>;
         const strukturKepanitiaan = JSON.parse(kepanitiaan.struktur);

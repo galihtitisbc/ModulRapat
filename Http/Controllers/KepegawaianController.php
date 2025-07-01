@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Modules\Rapat\Entities\Kepanitiaan;
 use Modules\Rapat\Entities\Pegawai;
 use Modules\Rapat\Http\Helper\FlashMessage;
@@ -13,6 +14,7 @@ use Modules\Rapat\Http\Requests\KepanitiaanRequest;
 use Modules\Rapat\Http\Requests\UpdateKepanitiaanRequest;
 use Modules\Rapat\Jobs\WhatsappSenderKepanitiaan;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Spatie\Permission\Models\Permission;
 
 class KepegawaianController extends Controller
 {
@@ -86,9 +88,13 @@ class KepegawaianController extends Controller
     public function store(KepanitiaanRequest $request)
     {
         try {
-            $validated             = $request->validated();
-            $validated['struktur'] = json_encode($validated['struktur_kepanitiaan']);
-            $kepanitiaan           = Kepanitiaan::create($validated);
+            $validated                 = $request->validated();
+            $validated['struktur']     = json_encode($validated['struktur_kepanitiaan']);
+            $validated['access_token'] = Str::uuid();
+            $kepanitiaan               = Kepanitiaan::create($validated);
+
+            // tambahkan permission agar bisa membuat agenda rapat
+            $this->tambahPermissionCreateRapatPadaKetuaPanitia($kepanitiaan->ketua->user, 'create');
             $kepanitiaan->pegawai()->attach($validated['peserta_panitia']);
             WhatsappSenderKepanitiaan::dispatch($kepanitiaan, 'create');
             return response()->json(['message' => 'Kepanitiaan berhasil ditambahkan.']);
@@ -110,11 +116,15 @@ class KepegawaianController extends Controller
     public function update(UpdateKepanitiaanRequest $request, Kepanitiaan $kepanitiaan)
     {
         try {
+            // ambil data ketua panitia lama
             $validated             = $request->validated();
             $validated             = $request->validated();
             $validated['struktur'] = json_encode($validated['struktur_kepanitiaan']);
             $kepanitiaan->update($validated);
             $kepanitiaan->pegawai()->sync($validated['peserta_panitia']);
+
+            // tambahkan permission agar bisa membuat agenda rapat
+            $this->tambahPermissionCreateRapatPadaKetuaPanitia($kepanitiaan->ketua->user);
             WhatsappSenderKepanitiaan::dispatch($kepanitiaan, 'update');
             return response()->json(['message' => 'Kepanitiaan berhasil diubah.']);
         } catch (\Throwable $th) {
@@ -159,5 +169,17 @@ class KepegawaianController extends Controller
             'struktur'    => $dataStruktur,
             'qrCodeImage' => $qrCodeImage,
         ]);
+    }
+    private function tambahPermissionCreateRapatPadaKetuaPanitia(User $user)
+    {
+        $rapatPermissionNames = [
+            'rapat.agenda.create',
+            'rapat.agenda.store',
+            'rapat.agenda.ajax.peserta',
+            'rapat.agenda.ajax.selected.peserta',
+            'rapat.agenda.ajax.kepanitiaan',
+        ];
+        $permissions = Permission::whereIn('name', $rapatPermissionNames)->get();
+        $user->givePermissionTo($permissions);
     }
 }
