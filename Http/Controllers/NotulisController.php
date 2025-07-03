@@ -2,6 +2,7 @@
 namespace Modules\Rapat\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Modules\Rapat\Entities\RapatAgenda;
 use Modules\Rapat\Http\Helper\FlashMessage;
@@ -34,6 +35,7 @@ class NotulisController extends Controller
             FlashMessage::success('Notulen Berhasil Unggah');
             return redirect()->to('/rapat/agenda-rapat');
         } catch (\Throwable $th) {
+            Log::error('Gagal Unggah Notulen: ' . $th->getMessage());
             FlashMessage::success('Notulen Gagal Di Unggah');
             return redirect()->to('/rapat/agenda-rapat');
         }

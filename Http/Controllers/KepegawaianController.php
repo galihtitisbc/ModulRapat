@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Modules\Rapat\Entities\Kepanitiaan;
 use Modules\Rapat\Entities\Pegawai;
@@ -99,7 +100,8 @@ class KepegawaianController extends Controller
             WhatsappSenderKepanitiaan::dispatch($kepanitiaan, 'create');
             return response()->json(['message' => 'Kepanitiaan berhasil ditambahkan.']);
         } catch (\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()]);
+            Log::error('Gagal menambahkan data: ' . $th->getMessage());
+            return response()->json(['message' => 'Gagal Menambahkan Kepanitiaan']);
         }
     }
 
@@ -128,6 +130,7 @@ class KepegawaianController extends Controller
             WhatsappSenderKepanitiaan::dispatch($kepanitiaan, 'update');
             return response()->json(['message' => 'Kepanitiaan berhasil diubah.']);
         } catch (\Throwable $th) {
+            Log::error('Gagal Update data: ' . $th->getMessage());
             return response()->json(['message' => 'Gagal Mengubah kepanitiaan.']);
         }
     }
@@ -141,6 +144,7 @@ class KepegawaianController extends Controller
             FlashMessage::success('Status Kepanitiaan Berhasil Di Diubah');
             return redirect()->to('/rapat/panitia');
         } catch (\Throwable $th) {
+            Log::error('Gagal Mengubah Status: ' . $th->getMessage());
             FlashMessage::error('Status Kepanitiaan Gagal Di Ubah');
             return redirect()->to('/rapat/panitia');
         }

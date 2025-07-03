@@ -61,6 +61,7 @@ class TindakLanjutRapatService
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
+            throw $e;
         }
     }
     public function editTugas($tindakLanjutRapat, $data)
@@ -93,6 +94,7 @@ class TindakLanjutRapatService
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
+            throw $e;
         }
     }
     public function simpanTugas($data, $tindakLanjut)
@@ -113,6 +115,7 @@ class TindakLanjutRapatService
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+            throw $th;
         }
     }
 }

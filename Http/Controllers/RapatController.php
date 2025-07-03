@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Modules\Rapat\Entities\Kepanitiaan;
@@ -158,9 +159,10 @@ class RapatController extends Controller
                 'icon'    => 'success',
             ]);
         } catch (\Throwable $e) {
+            Log::error('Gagal menambahkan Agenda Rapat: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Gagal Menambahkan Agenda Rapat',
                 'title'   => 'Gagal',
                 'icon'    => 'error',
             ]);
@@ -221,9 +223,11 @@ class RapatController extends Controller
             ]);
 
         } catch (\Throwable $e) {
+            Log::error('Gagal Update Agenda Rapat: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Gagal Mengubah Agenda Rapat',
                 'title'   => 'Gagal',
                 'icon'    => 'error',
             ]);
@@ -244,7 +248,8 @@ class RapatController extends Controller
             FlashMessage::success('Status rapat berhasil diubah');
             return redirect()->to('/rapat/agenda-rapat');
         } catch (\Throwable $th) {
-            FlashMessage::error($th->getMessage());
+            Log::error('Gagal Mengubah Status Agenda Rapat : ' . $th->getMessage());
+            FlashMessage::error('Gagal Mengubah Status Agenda Rapat');
             return redirect()->to('/rapat/agenda-rapat');
         }
     }
@@ -275,6 +280,7 @@ class RapatController extends Controller
             ]);
             return redirect()->back();
         } catch (\Throwable $th) {
+            Log::error('Gagal Menambahkan Status Konfirmasi Agenda Rapat : ' . $th->getMessage());
             return redirect()->back();
         }
     }

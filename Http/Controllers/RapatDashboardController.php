@@ -54,13 +54,13 @@ class RapatDashboardController extends Controller
                 ->orderBy('batas_waktu', 'asc');
         }])->first();
         return view('rapat::index', [
-            'totalRapatMendatang'   => $totalRapatMendatang->count(),
-            'rapat'                 => $totalRapatMendatang->first(),
-            'totalHadirRapat'       => $totalHadirRapat->hadir_count,
-            'totalKeseluruhanRapat' => $totalKeseluruhanRapat->rapat_agenda_peserta_count,
-            'totalTugas'            => $totalTugas->rapat_tindak_lanjut_count,
-            'tugasMendatang'        => $tugasMendatang->rapatTindakLanjut->first(),
-            'totalTugasSelesai'     => $totalTugasSelesai->rapat_tindak_lanjut_count,
+            'totalRapatMendatang'   => optional($totalRapatMendatang)->count() ?? 0,
+            'rapat'                 => optional($totalRapatMendatang)->first(),
+            'totalHadirRapat'       => optional($totalHadirRapat)->hadir_count ?? 0,
+            'totalKeseluruhanRapat' => optional($totalKeseluruhanRapat)->rapat_agenda_peserta_count ?? 0,
+            'totalTugas'            => optional($totalTugas)->rapat_tindak_lanjut_count ?? 0,
+            'tugasMendatang'        => optional(optional($tugasMendatang)->rapatTindakLanjut)->first(),
+            'totalTugasSelesai'     => optional($totalTugasSelesai)->rapat_tindak_lanjut_count ?? 0,
         ]);
     }
 

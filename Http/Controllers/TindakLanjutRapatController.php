@@ -5,6 +5,7 @@ use App\Models\Core\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Modules\Rapat\Entities\Pegawai;
 use Modules\Rapat\Entities\RapatAgenda;
 use Modules\Rapat\Entities\RapatTindakLanjut;
@@ -127,6 +128,7 @@ class TindakLanjutRapatController extends Controller
             FlashMessage::success('Tugas Berhasil Ditambahkan');
             return redirect()->to('/rapat/agenda-rapat/' . $rapatAgenda->slug . '/tugas');
         } catch (\Throwable $e) {
+            Log::error('Gagal Menambahkan Tugas : ' . $e->getMessage());
             FlashMessage::error("Gagal Menambahkan Tugas");
             return redirect()->to('/rapat/agenda-rapat/' . $rapatAgenda->slug . '/tugas');
         }
@@ -149,6 +151,7 @@ class TindakLanjutRapatController extends Controller
             FlashMessage::success('Tugas Berhasil Di Unggah');
             return redirect()->to('/rapat/tindak-lanjut-rapat/' . $rapatTindakLanjut->rapatAgenda->slug . '/detail');
         } catch (\Throwable $e) {
+            Log::error('Gagal Upload Tugas : ' . $e->getMessage());
             FlashMessage::error("Gagal Upload Tugas");
             return redirect()->to('/rapat/tindak-lanjut-rapat/' . $rapatTindakLanjut->rapatAgenda->slug . '/detail');
         }
@@ -167,6 +170,7 @@ class TindakLanjutRapatController extends Controller
             FlashMessage::success('Tugas Berhasil Di Edit');
             return redirect()->to('/rapat/tindak-lanjut-rapat/' . $rapatTindakLanjut->rapatAgenda->slug . '/detail');
         } catch (\Throwable $e) {
+            Log::error('Gagal Update Tugas : ' . $e->getMessage());
             FlashMessage::error("Gagal Edit Tugas");
             return redirect()->to('/rapat/tindak-lanjut-rapat/' . $rapatTindakLanjut->rapatAgenda->slug . '/detail');
         }
@@ -192,6 +196,7 @@ class TindakLanjutRapatController extends Controller
             FlashMessage::success('Penilaian Berhasil Di Simpan');
             return redirect()->to('/rapat/tindak-lanjut-rapat/' . $rapatTindakLanjut->rapatAgenda->slug . '/detail');
         } catch (\Throwable $e) {
+            Log::error('Gagal Menyimpan Penilaian : ' . $e->getMessage());
             FlashMessage::error("Penilaian Gagal Di Simpan");
             return redirect()->to('/rapat/tindak-lanjut-rapat/' . $rapatTindakLanjut->rapatAgenda->slug . '/detail');
         }
@@ -203,6 +208,7 @@ class TindakLanjutRapatController extends Controller
             FlashMessage::error("Gagal Mengubah Status Penugasan");
             return redirect()->to('/rapat/tindak-lanjut-rapat/');
         } catch (\Throwable $e) {
+            Log::error('Gagal Mengubah Status Penugasan : ' . $e->getMessage());
             return redirect()->back();
         }
     }
