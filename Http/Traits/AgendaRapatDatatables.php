@@ -24,7 +24,7 @@ trait AgendaRapatDatatables
         ];
         $data            = [];
         $showTugasColumn = collect($rapats)->contains(function ($rapat) {
-            return $rapat->pimpinan_username === Auth::user()->username || $rapat->notulis_username === Auth::user()->username;
+            return $rapat->pimpinan_id === Auth::user()->pegawai->id || $rapat->notulis_id === Auth::user()->pegawai->id;
         });
         foreach ($rapats as $index => $rapat) {
             $startTime   = Carbon::parse($rapat->waktu_mulai)->translatedFormat('l, d F Y H:i');
@@ -34,7 +34,7 @@ trait AgendaRapatDatatables
                     <i class="fas fa-eye fa-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Rapat"></i>
                 </a>';
 
-            if (Auth::user()->username === $rapat->pegawai_username || Auth::user()->username === $rapat->pimpinan_username) {
+            if (Auth::user()->pegawai->id === $rapat->pegawai_id || Auth::user()->pegawai->id === $rapat->pimpinan_id) {
                 $aksi .= '<a href="' . url('rapat/agenda-rapat/' . $rapat->slug . '/edit') . '" class="mx-2 my-2">
                         <i class="fas fa-edit fa-lg" style="color: #FFD43B;" title="Edit Rapat"></i>
                       </a>';
@@ -48,12 +48,12 @@ trait AgendaRapatDatatables
                 }
             }
 
-            if (Auth::user()->username === $rapat->notulis_username && $rapat->status !== 'CANCELED' && $rapat->status == StatusAgendaRapat::STARTED->value) {
+            if (Auth::user()->pegawai->id === $rapat->notulis_id && $rapat->status !== 'CANCELED' && $rapat->status == StatusAgendaRapat::STARTED->value) {
                 $aksi .= '<a href="' . url('rapat/agenda-rapat/notulis/' . $rapat->slug . '/unggah-notulen') . '" class="btn btn-success btn-sm mx-2">Isi Notulen</a>';
             }
             $tugas = '';
             if (
-                in_array(Auth::user()->username, [$rapat->notulis_username, $rapat->pimpinan_username]) &&
+                in_array(Auth::user()->pegawai->id, [$rapat->notulis_id, $rapat->pimpinan_id]) &&
                 in_array($rapat->status, [StatusAgendaRapat::COMPLETED->value, StatusAgendaRapat::STARTED->value])
             ) {
                 $tugas = '<a href="' . url('rapat/agenda-rapat/' . $rapat->slug . '/tugas') . '">
@@ -61,7 +61,7 @@ trait AgendaRapatDatatables
                       </a>';
             }
             //untuk menyembunyikan rapat yang sudah selesai dan bukan notulis
-            if ($rapat->status == StatusAgendaRapat::COMPLETED->value && Auth::user()->username !== $rapat->notulis_username) {
+            if ($rapat->status == StatusAgendaRapat::COMPLETED->value && Auth::user()->pegawai->id !== $rapat->notulis_id) {
                 continue;
             }
             if ($rapat->rapatTindakLanjut()->exists() && $rapat->rapatNotulen()->exists()) {

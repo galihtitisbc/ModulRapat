@@ -110,7 +110,7 @@
         //mendapatkan data pegawai dari kepanitiaan yang dikirim controller, dan menambahkan ke array pesertaRapat sebagai anggota panitia
         const kepanitiaan = <?php echo json_encode($kepanitiaan); ?>;
         const strukturKepanitiaan = JSON.parse(kepanitiaan.struktur);
-        pimpinanKepanitiaan = kepanitiaan.pimpinan_username;
+        pimpinanKepanitiaan = kepanitiaan.pimpinan_id;
         // Tambahkan pimpinanKepanitiaan ke json strukturKepanitiaan
         strukturKepanitiaan.push({
             jabatan: "ketua",
@@ -138,7 +138,7 @@
             e.preventDefault();
             const formData = new FormData(this);
             pesertaRapat.forEach(p => formData.append('peserta_panitia[]', p));
-            formData.append('pimpinan_username', pimpinanKepanitiaan);
+            formData.append('pimpinan_id', pimpinanKepanitiaan);
             //mengambil data struktur kepanitiaan, yang inputan nya berada di datatable pada form group struktur kepanitiaan
             const inputs = document.querySelectorAll('.jabatan-input');
             const strukturKepanitiaan = [];

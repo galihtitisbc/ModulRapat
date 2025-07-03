@@ -16,14 +16,14 @@ class CreateRapatAgendasTable extends Migration
     {
         Schema::create('rapat_agendas', function (Blueprint $table) {
             $table->id();
-            $table->string('pegawai_username');
-            $table->foreign('pegawai_username')->references('username')->on('pegawais');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->foreign('pegawai_id')->references('id')->on('pegawais');
 
-            $table->string('pimpinan_username');
-            $table->foreign('pimpinan_username')->references('username')->on('pegawais');
+            $table->unsignedBigInteger('pimpinan_id');
+            $table->foreign('pimpinan_id')->references('id')->on('pegawais');
 
-            $table->string('notulis_username');
-            $table->foreign('notulis_username')->references('username')->on('pegawais');
+            $table->unsignedBigInteger('notulis_id');
+            $table->foreign('notulis_id')->references('id')->on('pegawais');
 
             $table->string('nomor_surat');
             $table->text('slug')->nullable();

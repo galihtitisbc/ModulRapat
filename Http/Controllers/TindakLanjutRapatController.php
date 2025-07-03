@@ -29,7 +29,7 @@ class TindakLanjutRapatController extends Controller
         if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles())) {
             $tindakLanjutRapat = RapatTindakLanjut::with('rapatAgenda');
         } else {
-            $tindakLanjutRapat = RapatTindakLanjut::listAgendaRapatHaveTugas(Auth::user()->username)->with('rapatAgenda');
+            $tindakLanjutRapat = RapatTindakLanjut::listAgendaRapatHaveTugas(Auth::user()->pegawai->id)->with('rapatAgenda');
         }
 
         // Langkah 1: Ambil satu ID dari setiap grup rapat_agenda_id
@@ -89,10 +89,10 @@ class TindakLanjutRapatController extends Controller
         $data         = [];
         $btnPenugasan = '';
         foreach ($rapatAgenda->rapatAgendaPeserta as $key => $peserta) {
-            if ($peserta->username == $rapatAgenda->notulis_username) {
+            if ($peserta->username == $rapatAgenda->notulis_id) {
                 continue;
             }
-            if ($peserta->username == $rapatAgenda->pimpinan_username) {
+            if ($peserta->username == $rapatAgenda->pimpinan_id) {
                 continue;
             }
             if ($peserta->pivot->is_penugasan == false) {
@@ -136,7 +136,7 @@ class TindakLanjutRapatController extends Controller
 
     public function showUploadTugas(RapatTindakLanjut $rapatTindakLanjut)
     {
-        if (Auth::user()->username != $rapatTindakLanjut->pegawai->username) {
+        if (Auth::user()->pegawai->id != $rapatTindakLanjut->pegawai->username) {
             abort(403);
         }
         return view('rapat::rapat.tindak-lanjut.upload-tugas', [
@@ -184,7 +184,7 @@ class TindakLanjutRapatController extends Controller
     }
     public function simpanTugas(RapatTindakLanjut $rapatTindakLanjut, Request $request)
     {
-        if (Auth::user()->username != $rapatTindakLanjut->rapatAgenda->rapatAgendaPimpinan->username) {
+        if (Auth::user()->pegawai->id != $rapatTindakLanjut->rapatAgenda->rapatAgendaPimpinan->username) {
             abort(403);
         }
         $validated = $request->validate([

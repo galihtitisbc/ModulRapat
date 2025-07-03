@@ -103,9 +103,9 @@
                                 <th scope="row">
                                     {{ ($rapats->currentPage() - 1) * $rapats->perPage() + $loop->iteration }}</th>
                                 <td>
-                                    @if ($rapat->pimpinan_username == Auth::user()->username)
+                                    @if ($rapat->pimpinan_id == Auth::user()->pegawai->id)
                                         <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
-                                    @elseif ($rapat->notulis_username == Auth::user()->username)
+                                    @elseif ($rapat->notulis_id == Auth::user()->pegawai->id)
                                         <span class="badge bg-primary mb-1">Notulis Rapat</span><br>
                                     @endif
                                     {{ $rapat->agenda_rapat }}

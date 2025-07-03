@@ -21,17 +21,17 @@ class RapatService
             DB::beginTransaction();
             $googleCalendarLink = $this->generateGoogleCalendarLink($data);
             $agendaRapat        = RapatAgenda::create([
-                'pegawai_username'  => $data['pegawai_username'],
-                'pimpinan_username' => $data['pimpinan_username'],
-                'notulis_username'  => $data['notulis_username'],
-                'kepanitiaan_id'    => $data['kepanitiaan_id'] == "" ? null : $data['kepanitiaan_id'],
-                'nomor_surat'       => $data['nomor_surat'],
-                'waktu_mulai'       => $data['waktu_mulai'],
-                'waktu_selesai'     => $data['waktu_selesai'] == "SELESAI" ? null : $data['waktu_selesai'],
-                'agenda_rapat'      => $data['agenda_rapat'],
-                'tempat'            => $data['tempat'],
-                'status'            => 'SCHEDULED',
-                'calendar_link'     => $googleCalendarLink,
+                'pegawai_id'     => $data['pegawai_id'],
+                'pimpinan_id'    => $data['pimpinan_id'],
+                'notulis_id'     => $data['notulis_id'],
+                'kepanitiaan_id' => $data['kepanitiaan_id'] == "" ? null : $data['kepanitiaan_id'],
+                'nomor_surat'    => $data['nomor_surat'],
+                'waktu_mulai'    => $data['waktu_mulai'],
+                'waktu_selesai'  => $data['waktu_selesai'] == "SELESAI" ? null : $data['waktu_selesai'],
+                'agenda_rapat'   => $data['agenda_rapat'],
+                'tempat'         => $data['tempat'],
+                'status'         => 'SCHEDULED',
+                'calendar_link'  => $googleCalendarLink,
             ]);
             if (isset($data['lampiran'])) {
                 //simpan lampiran ke storage
@@ -107,14 +107,14 @@ class RapatService
             $oldTempat = $agendaRapat->tempat;
             DB::beginTransaction();
             $agendaRapat->update([
-                'pimpinan_username' => $data['pimpinan_username'],
-                'notulis_username'  => $data['notulis_username'],
-                'kepanitiaan_id'    => $data['kepanitiaan_id'] == "" ? null : $data['kepanitiaan_id'],
-                'nomor_surat'       => $data['nomor_surat'],
-                'waktu_mulai'       => $data['waktu_mulai'],
-                'waktu_selesai'     => $data['waktu_selesai'] == "SELESAI" ? null : $data['waktu_selesai'],
-                'agenda_rapat'      => $data['agenda_rapat'],
-                'tempat'            => $data['tempat'],
+                'pimpinan_id'    => $data['pimpinan_id'],
+                'notulis_id'     => $data['notulis_id'],
+                'kepanitiaan_id' => $data['kepanitiaan_id'] == "" ? null : $data['kepanitiaan_id'],
+                'nomor_surat'    => $data['nomor_surat'],
+                'waktu_mulai'    => $data['waktu_mulai'],
+                'waktu_selesai'  => $data['waktu_selesai'] == "SELESAI" ? null : $data['waktu_selesai'],
+                'agenda_rapat'   => $data['agenda_rapat'],
+                'tempat'         => $data['tempat'],
             ]);
             if (isset($data['lampiran'])) {
                 //hapus lampiran lama

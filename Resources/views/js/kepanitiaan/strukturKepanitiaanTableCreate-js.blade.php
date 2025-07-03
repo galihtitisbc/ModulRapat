@@ -60,7 +60,7 @@
             {
                 data: null,
                 render: function(data, type, row) {
-                    return `<input type="radio" name="pimpinan_username" ${
+                    return `<input type="radio" name="pimpinan_id" ${
                     row.username == pimpinanKepanitiaan ? "checked" : ""
                 } class="select-pimpinan text-center select-radio" id="" data-id="${
                     row.username

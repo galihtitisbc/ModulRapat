@@ -1,9 +1,8 @@
 <?php
-
 namespace Modules\Rapat\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class RapatTindakLanjutFile extends Model
 {

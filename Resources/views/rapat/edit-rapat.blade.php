@@ -150,12 +150,12 @@
                 </div>
                 <div class="my-4">
                     <label>Pilih Pimpinan Rapat :</label>
-                    <div class="invalid-feedback" id="error-pimpinan_username"></div>
+                    <div class="invalid-feedback" id="error-pimpinan_id"></div>
                     <select class="duallistbox-pimpinan-rapat" style="width: 100%;" name="pimpinanRapat">
                         <option value="" selected>--- Pilih Pimpinan Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
                             <option value="{{ $pegawai->username }}"
-                                {{ $pegawai->username == $rapatAgenda->pimpinan_username ? 'selected' : '' }}>
+                                {{ $pegawai->username == $rapatAgenda->pimpinan_id ? 'selected' : '' }}>
                                 {{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
@@ -166,11 +166,11 @@
                         <option value="" selected>--- Pilih Notulis Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
                             <option value="{{ $pegawai->username }}"
-                                {{ $pegawai->username == $rapatAgenda->notulis_username ? 'selected' : '' }}>
+                                {{ $pegawai->username == $rapatAgenda->notulis_id ? 'selected' : '' }}>
                                 {{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
-                    <div class="invalid-feedback" id="error-notulis_username"></div>
+                    <div class="invalid-feedback" id="error-notulis_id"></div>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary mx-auto">Submit</button>

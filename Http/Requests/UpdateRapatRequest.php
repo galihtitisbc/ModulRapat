@@ -13,11 +13,11 @@ class UpdateRapatRequest extends FormRequest
     public function rules()
     {
         return [
-            'pimpinan_username' => 'required|exists:pegawais,username',
+            'pimpinan_id' => 'required|exists:pegawais,id',
             'kepanitiaan_id'    => 'nullable|exists:kepanitiaans,id',
             'peserta_rapat'     => 'required|array',
-            'peserta_rapat.*'   => 'exists:pegawais,username',
-            'notulis_username'  => 'required|exists:pegawais,username',
+            'peserta_rapat.*'   => 'exists:pegawais,id',
+            'notulis_id'  => 'required|exists:pegawais,id',
             'nomor_surat'       => 'required|string|max:255',
             'waktu_mulai'       => 'required|date_format:Y-m-d H:i:s',
             'waktu_selesai'     => 'required',
@@ -29,8 +29,8 @@ class UpdateRapatRequest extends FormRequest
     public function messages()
     {
         return [
-            'pimpinan_username.required' => 'Pimpinan rapat wajib dipilih.',
-            'pimpinan_username.exists'   => 'Pimpinan yang dipilih tidak ditemukan dalam data pengguna.',
+            'pimpinan_id.required' => 'Pimpinan rapat wajib dipilih.',
+            'pimpinan_id.exists'   => 'Pimpinan yang dipilih tidak ditemukan dalam data pengguna.',
 
             'kepanitiaan_id.exists'      => 'Kepanitiaan yang dipilih tidak ditemukan.',
 
@@ -38,8 +38,8 @@ class UpdateRapatRequest extends FormRequest
             'peserta_rapat.array'        => 'Peserta rapat harus berupa array.',
             'peserta_rapat.*.exists'     => 'Salah satu peserta rapat tidak ditemukan dalam data pengguna.',
 
-            'notulis_username.required'  => 'Notulis wajib dipilih.',
-            'notulis_username.exists'    => 'Notulis yang dipilih tidak ditemukan dalam data pengguna.',
+            'notulis_id.required'  => 'Notulis wajib dipilih.',
+            'notulis_id.exists'    => 'Notulis yang dipilih tidak ditemukan dalam data pengguna.',
 
             'nomor_surat.required'       => 'Nomor surat wajib diisi.',
             'nomor_surat.string'         => 'Nomor surat harus berupa teks.',

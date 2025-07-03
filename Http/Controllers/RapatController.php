@@ -31,7 +31,7 @@ class RapatController extends Controller
 
     public function index(Request $request)
     {
-        $rapat = RapatAgenda::pegawaiIsPesertaOrCreator(Auth::user()->username)
+        $rapat = RapatAgenda::pegawaiIsPesertaOrCreator(Auth::user()->pegawai->id)
             ->when($request->input('agenda_rapat'), function ($query, $agendaRapat) {
                 return $query->where('agenda_rapat', 'like', "%{$agendaRapat}%");
             })
@@ -67,9 +67,9 @@ class RapatController extends Controller
     }
     public function create()
     {
-        $kepanitiaan = Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->username)->where('status', 'AKTIF')->get();
+        $kepanitiaan = Kepanitiaan::pegawaiIsAnggotaPanitia(Auth::user()->pegawai->id)->where('status', 'AKTIF')->get();
         if (! RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRapatRoles())) {
-            $kepanitiaan = $kepanitiaan->where('pimpinan_username', Auth::user()->username);
+            $kepanitiaan = $kepanitiaan->where('pimpinan_id', Auth::user()->pegawai->id);
         }
         return view('rapat::rapat.create', [
             'kepanitiaans' => $kepanitiaan,
@@ -149,8 +149,8 @@ class RapatController extends Controller
     public function store(CreateRapatRequest $request)
     {
         try {
-            $validated                     = $request->validated();
-            $validated['pegawai_username'] = Auth::user()->username;
+            $validated               = $request->validated();
+            $validated['pegawai_id'] = Auth::user()->pegawai->id;
             $this->rapatService->store($validated);
             return response()->json([
                 'success' => true,
@@ -171,7 +171,7 @@ class RapatController extends Controller
 
     public function show(RapatAgenda $rapatAgenda)
     {
-        $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran', 'rapatAgendaPeserta.user', 'rapatKepanitiaan']);
+        $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran', 'rapatKepanitiaan']);
         return view('rapat::rapat.detail-rapat', [
             'rapat' => $rapatAgenda,
         ]);
@@ -187,8 +187,8 @@ class RapatController extends Controller
     public function edit(RapatAgenda $rapatAgenda)
     {
         if (
-            $rapatAgenda->pimpinan_username !== Auth::user()->username &&
-            $rapatAgenda->pegawai_username !== Auth::user()->username
+            $rapatAgenda->pimpinan_id !== Auth::user()->pegawai->id &&
+            $rapatAgenda->pegawai_id !== Auth::user()->pegawai->id
         ) {
             abort(403);
         }
@@ -206,8 +206,8 @@ class RapatController extends Controller
     public function update(RapatAgenda $rapatAgenda, UpdateRapatRequest $request)
     {
         if (
-            $rapatAgenda->pimpinan_username !== Auth::user()->username &&
-            $rapatAgenda->pegawai_username !== Auth::user()->username
+            $rapatAgenda->pimpinan_id !== Auth::user()->pegawai->id &&
+            $rapatAgenda->pegawai_id !== Auth::user()->pegawai->id
         ) {
             abort(403);
         }
@@ -237,8 +237,8 @@ class RapatController extends Controller
     public function ubahStatusRapat(RapatAgenda $rapatAgenda)
     {
         if (
-            $rapatAgenda->pimpinan_username !== Auth::user()->username &&
-            $rapatAgenda->pegawai_username !== Auth::user()->username
+            $rapatAgenda->pimpinan_id !== Auth::user()->pegawai->id &&
+            $rapatAgenda->pegawai_id !== Auth::user()->pegawai->id
         ) {
             abort(403);
         }

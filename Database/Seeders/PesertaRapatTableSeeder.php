@@ -34,10 +34,10 @@ class PesertaRapatTableSeeder extends Seeder
             $pivotArray = [];
             foreach ($pegawai as $item) {
                 $pivotArray[] = [
-                    'pegawai_username' => $item->username,
-                    'status'           => $status[array_rand($status)],
-                    'is_penugasan'     => rand(0, 1),
-                    'link_konfirmasi'  => 'https://google.com',
+                    'pegawai_id'      => $item->id,
+                    'status'          => $status[array_rand($status)],
+                    'is_penugasan'    => rand(0, 1),
+                    'link_konfirmasi' => 'https://google.com',
                 ];
             }
             $rapatAgenda->rapatAgendaPeserta()->attach($pivotArray);

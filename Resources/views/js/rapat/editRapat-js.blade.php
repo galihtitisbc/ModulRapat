@@ -95,8 +95,8 @@
                 "agenda_rapat",
                 $('textarea[name="agenda_rapat"]').val()
             );
-            pesertaRapat.forEach((username) => {
-                formData.append("peserta_rapat[]", username);
+            pesertaRapat.forEach((id) => {
+                formData.append("peserta_rapat[]", id);
             });
             if (!pesertaRapat.length) {
                 Swal.fire({
@@ -124,8 +124,8 @@
                 });
                 return;
             }
-            formData.append("pimpinan_username", pimpinanRapat);
-            formData.append("notulis_username", notulisRapat);
+            formData.append("pimpinan_id", pimpinanRapat);
+            formData.append("notulis_id", notulisRapat);
             formData.append(
                 "kepanitiaan_id",
                 $('select[name="kepanitiaan_id"]').val()

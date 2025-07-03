@@ -18,9 +18,9 @@ class UpdateKepanitiaanRequest extends FormRequest
             'tanggal_mulai'                   => 'required|date',
             'tanggal_berakhir'                => 'required|date|after_or_equal:tanggal_mulai',
             'tujuan'                          => 'required|string|max:255',
-            'pimpinan_username'               => 'required|exists:pegawais,username',
+            'pimpinan_id'               => 'required|exists:pegawais,id',
             'peserta_panitia'                 => 'required|array',
-            'peserta_panitia.*'               => 'exists:pegawais,username',
+            'peserta_panitia.*'               => 'exists:pegawais,id',
             'struktur_kepanitiaan'            => 'required|array',
             'struktur_kepanitiaan.*.jabatan'  => 'required|string',
             'struktur_kepanitiaan.*.username' => 'required|string|exists:users,username',
@@ -47,8 +47,8 @@ class UpdateKepanitiaanRequest extends FormRequest
             'tujuan.string'                            => 'Tujuan harus berupa teks.',
             'tujuan.max'                               => 'Tujuan tidak boleh lebih dari :max karakter.',
 
-            'pimpinan_username.required'               => 'Pimpinan Panitia wajib dipilih.',
-            'pimpinan_username.exists'                 => 'Pimpinan yang dipilih tidak ditemukan di database.',
+            'pimpinan_id.required'               => 'Pimpinan Panitia wajib dipilih.',
+            'pimpinan_id.exists'                 => 'Pimpinan yang dipilih tidak ditemukan di database.',
 
             'peserta_panitia.required'                 => 'Peserta panitia wajib diisi.',
             'peserta_panitia.array'                    => 'Peserta panitia harus berupa array.',

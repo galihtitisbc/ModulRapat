@@ -22,7 +22,7 @@ class PimpinanRapatMiddleware
         if (RoleGroupHelper::userHasRoleGroup($user, RoleGroupHelper::pimpinanRapatRoles())) {
             return $next($request);
         }
-        if (RoleGroupHelper::userHasRoleGroup($user, RoleGroupHelper::pimpinanRapatRoles()) && $agendaRapat->pegawai_username === $user->pegawai->username) {
+        if (RoleGroupHelper::userHasRoleGroup($user, RoleGroupHelper::pimpinanRapatRoles()) && $agendaRapat->pegawai_id === $user->pegawai->username) {
             return $next($request);
         }
         if (Auth::user()->pegawai->ketuaPanitia->isNotEmpty()) {

@@ -119,7 +119,7 @@
             e.preventDefault();
             const formData = new FormData(this);
             pesertaRapat.forEach(p => formData.append('peserta_panitia[]', p));
-            formData.append('pimpinan_username', pimpinanKepanitiaan);
+            formData.append('pimpinan_id', pimpinanKepanitiaan);
             //mengambil data struktur kepanitiaan, yang inputan nya berada di datatable pada form group struktur kepanitiaan
             const inputs = document.querySelectorAll('.jabatan-input');
             const strukturKepanitiaan = [];

@@ -43,7 +43,7 @@
                     if (row.username == pimpinanRapatUsername) {
                         return "-";
                     }
-                    return `<input type="radio" name="notulis_username" class="select-radio select-notulis" data-id="${
+                    return `<input type="radio" name="notulis_id" class="select-radio select-notulis" data-id="${
                     row.username
                 }" ${notulisRapatUsername === row.username ? "checked" : ""}>`;
                 },

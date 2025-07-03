@@ -17,7 +17,7 @@ class TindakLanjutRapatService
         try {
             DB::beginTransaction();
             $tindakLanjut = $rapatAgenda->rapatTindakLanjut()->create([
-                'pegawai_username' => $pegawai->username,
+                'pegawai_id' => $pegawai->username,
                 'deskripsi_tugas'  => $data['deskripsi'],
                 'batas_waktu'      => $data['batas_waktu'],
             ]);

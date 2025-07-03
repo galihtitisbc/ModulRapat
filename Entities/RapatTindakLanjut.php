@@ -32,21 +32,21 @@ class RapatTindakLanjut extends Model
     public function scopePegawaiHaveTugas($query, $pegawai, $rapatAgenda)
     {
         //untuk menampilkan daftar tugas pada agenda rapat tertentu
-        $query->when($rapatAgenda->pimpinan_username == $pegawai->username || $rapatAgenda->notulis_username == $pegawai->username, function ($q) use ($rapatAgenda) {
+        $query->when($rapatAgenda->pimpinan_id == $pegawai->id || $rapatAgenda->notulis_id == $pegawai->id, function ($q) use ($rapatAgenda) {
             $q->where('rapat_agenda_id', $rapatAgenda->id);
         }, function ($q) use ($pegawai) {
-            $q->where('pegawai_username', $pegawai->username);
+            $q->where('pegawai_id', $pegawai->id);
         });
         return $query;
     }
 
-    public function scopeListAgendaRapatHaveTugas($query, $username)
+    public function scopeListAgendaRapatHaveTugas($query, $id)
     {
-        $query->whereHas('rapatAgenda', function ($q) use ($username) {
-            $q->where('pimpinan_username', $username)
-                ->orWhere('notulis_username', $username);
+        $query->whereHas('rapatAgenda', function ($q) use ($id) {
+            $q->where('pimpinan_id', $id)
+                ->orWhere('notulis_id', $id);
         })
-            ->orWhere('pegawai_username', $username);
+            ->orWhere('pegawai_id', $id);
         return $query;
     }
     public function rapatAgenda()
@@ -55,7 +55,7 @@ class RapatTindakLanjut extends Model
     }
     public function pegawai()
     {
-        return $this->belongsTo(Pegawai::class, 'pegawai_username', 'username', 'id');
+        return $this->belongsTo(Pegawai::class, 'pegawai_id', 'id', 'id');
     }
     public function rapatTindakLanjutFile()
     {

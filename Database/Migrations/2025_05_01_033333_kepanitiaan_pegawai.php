@@ -15,8 +15,8 @@ class KepanitiaanPegawai extends Migration
     {
         Schema::create('kepanitiaan_pegawai', function (Blueprint $table) {
             $table->foreignId('kepanitiaan_id')->constrained('kepanitiaans');
-            $table->string('pegawai_username');
-            $table->foreign('pegawai_username')->references('username')->on('pegawais');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->foreign('pegawai_id')->references('id')->on('pegawais');
         });
     }
 

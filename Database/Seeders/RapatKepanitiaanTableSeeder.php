@@ -18,18 +18,18 @@ class RapatKepanitiaanTableSeeder extends Seeder
     {
         Model::unguard();
         $panitia = Kepanitiaan::create([
-            'pimpinan_username' => 'banksonk',
-            'nama_kepanitiaan'  => 'Panitia infrastruktur',
-            'slug'              => 'panitia-infrastruktur',
-            'access_token'      => Str::uuid(),
-            'deskripsi'         => 'Panitia yang mengorganisir infrastruktur tahunan',
-            'tanggal_mulai'     => now()->subDays(20)->toDateString(),
-            'tanggal_berakhir'  => now()->addDays(5)->toDateString(),
-            'tujuan'            => 'menyediakan infrastruktur.',
-            'status'            => 'AKTIF',
-            'struktur'          => "[{\"jabatan\":\"Wakil Ketua\",\"username\":\"adityawisanjaya\"},{\"jabatan\":\"Sekretaris\",\"username\":\"afikamilda\"},{\"jabatan\":\"Anggota\",\"username\":\"ahanafi\"},{\"jabatan\":\"Anggota\",\"username\":\"agungnursabilillah\"}]",
+            'pimpinan_id'      => 26,
+            'nama_kepanitiaan' => 'Panitia infrastruktur',
+            'slug'             => 'panitia-infrastruktur',
+            'access_token'     => Str::uuid(),
+            'deskripsi'        => 'Panitia yang mengorganisir infrastruktur tahunan',
+            'tanggal_mulai'    => now()->subDays(20)->toDateString(),
+            'tanggal_berakhir' => now()->addDays(5)->toDateString(),
+            'tujuan'           => 'menyediakan infrastruktur.',
+            'status'           => 'AKTIF',
+            'struktur'         => "[{\"jabatan\":\"Wakil Ketua\",\"pegawai_id\":\"114\"},{\"jabatan\":\"Sekretaris\",\"pegawai_id\":\"140\"},{\"jabatan\":\"Anggota\",\"pegawai_id\":\"187\"},{\"jabatan\":\"Anggota\",\"pegawai_id\":\"196\"}]",
         ]);
-        $pegawai = ['banksonk', 'adityawisanjaya', 'afikamilda', 'ahanafi', 'agungnursabilillah'];
+        $pegawai = [26, 114, 140, 187, 196];
         $panitia->pegawai()->attach($pegawai);
     }
 }
