@@ -15,6 +15,10 @@ class Pegawai extends Model
     {
         static::addGlobalScope(new UsernameNotNullScope);
     }
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
     public function getFormattedNameAttribute()
     {
         return

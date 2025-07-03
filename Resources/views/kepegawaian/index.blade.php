@@ -60,7 +60,7 @@
                     <th>Aksi</th>
                 </thead>
                 <tbody>
-                    @foreach ($kepanitiaans as $kepanitiaan)
+                    @forelse ($kepanitiaans as $kepanitiaan)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $kepanitiaan->nama_kepanitiaan }}</td>
@@ -97,7 +97,11 @@
                                 </nobr>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center">Tidak Ada Kepanitiaan</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">

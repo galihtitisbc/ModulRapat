@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Modules\Rapat\Entities\Pegawai;
 use Modules\Rapat\Entities\RapatAgenda;
 use Modules\Rapat\Entities\RapatTindakLanjut;
@@ -87,12 +88,13 @@ class TindakLanjutRapatController extends Controller
     {
         $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatAgendaNotulis', 'rapatAgendaPeserta']);
         $data         = [];
+        $counter      = 1;
         $btnPenugasan = '';
         foreach ($rapatAgenda->rapatAgendaPeserta as $key => $peserta) {
-            if ($peserta->username == $rapatAgenda->notulis_id) {
+            if ($peserta->id == $rapatAgenda->notulis_id) {
                 continue;
             }
-            if ($peserta->username == $rapatAgenda->pimpinan_id) {
+            if ($peserta->id == $rapatAgenda->pimpinan_id) {
                 continue;
             }
             if ($peserta->pivot->is_penugasan == false) {
@@ -101,7 +103,7 @@ class TindakLanjutRapatController extends Controller
                 $btnPenugasan = ' <button class="btn btn-danger">Sudah Ditugaskan</button>';
             }
             $data[] = [
-                $key + 1,
+                $counter++,
                 $peserta->formatted_name,
                 $btnPenugasan,
             ];
@@ -136,7 +138,7 @@ class TindakLanjutRapatController extends Controller
 
     public function showUploadTugas(RapatTindakLanjut $rapatTindakLanjut)
     {
-        if (Auth::user()->pegawai->id != $rapatTindakLanjut->pegawai->username) {
+        if (Auth::user()->pegawai->id != $rapatTindakLanjut->pegawai->id) {
             abort(403);
         }
         return view('rapat::rapat.tindak-lanjut.upload-tugas', [
@@ -158,6 +160,10 @@ class TindakLanjutRapatController extends Controller
     }
     public function showEditTugas(RapatTindakLanjut $rapatTindakLanjut)
     {
+        if (Auth::user()->pegawai->id != $rapatTindakLanjut->pegawai->id) {
+            abort(403);
+        }
+
         return view('rapat::rapat.tindak-lanjut.ubah-tugas', [
             'rapatTindakLanjut' => $rapatTindakLanjut,
         ]);
@@ -184,7 +190,7 @@ class TindakLanjutRapatController extends Controller
     }
     public function simpanTugas(RapatTindakLanjut $rapatTindakLanjut, Request $request)
     {
-        if (Auth::user()->pegawai->id != $rapatTindakLanjut->rapatAgenda->rapatAgendaPimpinan->username) {
+        if (Auth::user()->pegawai->id !== $rapatTindakLanjut->rapatAgenda->pimpinan_id && Auth::user()->pegawai->id !== $rapatTindakLanjut->rapatAgenda->rapatAgendaPimpinan->username) {
             abort(403);
         }
         $validated = $request->validate([
@@ -210,6 +216,14 @@ class TindakLanjutRapatController extends Controller
         } catch (\Throwable $e) {
             Log::error('Gagal Mengubah Status Penugasan : ' . $e->getMessage());
             return redirect()->back();
+        }
+    }
+    public function downloadPenugasan($file)
+    {
+        try {
+            return Storage::download('/public/tindakLanjut/' . $file);
+        } catch (\Throwable $th) {
+            return "File Tidak Ditemukan";
         }
     }
     // untuk cek apakah user adalah peserta

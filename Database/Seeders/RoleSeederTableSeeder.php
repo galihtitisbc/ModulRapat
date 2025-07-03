@@ -49,6 +49,7 @@ class RoleSeederTableSeeder extends Seeder
             'rapat.tindak-lanjut.tugas.edit.form',
             'rapat.tindak-lanjut.tugas.edit.submit',
             "rapat.tindak-lanjut.simpan-tugas",
+            'rapat.tindak-lanjut.download',
             "rapat.panitia.index",
             "rapat.panitia.detail",
             "rapat.panitia.download",

@@ -97,7 +97,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($rapats as $index => $rapat)
+                    @forelse ($rapats as $index => $rapat)
                         @php
                             // Filter: jika status rapat selesai dan user bukan notulis maupun pimpinan → skip
                             if (
@@ -215,7 +215,11 @@
                                 <td class="text-center">{!! $tugas !!}</td>
                             @endif
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak Ada Agenda Rapat</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">
