@@ -105,7 +105,7 @@
                     <div class="invalid-feedback" id="error-peserta_rapat"></div>
                     <select class="duallistbox-peserta-rapat" style="width: 100%;" name="pesertaRapat[]" multiple>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
+                            <option value="{{ $pegawai->id }}">{{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -122,7 +122,7 @@
                     <select class="duallistbox-pimpinan-rapat" style="width: 100%;" name="pimpinanRapat">
                         <option value="" selected>--- Pilih Pimpinan Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
+                            <option value="{{ $pegawai->id }}">{{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -131,7 +131,7 @@
                     <select class="duallistbox-notulis-rapat" style="width: 100%;" name="notulisRapat">
                         <option value="" selected>--- Pilih Notulis Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}">{{ $pegawai->formatted_name }}</option>
+                            <option value="{{ $pegawai->id }}">{{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
                     <div class="invalid-feedback" id="error-notulis_id"></div>

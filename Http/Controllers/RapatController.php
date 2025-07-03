@@ -112,10 +112,10 @@ class RapatController extends Controller
     }
     public function ajaxSelectedPesertaRapat(Request $request)
     {
-        $usernamePeserta = explode(',', $request->username);
-        $startOfMonth    = Carbon::now()->startOfMonth();
-        $endOfMonth      = Carbon::now()->endOfMonth();
-        $query           = Pegawai::whereIn('username', $usernamePeserta)
+        $idPeserta    = explode(',', $request->id);
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth   = Carbon::now()->endOfMonth();
+        $query        = Pegawai::whereIn('id', $idPeserta)
             ->with(['user', 'rapatAgendaPeserta'])
             ->withCount(['kepanitiaans as kepanitiaans_aktif_bulan_ini_count' => function ($query) use ($startOfMonth, $endOfMonth) {
                 $query->where('status', 'AKTIF')
@@ -200,7 +200,7 @@ class RapatController extends Controller
             'rapatAgenda'     => $rapatAgenda,
             'kepanitiaans'    => $kepanitiaan,
             'pegawais'        => Pegawai::all(),
-            'selectedPegawai' => $rapatAgenda->rapatAgendaPeserta->pluck('username'),
+            'selectedPegawai' => $rapatAgenda->rapatAgendaPeserta->pluck('id'),
         ]);
     }
     public function update(RapatAgenda $rapatAgenda, UpdateRapatRequest $request)

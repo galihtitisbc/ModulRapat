@@ -50,12 +50,11 @@ class KepegawaianController extends Controller
     {
         $kepanitiaan->load(['ketua', 'rapatAgenda']);
         $strukturKepanitiaan = json_decode($kepanitiaan->struktur, true);
-        $usernames           = array_column($strukturKepanitiaan, 'username'); //ambil data username, untuk dicari di table pegawai, karena butuh data dari table pegawai
-        $pegawai             = Pegawai::whereIn('username', $usernames)->get();
-
-        $dataStruktur = [];
+        $ids                 = array_column($strukturKepanitiaan, 'pegawai_id'); //ambil data id, untuk dicari di table pegawai, karena butuh data dari table pegawai
+        $pegawai             = Pegawai::whereIn('id', $ids)->get();
+        $dataStruktur        = [];
         foreach ($strukturKepanitiaan as $value) {
-            if ($pegawaiModel = $pegawai->where('username', $value['username'])->first()) {
+            if ($pegawaiModel = $pegawai->where('id', $value['pegawai_id'])->first()) {
                 $value['pegawai'] = $pegawaiModel;
             } else {
                 $value['pegawai'] = null;
@@ -153,14 +152,14 @@ class KepegawaianController extends Controller
     {
         $kepanitiaan->load(['pegawai', 'ketua']);
         $strukturKepanitiaan = json_decode($kepanitiaan->struktur, true);
-        $usernames           = array_column($strukturKepanitiaan, 'username'); //ambil data username, untuk dicari di table pegawai, karena butuh data dari table pegawai
-        $pegawai             = Pegawai::whereIn('username', $usernames)->get();
+        $pegawai_id          = array_column($strukturKepanitiaan, 'pegawai_id'); //ambil data username, untuk dicari di table pegawai, karena butuh data dari table pegawai
+        $pegawai             = Pegawai::whereIn('id', $pegawai_id)->get();
         $qrCodeUrl           = url("/scan-surattugas/" . $kepanitiaan->access_token);
         $qrCodeImage         = QrCode::format('svg')->size(100)->generate($qrCodeUrl);
 
         $dataStruktur = [];
         foreach ($strukturKepanitiaan as $value) {
-            if ($pegawaiModel = $pegawai->where('username', $value['username'])->first()) {
+            if ($pegawaiModel = $pegawai->where('id', $value['pegawai_id'])->first()) {
                 $value['pegawai'] = $pegawaiModel;
             } else {
                 $value['pegawai'] = null;

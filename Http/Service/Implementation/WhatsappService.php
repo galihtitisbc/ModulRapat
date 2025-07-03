@@ -170,7 +170,6 @@ class WhatsappService
             }
         } catch (\Throwable $th) {
             logger()->error($th->getMessage());
-
         }
     }
 

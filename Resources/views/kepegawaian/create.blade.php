@@ -126,13 +126,13 @@
 
             inputs.forEach(input => {
                 const jabatan = input.value.trim();
-                const username = input.dataset.id;
-                if (username == pimpinanKepanitiaan) {
+                const pegawaiId = input.dataset.id;
+                if (pegawaiId == pimpinanKepanitiaan) {
                     return;
                 }
                 strukturKepanitiaan.push({
                     jabatan: jabatan == "" ? 'Anggota' : jabatan,
-                    username: username
+                    pegawai_id: pegawaiId
                 });
             });
             formData.append('struktur_kepanitiaan', JSON.stringify(strukturKepanitiaan));

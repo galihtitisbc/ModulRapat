@@ -135,8 +135,8 @@
                     <div class="invalid-feedback" id="error-peserta_rapat"></div>
                     <select class="duallistbox-peserta-rapat" style="width: 100%;" name="pesertaRapat[]" multiple>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}"
-                                {{ $selectedPegawai->contains($pegawai->username) ? 'selected' : '' }}>
+                            <option value="{{ $pegawai->id }}"
+                                {{ $selectedPegawai->contains($pegawai->id) ? 'selected' : '' }}>
                                 {{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
@@ -154,8 +154,8 @@
                     <select class="duallistbox-pimpinan-rapat" style="width: 100%;" name="pimpinanRapat">
                         <option value="" selected>--- Pilih Pimpinan Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}"
-                                {{ $pegawai->username == $rapatAgenda->pimpinan_id ? 'selected' : '' }}>
+                            <option value="{{ $pegawai->id }}"
+                                {{ $pegawai->id == $rapatAgenda->pimpinan_id ? 'selected' : '' }}>
                                 {{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
@@ -165,8 +165,8 @@
                     <select class="duallistbox-notulis-rapat" style="width: 100%;" name="notulisRapat">
                         <option value="" selected>--- Pilih Notulis Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}"
-                                {{ $pegawai->username == $rapatAgenda->notulis_id ? 'selected' : '' }}>
+                            <option value="{{ $pegawai->id }}"
+                                {{ $pegawai->id == $rapatAgenda->notulis_id ? 'selected' : '' }}>
                                 {{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>

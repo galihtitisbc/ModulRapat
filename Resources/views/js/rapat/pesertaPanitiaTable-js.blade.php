@@ -50,9 +50,9 @@
                 data: null,
                 render: function(data, type, row) {
                     return `<input type="checkbox" ${
-                    pesertaRapat.includes(row.username) ? "checked" : ""
+                    pesertaRapat.includes(row.id) ? "checked" : ""
                 } class="select-checkbox add-peserta" name="peserta[]" data-id="${
-                    row.username
+                    row.id
                 }">`;
                 },
             },
@@ -64,16 +64,16 @@
     });
     //function untuk menambahkan data peserta panitia ke dalam array
     $("#table-peserta-panitia").on("click", ".add-peserta", function(event) {
-        const username = $(this).data("id");
+        const pegawaiId = $(this).data("id");
 
-        if (pesertaManual.includes(username)) {
-            pesertaManual = pesertaManual.filter((item) => item !== username);
-        } else if (pesertaKepanitiaan.includes(username)) {
+        if (pesertaManual.includes(pegawaiId)) {
+            pesertaManual = pesertaManual.filter((item) => item !== pegawaiId);
+        } else if (pesertaKepanitiaan.includes(pegawaiId)) {
             pesertaKepanitiaan = pesertaKepanitiaan.filter(
-                (item) => item !== username
+                (item) => item !== pegawaiId
             );
         } else {
-            pesertaManual.push(username);
+            pesertaManual.push(pegawaiId);
         }
         pesertaRapat = [...new Set([...pesertaManual, ...pesertaKepanitiaan])];
         reloadTable();

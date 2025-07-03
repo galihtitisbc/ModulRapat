@@ -6,7 +6,7 @@
             url: `/rapat/agenda-rapat/ajax-selected-peserta`,
             type: "GET",
             data: function(d) {
-                d.username = pesertaRapat.join(",");
+                d.id = pesertaRapat.join(",");
             },
             dataSrc: "data",
         },
@@ -39,27 +39,27 @@
             {
                 data: null,
                 render: function(data, type, row) {
-                    const jabatan = jabatanMap[row.username] || "";
-                    const isPimpinan = row.username == pimpinanKepanitiaan;
+                    const jabatan = jabatanMap[row.id] || "";
+                    const isPimpinan = row.id == pimpinanKepanitiaan;
                     const content = isPimpinan ?
                         "Ketua Panitia" :
                         `<input 
                             type="text" 
                             class="form-control jabatan-input" 
-                            data-id="${row.username}" 
+                            data-id="${row.id}" 
                             value="${jabatan == "ketua" ? "" : jabatan}"
                             placeholder="Jabatan Dalam Panitia"
                         >`;
-                    return `<div class="jabatan-cell" data-id="${row.username}">${content}</div>`;
+                    return `<div class="jabatan-cell" data-id="${row.id}">${content}</div>`;
                 },
             },
             {
                 data: null,
                 render: function(data, type, row) {
                     return `<input type="radio" name="pimpinan_id" ${
-                    row.username == pimpinanKepanitiaan ? "checked" : ""
+                    row.id == pimpinanKepanitiaan ? "checked" : ""
                 } class="select-pimpinan text-center select-radio" id="" data-id="${
-                    row.username
+                    row.id
                 }">`;
                 },
             },
