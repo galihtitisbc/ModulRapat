@@ -190,6 +190,9 @@
     <script>
         const slug = "{{ $slug }}";
         const rapat = <?php echo json_encode($rapatAgenda); ?>;
+        isUpdate = true;
+        isFirstLoad = true;
+        let lastKepanitiaanSelectedIdUpdate = rapat.rapat_kepanitiaan.pegawai.map((pegawai) => Number(pegawai.id));
     </script>
 
     <script>
