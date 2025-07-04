@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRapatTindakLanjutFilesTable extends Migration
 {
@@ -28,6 +28,9 @@ class CreateRapatTindakLanjutFilesTable extends Migration
      */
     public function down()
     {
+        Schema::table('rapat_tindak_lanjut_files', function (Blueprint $table) {
+            $table->dropForeign(['rapat_tindak_lanjut_id']);
+        });
         Schema::dropIfExists('rapat_tindak_lanjut_files');
     }
 }

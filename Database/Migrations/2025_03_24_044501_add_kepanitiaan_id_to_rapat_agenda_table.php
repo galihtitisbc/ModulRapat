@@ -25,8 +25,8 @@ class AddKepanitiaanIdToRapatAgendaTable extends Migration
      */
     public function down()
     {
-        Schema::table('rapat_agenda', function (Blueprint $table) {
-            $table->dropColumn('kepanitiaan_id');
+        Schema::table('rapat_agendas', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('kepanitiaan_id');
         });
     }
 }

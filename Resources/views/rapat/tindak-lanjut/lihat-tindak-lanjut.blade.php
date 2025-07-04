@@ -93,7 +93,9 @@
                         $tindakLanjut->pegawai->formatted_name,
                         $tindakLanjut->deskripsi_tugas,
                         $tindakLanjut->batas_waktu,
-                        $tindakLanjut->tanggal_selesai ? $tindakLanjut->tanggal_selesai : '-',
+                        ($tanggal = $tindakLanjut->tanggal_selesai
+                            ? \Carbon\Carbon::parse($tindakLanjut->tanggal_selesai)->format('Y-m-d')
+                            : '-'),
                         $status,
                         $penilaian,
                         $aksi,

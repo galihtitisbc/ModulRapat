@@ -41,6 +41,10 @@ class CreateRapatTindakLanjutsTable extends Migration
      */
     public function down()
     {
+        Schema::table('rapat_tindak_lanjuts', function (Blueprint $table) {
+            $table->dropForeign(['rapat_agenda_id']);
+            $table->dropForeign(['pegawai_id']);
+        });
         Schema::dropIfExists('rapat_tindak_lanjuts');
     }
 }

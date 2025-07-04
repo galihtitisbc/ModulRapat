@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRapatLampiransTable extends Migration
 {
@@ -28,6 +28,9 @@ class CreateRapatLampiransTable extends Migration
      */
     public function down()
     {
+        Schema::table('rapat_lampirans', function (Blueprint $table) {
+            $table->dropForeign(['rapat_agenda_id']);
+        });
         Schema::dropIfExists('rapat_lampirans');
     }
 }

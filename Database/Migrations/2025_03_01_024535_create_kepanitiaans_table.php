@@ -37,6 +37,9 @@ class CreateKepanitiaansTable extends Migration
      */
     public function down()
     {
+        Schema::table('kepanitiaans', function (Blueprint $table) {
+            $table->dropForeign(['pimpinan_id']);
+        });
         Schema::dropIfExists('kepanitiaans');
     }
 }

@@ -27,6 +27,11 @@ class KepanitiaanPegawai extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('kepanitiaan_pegawai', function (Blueprint $table) {
+            $table->dropForeign(['kepanitiaan_id']);
+            $table->dropForeign(['pegawai_id']);
+
+        });
+        Schema::dropIfExists('kepanitiaan_pegawai');
     }
 }
