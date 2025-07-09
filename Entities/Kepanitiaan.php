@@ -36,19 +36,19 @@ class Kepanitiaan extends Model
             }
         });
     }
-    public function scopePegawaiIsAnggotaPanitia($query, $username)
+    public function scopePegawaiIsAnggotaPanitia($query, $id)
     {
         if (RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()) || RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::kepegawaianRoles())) {
             return $query;
         }
-        $query->whereHas('pegawai', function ($q) use ($username) {
-            $q->where('username', $username);
+        $query->whereHas('pegawai', function ($q) use ($id) {
+            $q->where('id', $id);
         });
         return $query;
     }
     public function pegawai()
     {
-        return $this->belongsToMany(Pegawai::class, 'kepanitiaan_pegawai', 'kepanitiaan_id', 'pegawai_username', 'id', 'username');
+        return $this->belongsToMany(Pegawai::class, 'kepanitiaan_pegawai', 'kepanitiaan_id', 'pegawai_id', 'id', 'id');
     }
     public function rapatAgenda()
     {
@@ -56,7 +56,7 @@ class Kepanitiaan extends Model
     }
     public function ketua()
     {
-        return $this->belongsTo(Pegawai::class, 'pimpinan_username', 'username');
+        return $this->belongsTo(Pegawai::class, 'pimpinan_id', 'id');
     }
     private static function generateUniqueSlug($judul, $ignoreId = null)
     {

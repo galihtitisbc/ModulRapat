@@ -9,7 +9,7 @@
             url: `/rapat/agenda-rapat/ajax-selected-peserta`,
             type: "GET",
             data: function(d) {
-                d.username = pesertaKepanitiaan.join(",");
+                d.id = pesertaKepanitiaan.join(",");
             },
             dataSrc: "data",
         },

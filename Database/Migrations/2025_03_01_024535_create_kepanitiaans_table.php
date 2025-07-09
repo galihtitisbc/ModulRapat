@@ -15,8 +15,8 @@ class CreateKepanitiaansTable extends Migration
     {
         Schema::create('kepanitiaans', function (Blueprint $table) {
             $table->id();
-            $table->string('pimpinan_username');
-            $table->foreign('pimpinan_username')->references('username')->on('pegawais');
+            $table->unsignedBigInteger('pimpinan_id');
+            $table->foreign('pimpinan_id')->references('id')->on('pegawais');
             $table->string('nama_kepanitiaan');
             $table->string('access_token');
             $table->string('slug')->unique();
@@ -37,6 +37,9 @@ class CreateKepanitiaansTable extends Migration
      */
     public function down()
     {
+        Schema::table('kepanitiaans', function (Blueprint $table) {
+            $table->dropForeign(['pimpinan_id']);
+        });
         Schema::dropIfExists('kepanitiaans');
     }
 }

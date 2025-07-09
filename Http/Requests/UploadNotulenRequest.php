@@ -14,7 +14,7 @@ class UploadNotulenRequest extends FormRequest
     {
         return [
             'peserta_hadir'      => 'required|array',
-            'peserta_hadir.*'    => 'exists:pegawais,username',
+            'peserta_hadir.*'    => 'exists:pegawais,id',
             'catatan_rapat'      => 'nullable|string|required_without:notulen_file',
             'notulen_file'       => 'nullable|array|required_without:catatan_rapat',
             'notulen_file.*'     => 'file|mimes:pdf,doc,docx|max:5120',

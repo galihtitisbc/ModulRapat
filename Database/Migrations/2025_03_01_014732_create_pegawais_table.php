@@ -40,7 +40,7 @@ class CreatePegawaisTable extends Migration
             $table->string('npwp', 30)->nullable();
             $table->string('nidn', 20)->nullable();
 
-            $table->string('username', 200)->unique()->nullable();
+            $table->string('username', 200)->nullable();
             $table->string('id_dosen_feeder', 50)->nullable();
             $table->string('id_status_dosen_feeder', 50)->nullable();
             $table->string('id_reg_dosen_feeder', 50)->nullable();

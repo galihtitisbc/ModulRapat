@@ -17,13 +17,13 @@ class TindakLanjutRapatService
         try {
             DB::beginTransaction();
             $tindakLanjut = $rapatAgenda->rapatTindakLanjut()->create([
-                'pegawai_username' => $pegawai->username,
-                'deskripsi_tugas'  => $data['deskripsi'],
-                'batas_waktu'      => $data['batas_waktu'],
+                'pegawai_id'      => $pegawai->id,
+                'deskripsi_tugas' => $data['deskripsi'],
+                'batas_waktu'     => $data['batas_waktu'],
             ]);
             $rapatAgenda->update(['is_penugasan' => true]);
             $rapatAgenda->rapatAgendaPeserta()->syncWithoutDetaching([
-                $pegawai->username => ['is_penugasan' => 1],
+                $pegawai->id => ['is_penugasan' => 1],
             ]);
             WhatsappSender::dispatch(
                 agendaRapat: $rapatAgenda,

@@ -4,6 +4,9 @@
     //peserta yang berasal dari kepanitiaan
     let pesertaKepanitiaan = [];
 
+    //untuk menentukan apakah sedang update atau tidak
+    let isUpdate = false;
+    let isFirstLoad = false;
     //digunakan untuk menampung data peserta kepanitiaan yang dipilih
     let pesertaRapat = [];
     let pimpinanKepanitiaan = "";

@@ -95,9 +95,9 @@
                                 <tr>
                                     <td class="text-center">{{ $no++ }}</td>
                                     <td>
-                                        @if ($tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->username)
+                                        @if ($tindakLanjut->rapatAgenda->pimpinan_id == Auth::user()->pegawai->id)
                                             <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
-                                        @elseif ($tindakLanjut->rapatAgenda->notulis_username == Auth::user()->username)
+                                        @elseif ($tindakLanjut->rapatAgenda->notulis_id == Auth::user()->pegawai->id)
                                             <span class="badge bg-primary mb-1">Notulis Rapat</span><br>
                                         @endif
                                         {{ $tindakLanjut->rapatAgenda->agenda_rapat }}
@@ -108,18 +108,18 @@
                                     </td>
                                     <td class="text-center">
                                         @if (
-                                            $tindakLanjut->rapatAgenda->pimpinan_username == Auth::user()->username ||
-                                                $tindakLanjut->rapatAgenda->notulis_username == Auth::user()->username ||
+                                            $tindakLanjut->rapatAgenda->pimpinan_id == Auth::user()->pegawai->id ||
+                                                $tindakLanjut->rapatAgenda->notulis_id == Auth::user()->pegawai->id ||
                                                 RoleGroupHelper::userHasRoleGroup(Auth::user(), RoleGroupHelper::pimpinanRoles()))
                                             {{-- Jika user adalah pimpinan, notulis, atau memiliki role pimpinan, tampilkan persentase penyelesaian --}}
                                             {{ $tindakLanjut->rapatAgenda->status_persentase_penyelesaian }}%
                                         @else
-                                            {{-- Jika bukan, tampilkan status tugas pribadi (pegawai_username) --}}
+                                            {{-- Jika bukan, tampilkan status tugas pribadi (pegawai_id) --}}
                                             @php
                                                 // Cari status tugas user saat ini pada agenda yang sama
                                                 $userTugas = $tindakLanjut->rapatAgenda->rapatTindakLanjut->firstWhere(
-                                                    'pegawai_username',
-                                                    Auth::user()->username,
+                                                    'pegawai_id',
+                                                    Auth::user()->pegawai->id,
                                                 );
                                             @endphp
 

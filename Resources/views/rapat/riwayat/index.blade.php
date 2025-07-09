@@ -5,37 +5,6 @@
     <h3 class="m-0 text-dark">Riwayat Rapat</h3>
 @stop
 
-@push('css')
-    <style>
-        background-color: #172b4d !important;
-        }
-
-        .halaman_awal .bg-secondary {
-            background-color: #f7fafc !important;
-        }
-
-        .halaman_awal .bg-gradient-primary {
-            background: linear-gradient(90.18deg, #b2def8 -4.39%, #6f7bf7 132.48%) !important;
-        }
-
-        .halaman_awal .header-body h1 {
-            font-weight: 600;
-            font-size: 1.625rem;
-            line-height: 1.22em;
-            color: #ffffff;
-            margin-top: 1rem;
-        }
-
-        .halaman_awal .header-body p {
-            font-weight: 600;
-            font-size: 0.8125rem;
-            line-height: 1.22em;
-            color: #ffffff;
-            margin-top: 0.5rem;
-        }
-    </style>
-@endpush
-
 @section('content')
     @php
         use Carbon\Carbon;
@@ -98,31 +67,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($rapats as $rapat)
+                        @forelse ($rapats as $rapat)
                             <tr>
                                 <th scope="row">
-                                    {{ ($rapats->currentPage() - 1) * $rapats->perPage() + $loop->iteration }}</th>
+                                    {{ ($rapats->currentPage() - 1) * $rapats->perPage() + $loop->iteration }}
+                                </th>
                                 <td>
-                                    @if ($rapat->pimpinan_username == Auth::user()->username)
+                                    @if ($rapat->pimpinan_id == Auth::user()->pegawai->id)
                                         <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
-                                    @elseif ($rapat->notulis_username == Auth::user()->username)
+                                    @elseif ($rapat->notulis_id == Auth::user()->pegawai->id)
                                         <span class="badge bg-primary mb-1">Notulis Rapat</span><br>
                                     @endif
                                     {{ $rapat->agenda_rapat }}
                                 </td>
-
-                                <td>{{ Carbon::parse($rapat->waktu_mulai)->translatedFormat('l, j F Y') }}</td>
-                                <td class="text-center"><a
-                                        href="{{ url('rapat/agenda-rapat/' . $rapat->slug . '/detail') }}">
+                                <td>{{ \Carbon\Carbon::parse($rapat->waktu_mulai)->translatedFormat('l, j F Y') }}</td>
+                                <td class="text-center">
+                                    <a href="{{ url('rapat/agenda-rapat/' . $rapat->slug . '/detail') }}">
                                         <i class="fas fa-eye fa-lg" data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="Detail Rapat"></i>
-                                    </a></td>
-                                <td class="text-center"><a target="_blank"
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <a target="_blank"
                                         href="{{ url('/rapat/riwayat-rapat/' . $rapat->slug . '/generate-pdf') }}">
                                         <i class="fas fa-download fa-lg"></i>
-                                    </a></td>
+                                    </a>
+                                </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">Tidak Ada Riwayat Rapat</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center mt-2">

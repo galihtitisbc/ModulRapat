@@ -2,6 +2,7 @@
 namespace Modules\Rapat\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Modules\Rapat\Entities\RapatAgenda;
@@ -18,7 +19,7 @@ class NotulisController extends Controller
     }
     public function formUnggahNotulen(RapatAgenda $rapatAgenda)
     {
-        if ($rapatAgenda->rapatNotulen) {
+        if ($rapatAgenda->notulis_id !== Auth::user()->pegawai->id) {
             abort(403);
         }
         $rapat = $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatAgendaNotulis', 'rapatAgendaPeserta']);

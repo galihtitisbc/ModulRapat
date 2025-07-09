@@ -20,35 +20,35 @@ class RapatDashboardController extends Controller
     public function index()
     {
         $tahunSekarang       = date('Y');
-        $username            = Auth::user()->username;
-        $totalRapatMendatang = RapatAgenda::whereHas('rapatAgendaPeserta', function ($q) use ($username) {
-            $q->where('pegawai_username', $username);
+        $pegawai_id          = Auth::user()->pegawai->id;
+        $totalRapatMendatang = RapatAgenda::whereHas('rapatAgendaPeserta', function ($q) use ($pegawai_id) {
+            $q->where('pegawai_id', $pegawai_id);
         })->whereYear('waktu_mulai', $tahunSekarang)
             ->where(DB::raw('DATE(waktu_mulai)'), '>=', date('Y-m-d'))
             ->where('status', StatusAgendaRapat::SCHEDULED->value)
             ->orderBy('waktu_mulai', 'asc')
             ->get();
-        $totalHadirRapat = Pegawai::where('username', $username)
+        $totalHadirRapat = Pegawai::where('id', $pegawai_id)
             ->withCount(['rapatAgendaPeserta as hadir_count' => function ($query) {
                 $query->where('rapat_pesertas.status', StatusPesertaRapat::HADIR->value);
             }])->with(['rapatAgendaPeserta' => function ($query) use ($tahunSekarang) {
             $query->whereYear('rapat_agendas.waktu_mulai', $tahunSekarang);
         }])
             ->first();
-        $totalKeseluruhanRapat = Pegawai::where('username', $username)->withCount(['rapatAgendaPeserta' => function ($query) use ($tahunSekarang) {
+        $totalKeseluruhanRapat = Pegawai::where('id', $pegawai_id)->withCount(['rapatAgendaPeserta' => function ($query) use ($tahunSekarang) {
             $query->whereYear('rapat_agendas.waktu_mulai', $tahunSekarang);
         }])
             ->first();
-        $totalTugas = Pegawai::where('username', $username)->withCount(['rapatTindakLanjut' => function ($query) use ($tahunSekarang) {
+        $totalTugas = Pegawai::where('id', $pegawai_id)->withCount(['rapatTindakLanjut' => function ($query) use ($tahunSekarang) {
             $query->whereYear('rapat_tindak_lanjuts.created_at', $tahunSekarang);
         }])
             ->first();
-        $totalTugasSelesai = Pegawai::where('username', $username)->withCount(['rapatTindakLanjut' => function ($q) use ($tahunSekarang) {
+        $totalTugasSelesai = Pegawai::where('id', $pegawai_id)->withCount(['rapatTindakLanjut' => function ($q) use ($tahunSekarang) {
             $q->where('status', StatusTindakLanjut::SELESAI->value)
                 ->whereYear('rapat_tindak_lanjuts.created_at', $tahunSekarang);
         }])
             ->first();
-        $tugasMendatang = Pegawai::where('username', $username)->with(['rapatTindakLanjut' => function ($q) use ($tahunSekarang) {
+        $tugasMendatang = Pegawai::where('id', $pegawai_id)->with(['rapatTindakLanjut' => function ($q) use ($tahunSekarang) {
             $q->where('status', StatusTindakLanjut::BELUM_SELESAI->value)
                 ->whereYear('rapat_tindak_lanjuts.created_at', $tahunSekarang)
                 ->orderBy('batas_waktu', 'asc');

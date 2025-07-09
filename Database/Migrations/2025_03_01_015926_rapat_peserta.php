@@ -17,8 +17,8 @@ class RapatPeserta extends Migration
         Schema::create('rapat_pesertas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('rapat_agenda_id')->constrained('rapat_agendas');
-            $table->string('pegawai_username');
-            $table->foreign('pegawai_username')->references('username')->on('pegawais');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->foreign('pegawai_id')->references('id')->on('pegawais');
 
             $table->enum('status', [StatusPesertaRapat::BERSEDIA->value, StatusPesertaRapat::TIDAK_BERSEDIA->value, StatusPesertaRapat::HADIR->value, StatusPesertaRapat::TIDAK_HADIR->value, StatusPesertaRapat::MENUNGGU->value])->default(StatusPesertaRapat::MENUNGGU->value);
             $table->boolean('is_penugasan')->default(false);
@@ -34,6 +34,11 @@ class RapatPeserta extends Migration
      */
     public function down()
     {
+        Schema::table('rapat_pesertas', function (Blueprint $table) {
+            $table->dropForeign(['rapat_agenda_id']);
+            $table->dropForeign(['pegawai_id']);
+        });
+
         Schema::dropIfExists('rapat_pesertas');
     }
 }

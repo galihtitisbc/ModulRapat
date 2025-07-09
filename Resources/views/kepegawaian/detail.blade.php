@@ -86,15 +86,15 @@
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>{{ $panitia->ketua->nip }}</td>
-                                            <td>{{ $panitia->ketua->formatted_name }}</td>
+                                            <td>{{ optional($panitia->ketua)->nip }}</td>
+                                            <td>{{ optional($panitia->ketua)->formatted_name }}</td>
                                             <td>Ketua Panitia</td>
                                         </tr>
                                         @forelse($struktur as $index => $anggota)
                                             <tr>
                                                 <td>{{ $index + 1 + 1 }}</td>
-                                                <td>{{ $anggota['pegawai']->nip }}</td>
-                                                <td>{{ $anggota['pegawai']->formatted_name }}</td>
+                                                <td>{{ optional($anggota['pegawai'])->nip }}</td>
+                                                <td>{{ optional($anggota['pegawai'])->formatted_name }}</td>
                                                 <td>{{ $anggota['jabatan'] }}</td>
                                             </tr>
                                         @empty

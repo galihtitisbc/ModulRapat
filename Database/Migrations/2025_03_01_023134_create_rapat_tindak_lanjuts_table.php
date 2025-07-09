@@ -18,8 +18,8 @@ class CreateRapatTindakLanjutsTable extends Migration
         Schema::create('rapat_tindak_lanjuts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('rapat_agenda_id')->constrained('rapat_agendas');
-            $table->string('pegawai_username');
-            $table->foreign('pegawai_username')->references('username')->on('pegawais');
+            $table->unsignedBigInteger('pegawai_id');
+            $table->foreign('pegawai_id')->references('id')->on('pegawais');
             $table->text('deskripsi_tugas');
             $table->text('slug');
             $table->date('batas_waktu');
@@ -41,6 +41,10 @@ class CreateRapatTindakLanjutsTable extends Migration
      */
     public function down()
     {
+        Schema::table('rapat_tindak_lanjuts', function (Blueprint $table) {
+            $table->dropForeign(['rapat_agenda_id']);
+            $table->dropForeign(['pegawai_id']);
+        });
         Schema::dropIfExists('rapat_tindak_lanjuts');
     }
 }

@@ -86,7 +86,8 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 //untuk download file notulen rapat
 Route::get('/rapat/notulis/{file}/download', [NotulisController::class, 'downloadNotulen'])->name('rapat.notulis.download');
 Route::get('/rapat/agenda-rapat/{file}/download', [RapatController::class, 'downloadLampiran'])->name('rapat.agenda.download');
-
+// untuk download file penugasan tindak lanjut rapat
+Route::get('/rapat/tindak-lanjut/{file}/download', [TindakLanjutRapatController::class, 'downloadPenugasan'])->name('rapat.tindak-lanjut.download');
 //function untuk menampilkan halaman konfirmasi kesediaan mengikuti rapat
 Route::get('/rapat/agenda-rapat/konfirmasi/{token}', [RapatController::class, 'formKonfirmasiKesediaanRapat'])->name('rapat.konfirmasi.form');
 Route::post('/rapat/agenda-rapat/konfirmasi/{rapatAgenda:slug}/{pegawai}', [RapatController::class, 'konfirmasiKesediaanRapat'])->name('rapat.konfirmasi.submit');

@@ -43,8 +43,8 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>{{ $kepanitiaan->ketua->nip }}</td>
-                    <td>{{ $kepanitiaan->ketua->formatted_name }}</td>
+                    <td>{{ optional($kepanitiaan->ketua)->nip }}</td>
+                    <td>{{ optional($kepanitiaan->ketua)->formatted_name }}</td>
                     <td>Ketua Panitia</td>
                 </tr>
                 @foreach ($struktur as $index => $anggota)

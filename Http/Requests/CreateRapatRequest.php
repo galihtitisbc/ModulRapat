@@ -14,11 +14,11 @@ class CreateRapatRequest extends FormRequest
     public function rules()
     {
         return [
-            'pimpinan_username' => 'required|exists:pegawais,username',
+            'pimpinan_id' => 'required|exists:pegawais,id',
             'kepanitiaan_id'    => 'nullable|exists:kepanitiaans,id',
             'peserta_rapat'     => 'required|array',
-            'peserta_rapat.*'   => 'exists:pegawais,username',
-            'notulis_username'  => 'required|exists:pegawais,username',
+            'peserta_rapat.*'   => 'exists:pegawais,id',
+            'notulis_id'  => 'required|exists:pegawais,id',
             'nomor_surat'       => 'required|string|max:255',
             'waktu_mulai'       => 'required|after:now',
             'waktu_selesai'     => ['required', new DateTimeOrSelesaiRule],
@@ -30,8 +30,8 @@ class CreateRapatRequest extends FormRequest
     public function messages()
     {
         return [
-            'pimpinan_username.required'  => 'Pimpinan rapat harus dipilih.',
-            'pimpinan_username.exists'    => 'Pimpinan rapat tidak valid.',
+            'pimpinan_id.required'  => 'Pimpinan rapat harus dipilih.',
+            'pimpinan_id.exists'    => 'Pimpinan rapat tidak valid.',
 
             'kepanitiaan_username.exists' => 'Kepanitiaan yang dipilih tidak valid.',
 
@@ -39,8 +39,8 @@ class CreateRapatRequest extends FormRequest
             'peserta_rapat.array'         => 'Format peserta rapat tidak sesuai.',
             'peserta_rapat.*.exists'      => 'Peserta rapat tidak valid.',
 
-            'notulis_username.required'   => 'Notulis rapat harus dipilih.',
-            'notulis_username.exists'     => 'Notulis rapat tidak valid.',
+            'notulis_id.required'   => 'Notulis rapat harus dipilih.',
+            'notulis_id.exists'     => 'Notulis rapat tidak valid.',
 
             'nomor_surat.required'        => 'Nomor surat harus diisi.',
             'nomor_surat.string'          => 'Nomor surat harus berupa teks.',

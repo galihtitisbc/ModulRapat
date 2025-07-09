@@ -18,7 +18,7 @@ class NotulisMiddleware
     {
         $pegawai     = Auth::user()->pegawai;
         $agendaRapat = $request->rapatAgenda;
-        if ($agendaRapat && ($agendaRapat->notulis_username === $pegawai->username) || $agendaRapat && ($agendaRapat->pimpinan_username === $pegawai->username)) {
+        if ($agendaRapat && ($agendaRapat->notulis_id === $pegawai->username) || $agendaRapat && ($agendaRapat->pimpinan_id === $pegawai->username)) {
             return $next($request);
         }
         abort(403);

@@ -117,8 +117,8 @@
                                     </td>
                                     <td class="text-center">
                                         <input class="form-check-input peserta-checkbox" type="checkbox"
-                                            name="peserta_hadir[]" value="{{ $rapat->username }}"
-                                            {{ in_array($rapat->username, old('peserta_hadir', [])) ? 'checked' : '' }}>
+                                            name="peserta_hadir[]" value="{{ $rapat->id }}"
+                                            {{ in_array($rapat->id, old('peserta_hadir', [])) ? 'checked' : '' }}>
                                     </td>
                                 </tr>
                             @endforeach

@@ -28,8 +28,8 @@ class RapatServiceTest extends TestCase
         $response = $this->postJson('/rapat/agenda-rapat/store', []);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors([
-            'pimpinan_username',
-            'notulis_username',
+            'pimpinan_id',
+            'notulis_id',
             'peserta_rapat',
             'nomor_surat',
             'waktu_mulai',
@@ -42,8 +42,8 @@ class RapatServiceTest extends TestCase
     public function test_validates_invalid_fields_store_rapat()
     {
         $data = [
-            'pimpinan_username' => 'tidak_ada',
-            'notulis_username'  => 'juga_tidak_ada',
+            'pimpinan_id' => 'tidak_ada',
+            'notulis_id'  => 'juga_tidak_ada',
             'peserta_rapat'     => ['juga_tidak_valid'],
             'kepanitiaan_id'    => 999,
             'nomor_surat'       => str_repeat('A', 256),
@@ -52,8 +52,8 @@ class RapatServiceTest extends TestCase
         $response = $this->postJson('/rapat/agenda-rapat/store', $data);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors([
-            'pimpinan_username',
-            'notulis_username',
+            'pimpinan_id',
+            'notulis_id',
             'peserta_rapat.0',
             'kepanitiaan_id',
             'nomor_surat',
@@ -65,9 +65,9 @@ class RapatServiceTest extends TestCase
     {
         $this->mockService->shouldReceive('store')->once();
         $data = [
-            'pimpinan_username' => 'pimpinan',
+            'pimpinan_id' => 'pimpinan',
             'peserta_rapat'     => ['pimpinan'],
-            'notulis_username'  => ['tefa'],
+            'notulis_id'  => ['tefa'],
             'nomor_surat'       => '123/RAPAT/2025',
             'waktu_mulai'       => now()->addHours(3)->toDateTimeString(),
             'waktu_selesai'     => now()->addHour()->toDateTimeString(),
@@ -87,9 +87,9 @@ class RapatServiceTest extends TestCase
     public function test_judul_agenda_tidak_diisi()
     {
         $data = [
-            'pimpinan_username' => 'pimpinan',
+            'pimpinan_id' => 'pimpinan',
             'peserta_rapat'     => ['pimpinan'],
-            'notulis_username'  => ['tefa'],
+            'notulis_id'  => ['tefa'],
             'nomor_surat'       => '123/RAPAT/2025',
             'waktu_mulai'       => now()->addHours(3)->toDateTimeString(),
             'waktu_selesai'     => now()->addHour()->toDateTimeString(),
@@ -103,10 +103,10 @@ class RapatServiceTest extends TestCase
     public function test_waktu_yang_dimasukkan_sudah_berlalu()
     {
         $data = [
-            'pimpinan_username' => 'pimpinan',
+            'pimpinan_id' => 'pimpinan',
             'peserta_rapat'     => ['pimpinan'],
             'agenda_rapat'      => 'Agenda Lama',
-            'notulis_username'  => ['tefa'],
+            'notulis_id'  => ['tefa'],
             'nomor_surat'       => '123/RAPAT/2025',
             'waktu_mulai'       => now()->subDay()->toDateTimeString(),
             'waktu_selesai'     => 'SELESAI',
@@ -119,10 +119,10 @@ class RapatServiceTest extends TestCase
     public function test_tidak_memilih_ruangan_rapat()
     {
         $response = $this->postJson('/rapat/agenda-rapat/store', [
-            'pimpinan_username' => 'pimpinan',
+            'pimpinan_id' => 'pimpinan',
             'peserta_rapat'     => ['pimpinan'],
             'agenda_rapat'      => 'Agenda Lama',
-            'notulis_username'  => ['tefa'],
+            'notulis_id'  => ['tefa'],
             'nomor_surat'       => 'R-004',
             'waktu_mulai'       => now()->addDay()->format('Y-m-d H:i:s'),
             'waktu_selesai'     => now()->addDays(1)->addHour()->format('Y-m-d H:i:s'),
@@ -134,9 +134,9 @@ class RapatServiceTest extends TestCase
     public function test_tidak_memilih_peserta_rapat()
     {
         $response = $this->postJson('/rapat/agenda-rapat/store', [
-            'pimpinan_username' => 'pimpinan',
+            'pimpinan_id' => 'pimpinan',
             'agenda_rapat'      => 'Agenda Lama',
-            'notulis_username'  => ['tefa'],
+            'notulis_id'  => ['tefa'],
             'nomor_surat'       => 'R-004',
             'waktu_mulai'       => now()->addDay()->format('Y-m-d H:i:s'),
             'waktu_selesai'     => now()->addDays(1)->addHour()->format('Y-m-d H:i:s'),
@@ -150,7 +150,7 @@ class RapatServiceTest extends TestCase
     public function test_tidak_memilih_notulis()
     {
         $response = $this->postJson('/rapat/agenda-rapat/store', [
-            'pimpinan_username' => 'pimpinan',
+            'pimpinan_id' => 'pimpinan',
             'peserta_rapat'     => ['pimpinan'],
             'agenda_rapat'      => 'Agenda Lama',
             'nomor_surat'       => 'R-004',
@@ -161,6 +161,6 @@ class RapatServiceTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['notulis_username']);
+        $response->assertJsonValidationErrors(['notulis_id']);
     }
 }

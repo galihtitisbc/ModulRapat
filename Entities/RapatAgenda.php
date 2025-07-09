@@ -39,7 +39,7 @@ class RapatAgenda extends Model
             }
         });
     }
-    public function scopePegawaiIsPesertaOrCreator($query, $username)
+    public function scopePegawaiIsPesertaOrCreator($query, $id)
     {
         // Jika BUKAN di halaman dashboard dan pegawai adalah pimpinan, maka return query tanpa filter
         if (! request()->is('rapat/dashboard') &&
@@ -47,25 +47,12 @@ class RapatAgenda extends Model
             return $query;
         }
 
-        $query->whereHas('rapatAgendaPeserta', function ($q) use ($username) {
-            $q->where('pegawai_username', $username);
+        $query->whereHas('rapatAgendaPeserta', function ($q) use ($id) {
+            $q->where('pegawai_id', $id);
         })
-            ->orWhere('pegawai_username', $username);
+            ->orWhere('pegawai_id', $id);
         return $query;
     }
-    // public function scopeShowTindakLanjut($query, $userId)
-    // {
-    //     $query->whereHas('rapatTindakLanjut', function ($q) use ($userId) {
-    //         $q->where('user_id', $userId);
-    //     })
-    //         ->orWhere('pimpinan_id', $userId)
-    //         ->orWhere(function ($q) use ($userId) {
-    //             $q->where('user_id', $userId)
-    //                 ->whereHas('rapatTindakLanjut');
-    //         });
-
-    //     return $query;
-    // }
     public function getStatusTindakLanjutAttribute()
     {
         if ($this->rapatTindakLanjut->contains('status', StatusTindakLanjut::BELUM_SELESAI->value)) {
@@ -86,15 +73,15 @@ class RapatAgenda extends Model
     // }
     public function rapatAgendaPimpinan()
     {
-        return $this->belongsTo(Pegawai::class, 'pimpinan_username', 'username', 'id');
+        return $this->belongsTo(Pegawai::class, 'pimpinan_id', 'id', 'id');
     }
     public function rapatAgendaNotulis()
     {
-        return $this->belongsTo(Pegawai::class, 'notulis_username', 'username', 'id');
+        return $this->belongsTo(Pegawai::class, 'notulis_id', 'id', 'id');
     }
     public function rapatAgendaPeserta()
     {
-        return $this->belongsToMany(Pegawai::class, 'rapat_pesertas', 'rapat_agenda_id', 'pegawai_username', 'id', 'username')->withPivot('status', 'is_penugasan', 'link_konfirmasi');
+        return $this->belongsToMany(Pegawai::class, 'rapat_pesertas', 'rapat_agenda_id', 'pegawai_id', 'id', 'id')->withPivot('status', 'is_penugasan', 'link_konfirmasi');
     }
     public function rapatLampiran()
     {

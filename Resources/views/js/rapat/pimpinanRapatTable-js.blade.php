@@ -43,7 +43,7 @@
                     if (row.username == notulisRapatUsername) {
                         return "-";
                     }
-                    return `<input type="radio" name="pimpinan_username" class="select-radio select-pimpinan" data-id="${
+                    return `<input type="radio" name="pimpinan_id" class="select-radio select-pimpinan" data-id="${
                     row.username
                 }" ${pimpinanRapatUsername === row.username ? "checked" : ""}>`;
                 },

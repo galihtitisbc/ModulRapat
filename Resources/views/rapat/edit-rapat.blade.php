@@ -135,8 +135,8 @@
                     <div class="invalid-feedback" id="error-peserta_rapat"></div>
                     <select class="duallistbox-peserta-rapat" style="width: 100%;" name="pesertaRapat[]" multiple>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}"
-                                {{ $selectedPegawai->contains($pegawai->username) ? 'selected' : '' }}>
+                            <option value="{{ $pegawai->id }}"
+                                {{ $selectedPegawai->contains($pegawai->id) ? 'selected' : '' }}>
                                 {{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
@@ -150,12 +150,12 @@
                 </div>
                 <div class="my-4">
                     <label>Pilih Pimpinan Rapat :</label>
-                    <div class="invalid-feedback" id="error-pimpinan_username"></div>
+                    <div class="invalid-feedback" id="error-pimpinan_id"></div>
                     <select class="duallistbox-pimpinan-rapat" style="width: 100%;" name="pimpinanRapat">
                         <option value="" selected>--- Pilih Pimpinan Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}"
-                                {{ $pegawai->username == $rapatAgenda->pimpinan_username ? 'selected' : '' }}>
+                            <option value="{{ $pegawai->id }}"
+                                {{ $pegawai->id == $rapatAgenda->pimpinan_id ? 'selected' : '' }}>
                                 {{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
@@ -165,12 +165,12 @@
                     <select class="duallistbox-notulis-rapat" style="width: 100%;" name="notulisRapat">
                         <option value="" selected>--- Pilih Notulis Rapat ---</option>
                         @foreach ($pegawais as $pegawai)
-                            <option value="{{ $pegawai->username }}"
-                                {{ $pegawai->username == $rapatAgenda->notulis_username ? 'selected' : '' }}>
+                            <option value="{{ $pegawai->id }}"
+                                {{ $pegawai->id == $rapatAgenda->notulis_id ? 'selected' : '' }}>
                                 {{ $pegawai->formatted_name }}</option>
                         @endforeach
                     </select>
-                    <div class="invalid-feedback" id="error-notulis_username"></div>
+                    <div class="invalid-feedback" id="error-notulis_id"></div>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary mx-auto">Submit</button>
@@ -190,6 +190,9 @@
     <script>
         const slug = "{{ $slug }}";
         const rapat = <?php echo json_encode($rapatAgenda); ?>;
+        isUpdate = true;
+        isFirstLoad = true;
+        let lastKepanitiaanSelectedIdUpdate = rapat.rapat_kepanitiaan.pegawai.map((pegawai) => Number(pegawai.id));
     </script>
 
     <script>

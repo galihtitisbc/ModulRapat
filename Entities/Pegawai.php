@@ -15,6 +15,10 @@ class Pegawai extends Model
     {
         static::addGlobalScope(new UsernameNotNullScope);
     }
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
     public function getFormattedNameAttribute()
     {
         return
@@ -23,38 +27,33 @@ class Pegawai extends Model
             ($this->gelar_blk ? ', ' . $this->gelar_blk : '');
 
     }
-
-    public function getRouteKeyName()
-    {
-        return 'username';
-    }
     public function user()
     {
         return $this->belongsTo(User::class, 'username', 'username');
     }
     public function kepanitiaans()
     {
-        return $this->belongsToMany(Kepanitiaan::class, 'kepanitiaan_pegawai', 'pegawai_username', 'kepanitiaan_id', 'username', 'id');
+        return $this->belongsToMany(Kepanitiaan::class, 'kepanitiaan_pegawai', 'pegawai_id', 'kepanitiaan_id', 'id', 'id');
     }
 
     public function rapatAgendaPimpinan()
     {
-        return $this->hasMany(Pegawai::class, 'pimpinan_username', 'username');
+        return $this->hasMany(Pegawai::class, 'pimpinan_id', 'id');
     }
     public function rapatAgendaNotulis()
     {
-        return $this->hasMany(Pegawai::class, 'notulis_username', 'username');
+        return $this->hasMany(Pegawai::class, 'notulis_id', 'id');
     }
     public function rapatAgendaPeserta()
     {
-        return $this->belongsToMany(RapatAgenda::class, 'rapat_pesertas', 'pegawai_username', 'rapat_agenda_id', 'username', 'id')->withPivot('status', 'is_penugasan');
+        return $this->belongsToMany(RapatAgenda::class, 'rapat_pesertas', 'pegawai_id', 'rapat_agenda_id', 'id', 'id')->withPivot('status', 'is_penugasan');
     }
     public function rapatTindakLanjut()
     {
-        return $this->hasMany(RapatTindakLanjut::class, 'pegawai_username', 'username');
+        return $this->hasMany(RapatTindakLanjut::class, 'pegawai_id', 'id');
     }
     public function ketuaPanitia()
     {
-        return $this->hasMany(Kepanitiaan::class, 'pimpinan_username', 'username');
+        return $this->hasMany(Kepanitiaan::class, 'pimpinan_id', 'id');
     }
 }

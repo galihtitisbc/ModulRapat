@@ -110,22 +110,25 @@
         //mendapatkan data pegawai dari kepanitiaan yang dikirim controller, dan menambahkan ke array pesertaRapat sebagai anggota panitia
         const kepanitiaan = <?php echo json_encode($kepanitiaan); ?>;
         const strukturKepanitiaan = JSON.parse(kepanitiaan.struktur);
-        pimpinanKepanitiaan = kepanitiaan.pimpinan_username;
+        pimpinanKepanitiaan = kepanitiaan.pimpinan_id;
         // Tambahkan pimpinanKepanitiaan ke json strukturKepanitiaan
         strukturKepanitiaan.push({
             jabatan: "ketua",
-            username: pimpinanKepanitiaan
+            pegawai_id: pimpinanKepanitiaan
         });
 
-        // untuk menadapatkan jabatan dari kolom struktur
+        // untuk mendapatkan jabatan dari kolom struktur
         const jabatanMap = strukturKepanitiaan.reduce((acc, pegawai) => {
-            acc[pegawai.username] = pegawai.jabatan;
+            acc[Number(pegawai.pegawai_id)] = pegawai.jabatan;
             return acc;
         }, {});
 
-        pesertaManual = strukturKepanitiaan.map((pegawai) => pegawai.username);
+        pesertaManual = strukturKepanitiaan.map((pegawai) => Number(pegawai.pegawai_id));
+        console.log(jabatanMap);
+
         //mengggunakan variabel pesertaRapat, karena menggunakan table pegawai pada agenda rapat
         pesertaRapat = [...new Set([...pesertaManual])];
+
         tableStrukturKepanitiaan.ajax.reload();
         //-------------------------------
 
@@ -138,21 +141,21 @@
             e.preventDefault();
             const formData = new FormData(this);
             pesertaRapat.forEach(p => formData.append('peserta_panitia[]', p));
-            formData.append('pimpinan_username', pimpinanKepanitiaan);
+            formData.append('pimpinan_id', pimpinanKepanitiaan);
             //mengambil data struktur kepanitiaan, yang inputan nya berada di datatable pada form group struktur kepanitiaan
             const inputs = document.querySelectorAll('.jabatan-input');
             const strukturKepanitiaan = [];
 
             inputs.forEach(input => {
                 const jabatan = input.value.trim();
-                const username = input.dataset.id;
-                //hilangkan data nya jika ketua panitia, karena akan disimpan username nya sebagai relasi
-                if (username == pimpinanKepanitiaan) {
+                const pegawai_id = input.dataset.id;
+                //hilangkan data nya jika ketua panitia, karena akan disimpan pegawai_id nya sebagai relasi
+                if (pegawai_id == pimpinanKepanitiaan) {
                     return;
                 }
                 strukturKepanitiaan.push({
                     jabatan: jabatan == "" ? 'Anggota' : jabatan,
-                    username: username
+                    pegawai_id: pegawai_id
                 });
             });
             formData.append('struktur_kepanitiaan', JSON.stringify(strukturKepanitiaan));
