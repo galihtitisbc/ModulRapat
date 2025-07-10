@@ -15,11 +15,11 @@
         });
         $("#pilihan-tempat").on("change", function() {
             if ($(this).val() == "custom") {
-                $("#tempat-rapat").show();
                 tempatRapat.show();
+                tempatRapatGroup.show();
             } else {
-                $("#tempat-rapat").hide();
                 tempatRapat.hide();
+                tempatRapatGroup.hide();
             }
         });
         //untuk menampilkan pilihan tempat rapat, online atau tempat yang lain secara manual
@@ -131,7 +131,8 @@
                 $('select[name="kepanitiaan_id"]').val()
             );
             $.ajax({
-                url: `/rapat/agenda-rapat/${slug}/update`,
+                // url: `/rapat/agenda-rapat/${slug}/update`,
+                url: `{{ route('rapat.agenda.update', ['rapatAgenda' => $slug]) }}`,
                 method: "POST",
                 data: formData,
                 contentType: false,

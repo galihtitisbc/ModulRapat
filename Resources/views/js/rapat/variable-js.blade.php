@@ -1,4 +1,6 @@
 <script>
+    const BASE_URL = "{{ env('APP_URL') }}";
+
     //peserta yang dipilih oleh pembuat rapat pada duallist
     let pesertaManual = [];
     //peserta yang berasal dari kepanitiaan
@@ -21,8 +23,8 @@
     }
 
     const reloadTable = debounce(() => {
-        if (typeof tablePesertaRapat !== "undefined" && tablePesertaRapat !== null) {
-            tablePesertaRapat.ajax.reload();
+        if (typeof tablePesertaPanitia !== "undefined" && tablePesertaPanitia !== null) {
+            tablePesertaPanitia.ajax.reload();
         }
 
         if (typeof tableStrukturKepanitiaan !== "undefined" && tableStrukturKepanitiaan !== null) {

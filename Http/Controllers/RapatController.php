@@ -127,8 +127,7 @@ class RapatController extends Controller
 
         if ($search = $request->input('search.value')) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama', 'like', "%{$search}%")
-                    ->orWhere('user.email', 'like', "%{$search}%");
+                $q->where('nama', 'like', "%{$search}%");
             });
         }
         $total    = Pegawai::whereNotNull('username')->count();

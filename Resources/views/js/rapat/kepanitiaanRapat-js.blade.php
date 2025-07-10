@@ -7,9 +7,8 @@
     $("#kepanitiaan").on("change", function() {
         let kepanitiaan_id = $(this).val();
         $.ajax({
-            url: `/rapat/agenda-rapat/ajax-kepanitiaan/${
-            kepanitiaan_id ? kepanitiaan_id : "-"
-        }`,
+            url: `{{ route('rapat.agenda.ajax.kepanitiaan', ':id') }}`.replace(':id', kepanitiaan_id ?
+                kepanitiaan_id : '-'),
             type: "GET",
             dataSrc: "data",
             success: function(response) {

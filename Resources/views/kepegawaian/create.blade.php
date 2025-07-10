@@ -137,7 +137,7 @@
             });
             formData.append('struktur_kepanitiaan', JSON.stringify(strukturKepanitiaan));
             $.ajax({
-                url: '/rapat/panitia',
+                url: `{{ route('rapat.panitia.store') }}`,
                 method: 'POST',
                 data: formData,
                 processData: false,

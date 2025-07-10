@@ -1,11 +1,11 @@
 <script>
     //untuk menampilkan daftar pegawai untuk dijadikan sebagai peserta panitia
-    let tablePesertaRapat = $("#table-peserta-panitia").DataTable({
+    let tablePesertaPanitia = $("#table-peserta-panitia").DataTable({
         serverSide: true,
         processing: true,
         ordering: false,
         ajax: {
-            url: "/rapat/agenda-rapat/ajax-peserta-rapat",
+            url: `{{ route('rapat.agenda.ajax.peserta') }}`,
             type: "GET",
             dataSrc: "data",
         },

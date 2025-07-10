@@ -147,7 +147,7 @@
                                         '<a href="' .
                                         url('rapat/agenda-rapat/' . $rapat->slug . '/edit') .
                                         '" class="mx-2 my-2">
-                                                <i class="fas fa-edit fa-lg" style="color: #FFD43B;" data-toggle="tooltip" data-placement="top"
+                                                <i class="fas fa-edit fa-lg" style="color: #FFD43B;" data-toggle="tooltip" data-placement="bottom"
                                                 title="Edit Agenda Rapat"></i>
                                               </a>';
                                     $aksi .=

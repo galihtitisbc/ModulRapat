@@ -160,7 +160,7 @@
             });
             formData.append('struktur_kepanitiaan', JSON.stringify(strukturKepanitiaan));
             $.ajax({
-                url: '/rapat/panitia/' + kepanitiaan.slug,
+                url: `{{ route('rapat.panitia.update', ':slug') }}`.replace(':slug', kepanitiaan.slug),
                 method: 'POST',
                 data: formData,
                 processData: false,

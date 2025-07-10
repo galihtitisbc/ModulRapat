@@ -101,7 +101,7 @@
                 $('select[name="kepanitiaan_id"]').val()
             );
             $.ajax({
-                url: "/rapat/agenda-rapat/store",
+                url: "{{ route('rapat.agenda.store') }}",
                 method: "POST",
                 data: formData,
                 contentType: false,

@@ -4,7 +4,7 @@
         processing: true,
         ordering: false,
         ajax: {
-            url: `/rapat/agenda-rapat/ajax-selected-peserta`,
+            url: `{{ route('rapat.agenda.ajax.selected.peserta') }}`,
             type: "GET",
             data: function(d) {
                 d.id = pesertaRapat.join(",");
