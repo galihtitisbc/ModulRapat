@@ -172,15 +172,23 @@ class WhatsappService
             logger()->error($th->getMessage());
         }
     }
-
     private function sendMessage($username, $message)
     {
-        Http::post(env('WA_URL'), [
-            'session'     => 'default',
-            'chatId'      => '6282264349638@c.us',
-            'text'        => $message,
-            'linkPreview' => false,
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('WA_BEARER_TOKEN'),
+        ])->post('https://sit.poliwangi.ac.id/v2/api/v1/sitapi/wa', [
+            'username' => $username,
+            'message'  => $message,
         ]);
-
     }
+    // private function sendMessage($username, $message)
+    // {
+    //     Http::post(env('WA_URL'), [
+    //         'session'     => 'default',
+    //         'chatId'      => '6282264349638@c.us',
+    //         'text'        => $message,
+    //         'linkPreview' => false,
+    //     ]);
+
+    // }
 }

@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Rapat')
 @section('plugins.Select2', true)
+@section('plugins.bootstrap4DualListbox', true)
 @section('content_header')
     <h3 class="m-0 text-dark">Buat Agenda Rapat</h3>
 @stop
