@@ -55,7 +55,7 @@ class RapatService
             $pivotData = [];
             foreach ($data['peserta_rapat'] as $pesertaId) {
                 $payload = [
-                    'username'        => $pesertaId,
+                    'pegawai_id'      => $pesertaId,
                     'rapat_agenda_id' => $agendaRapat->id,
                 ];
                 $linkKonfirmasi        = $this->createKesediaanRapatLink($payload);
@@ -146,7 +146,7 @@ class RapatService
             $pivotData = [];
             foreach ($data['peserta_rapat'] as $pesertaId) {
                 $payload = [
-                    'username'        => $pesertaId,
+                    'pegawai_id'      => $pesertaId,
                     'rapat_agenda_id' => $agendaRapat->id,
                 ];
                 $linkKonfirmasi        = $this->createKesediaanRapatLink($payload);

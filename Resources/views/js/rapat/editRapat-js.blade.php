@@ -54,7 +54,7 @@
         }
         if (rapat.rapat_kepanitiaan !== null) {
             pesertaKepanitiaan = rapat.rapat_kepanitiaan.pegawai.map(
-                (pegawai) => pegawai.username
+                (pegawai) => pegawai.id
             );
             lastPesertaKepanitiaan = [...pesertaKepanitiaan];
 
@@ -131,7 +131,6 @@
                 $('select[name="kepanitiaan_id"]').val()
             );
             $.ajax({
-                // url: `/rapat/agenda-rapat/${slug}/update`,
                 url: `{{ route('rapat.agenda.update', ['rapatAgenda' => $slug]) }}`,
                 method: "POST",
                 data: formData,

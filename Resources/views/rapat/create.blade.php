@@ -49,7 +49,7 @@
                     <select id="pilihan-tempat" class="form-control ">
                         <option selected value="">-- Pilih Tempat --</option>
                         <option value="zoom">Online</option>
-                        <option value="custom">Tempat Lain</option>
+                        <option value="custom">Masukkan Tempat</option>
                     </select>
                     <div class="mt-3" id="tempat-rapat-group">
                         <label for="tempat-rapat" class="form-label">Masukkan Tempat Rapat</label>

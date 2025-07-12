@@ -193,7 +193,24 @@ class RapatController extends Controller
         }
 
         $kepanitiaan = Kepanitiaan::where('status', 'AKTIF')->get();
-        $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatKepanitiaan', 'rapatKepanitiaan.pegawai', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran']);
+        // $rapatAgenda->load(['rapatAgendaPimpinan', 'rapatKepanitiaan', 'rapatKepanitiaan.pegawai', 'rapatAgendaNotulis', 'rapatAgendaPeserta', 'rapatLampiran']);
+        $rapatAgenda->load([
+            'rapatAgendaPimpinan'      => function ($query) {
+                $query->select('pegawais.id', 'pegawais.nama', 'pegawais.gelar_dpn', 'pegawais.gelar_blk');
+            },
+            'rapatKepanitiaan',
+            'rapatKepanitiaan.pegawai' => function ($query) {
+                $query->select('pegawais.id', 'pegawais.nama', 'pegawais.gelar_dpn', 'pegawais.gelar_blk');
+            },
+            'rapatAgendaNotulis'       => function ($query) {
+                $query->select('pegawais.id', 'pegawais.nama', 'pegawais.gelar_dpn', 'pegawais.gelar_blk');
+            },
+            'rapatAgendaPeserta'       => function ($query) {
+                $query->select('pegawais.id', 'pegawais.nama', 'pegawais.gelar_dpn', 'pegawais.gelar_blk');
+            },
+            'rapatLampiran',
+        ]);
+
         return view('rapat::rapat.edit-rapat', [
             'slug'            => $rapatAgenda->slug,
             'rapatAgenda'     => $rapatAgenda,
@@ -212,6 +229,7 @@ class RapatController extends Controller
         }
 
         $validated = $request->validated();
+        Log::error('data update' . json_encode($validated));
         try {
             $this->rapatService->update($validated, $rapatAgenda);
             return response()->json([
@@ -256,7 +274,7 @@ class RapatController extends Controller
     {
         $data             = Crypt::decrypt($token);
         $agendaRapat      = RapatAgenda::where('id', $data['rapat_agenda_id'])->first();
-        $pegawai          = Pegawai::where('username', $data['username'])->first();
+        $pegawai          = Pegawai::where('id', $data['pegawai_id'])->first();
         $statusKonfirmasi = '';
         if (! $agendaRapat->rapatAgendaPeserta->contains($pegawai)) {
             abort(403);

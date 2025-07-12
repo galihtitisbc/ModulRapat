@@ -36,22 +36,22 @@
                 <tr>
                     <th style="width: 50px;">No</th>
                     <th>Nama</th>
-                    <th>NIP</th>
-                    <th>Jabatan dalam Kepanitiaan</th>
+                    <th>NIP/NIPPPK</th>
+                    <th>Kedudukan Dalam Tim</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>{{ optional($kepanitiaan->ketua)->nip }}</td>
                     <td>{{ optional($kepanitiaan->ketua)->formatted_name }}</td>
+                    <td>{{ optional($kepanitiaan->ketua)->nip }}</td>
                     <td>Ketua Panitia</td>
                 </tr>
                 @foreach ($struktur as $index => $anggota)
                     <tr>
                         <td>{{ $index + 1 + 1 }}</td>
-                        <td>{{ $anggota['pegawai']->nip }}</td>
                         <td>{{ $anggota['pegawai']->formatted_name }}</td>
+                        <td>{{ $anggota['pegawai']->nip }}</td>
                         <td>{{ $anggota['jabatan'] }}</td>
                     </tr>
                 @endforeach

@@ -30,7 +30,7 @@ class RapatAgenda extends Model
             if ($rapatAgenda->isDirty('waktu_mulai') || $rapatAgenda->isDirty('waktu_selesai')) {
                 foreach ($rapatAgenda->rapatAgendaPeserta as $value) {
                     $rapatAgenda->rapatAgendaPeserta()->updateExistingPivot(
-                        $value->username, ['status' => StatusPesertaRapat::MENUNGGU->value]
+                        $value->pegawai_id, ['status' => StatusPesertaRapat::MENUNGGU->value]
                     );
                 }
             }

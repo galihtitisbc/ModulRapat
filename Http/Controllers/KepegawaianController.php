@@ -106,7 +106,10 @@ class KepegawaianController extends Controller
 
     public function edit(Kepanitiaan $kepanitiaan)
     {
-        $kepanitiaan->load('pegawai');
+        $kepanitiaan->load(['pegawai' => function ($query) {
+            $query->select('pegawais.id', 'pegawais.nama', 'pegawais.gelar_dpn', 'pegawais.gelar_blk');
+        }]);
+
         $selectedPegawai = $kepanitiaan->pegawai->pluck('username')->toArray();
         return view('rapat::kepegawaian.edit', [
             'kepanitiaan'     => $kepanitiaan,
