@@ -36,7 +36,7 @@ class NotulisController extends Controller
             FlashMessage::success('Notulen Berhasil Unggah');
             return redirect()->to('/rapat/agenda-rapat');
         } catch (\Throwable $th) {
-            Log::error('Gagal Unggah Notulen: ' . $th->getMessage());
+            Log::error('Rapat Gagal Unggah Notulen: ' . $th->getMessage());
             FlashMessage::success('Notulen Gagal Di Unggah');
             return redirect()->to('/rapat/agenda-rapat');
         }

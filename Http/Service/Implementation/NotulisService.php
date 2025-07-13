@@ -56,7 +56,7 @@ class NotulisService
             $pesertaTidakHadirUsername = [];
             $pesertaTidakHadir         = $rapatAgenda->rapatAgendaPeserta()->whereNotIn('pegawai_id', $data['peserta_hadir'])->get();
             foreach ($pesertaTidakHadir as $peserta) {
-                $pesertaTidakHadirUsername[$peserta->username] = [
+                $pesertaTidakHadirUsername[$peserta->id] = [
                     'status' => StatusPesertaRapat::TIDAK_HADIR->value,
                 ];
             }

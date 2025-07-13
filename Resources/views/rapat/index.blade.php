@@ -97,8 +97,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $number = $rapats->firstItem() - 1;
+                    @endphp
                     @forelse ($rapats as $index => $rapat)
                         @php
+                            $number++;
                             // Filter: jika status rapat selesai dan user bukan notulis maupun pimpinan → skip
                             if (
                                 $rapat->status == StatusAgendaRapat::COMPLETED->value &&
@@ -199,7 +203,7 @@
                         @endphp
 
                         <tr>
-                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td class="text-center">{{ $number }}</td>
                             <td>
                                 @if ($rapat->pimpinan_id == Auth::user()->pegawai->id)
                                     <span class="badge bg-success mb-1">Pimpinan Rapat</span><br>
