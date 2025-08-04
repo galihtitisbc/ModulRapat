@@ -44,15 +44,16 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="tempat" class="form-label">Tempat Rapat</label>
+                    {{-- <label for="tempat" class="form-label">Tempat Rapat</label> --}}
                     <div class="invalid-feedback" id="error-tempat"></div>
-                    <select id="pilihan-tempat" class="form-control ">
+                    {{-- saya komentar karena zoom tidak bisa --}}
+                    {{-- <select id="pilihan-tempat" class="form-control ">
                         <option selected value="">-- Pilih Tempat --</option>
                         <option value="zoom">Online</option>
                         <option value="custom">Masukkan Tempat</option>
-                    </select>
+                    </select> --}}
                     <div class="mt-3" id="tempat-rapat-group">
-                        <label for="tempat-rapat" class="form-label">Masukkan Tempat Rapat</label>
+                        <label for="tempat-rapat" class="form-label">Masukkan Tempat Rapat :</label>
                         <input type="text" id="tempat-rapat" name="tempat_rapat" class="form-control "
                             placeholder="Masukkan Tempat Rapat">
                     </div>

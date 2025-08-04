@@ -210,6 +210,7 @@ class RapatController extends Controller
             },
             'rapatLampiran',
         ]);
+        $rapatAgenda->rapatAgendaPeserta->each->makeHidden('pivot');
 
         return view('rapat::rapat.edit-rapat', [
             'slug'            => $rapatAgenda->slug,

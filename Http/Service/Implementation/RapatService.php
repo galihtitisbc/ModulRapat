@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Modules\Rapat\Entities\RapatAgenda;
 use Modules\Rapat\Http\Helper\StatusAgendaRapat;
-use Modules\Rapat\Jobs\CreateMeetingZoom;
 use Modules\Rapat\Jobs\WhatsappSender;
 use Spatie\Permission\Models\Permission;
 
@@ -68,13 +67,14 @@ class RapatService
             $this->tambahkanPermissionKepadaPimpinanRapat($agendaRapat->rapatAgendaPimpinan->user);
             //berikan permission ke notulis rapat untuk melakukan unggah notulen
             $this->tambahkanPermissionKepadaNotulisRapat($agendaRapat->rapatAgendaNotulis->user);
-            if ($data['tempat'] == 'zoom') {
-                CreateMeetingZoom::dispatch($agendaRapat)->chain([
-                    new WhatsappSender($agendaRapat, 'rapat', 'tambahRapat'),
-                ]);
-            } else {
-                WhatsappSender::dispatch($agendaRapat, 'rapat', 'tambahRapat');
-            }
+            // if ($data['tempat'] == 'zoom') {
+            //     CreateMeetingZoom::dispatch($agendaRapat)->chain([
+            //         new WhatsappSender($agendaRapat, 'rapat', 'tambahRapat'),
+            //     ]);
+            // } else {
+            //     WhatsappSender::dispatch($agendaRapat, 'rapat', 'tambahRapat');
+            // }
+            WhatsappSender::dispatch($agendaRapat, 'rapat', 'tambahRapat');
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -161,13 +161,15 @@ class RapatService
             $this->tambahkanPermissionKepadaNotulisRapat($agendaRapat->rapatAgendaNotulis->user);
 
             //jika tempat rapat diubah dari tempat lain ke zoom
-            if ($oldTempat != 'zoom' && $data['tempat'] == 'zoom') {
-                CreateMeetingZoom::dispatch($agendaRapat)->chain([
-                    new WhatsappSender($agendaRapat, 'rapat', 'updateRapat'),
-                ]);
-            } else {
-                WhatsappSender::dispatch($agendaRapat, 'rapat', 'updateRapat');
-            }
+            // if ($oldTempat != 'zoom' && $data['tempat'] == 'zoom') {
+            //     CreateMeetingZoom::dispatch($agendaRapat)->chain([
+            //         new WhatsappSender($agendaRapat, 'rapat', 'updateRapat'),
+            //     ]);
+            // } else {
+            //     WhatsappSender::dispatch($agendaRapat, 'rapat', 'updateRapat');
+            // }
+            WhatsappSender::dispatch($agendaRapat, 'rapat', 'updateRapat');
+
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

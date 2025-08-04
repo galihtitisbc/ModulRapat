@@ -22,16 +22,17 @@
 
         //untuk menampilkan pilihan tempat rapat, online atau tempat yang lain secara manual
         let tempatRapat = $("#tempat-rapat-group");
-        tempatRapat.hide();
-        $("#pilihan-tempat").on("change", function() {
-            if ($(this).val() == "custom") {
-                $("#tempat-rapat").show();
-                tempatRapat.show();
-            } else {
-                $("#tempat-rapat").hide();
-                tempatRapat.hide();
-            }
-        });
+        // saya komentar karena zoom tidak bisa
+        // tempatRapat.hide();
+        // $("#pilihan-tempat").on("change", function() {
+        //     if ($(this).val() == "custom") {
+        //         $("#tempat-rapat").show();
+        //         tempatRapat.show();
+        //     } else {
+        //         $("#tempat-rapat").hide();
+        //         tempatRapat.hide();
+        //     }
+        // });
 
         //untuk handle submit form pada form tambah agenda rapat
         $("#form-agenda-rapat").on("submit", function(e) {
@@ -106,6 +107,16 @@
                 data: formData,
                 contentType: false,
                 processData: false,
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Loading...',
+                        text: 'Mohon tunggu sebentar',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
                 success: function(response) {
                     $(".invalid-feedback").text("");
                     $("input, select, textarea").removeClass("is-invalid");
@@ -148,7 +159,7 @@
                         },
                         500
                     );
-                },
+                }
             });
         });
     });

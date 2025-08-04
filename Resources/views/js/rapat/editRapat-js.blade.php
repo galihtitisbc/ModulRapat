@@ -13,18 +13,19 @@
                 waktuSelesai.show();
             }
         });
-        $("#pilihan-tempat").on("change", function() {
-            if ($(this).val() == "custom") {
-                tempatRapat.show();
-                tempatRapatGroup.show();
-            } else {
-                tempatRapat.hide();
-                tempatRapatGroup.hide();
-            }
-        });
+        //zoom tidak bisa
+        // $("#pilihan-tempat").on("change", function() {
+        //     if ($(this).val() == "custom") {
+        //         tempatRapat.show();
+        //         tempatRapatGroup.show();
+        //     } else {
+        //         tempatRapat.hide();
+        //         tempatRapatGroup.hide();
+        //     }
+        // });
         //untuk menampilkan pilihan tempat rapat, online atau tempat yang lain secara manual
-        tempatRapatGroup.hide();
-        tempatRapat.hide();
+        tempatRapatGroup.show();
+        tempatRapat.show();
         waktuSelesai.hide();
 
         // untuk menampilkan data form edit dari controller, dengan menggunakan <?php echo json_encode($rapatAgenda); ?>;
@@ -40,9 +41,9 @@
         } else {
             selectWaktuSelesai.val("selesai");
         }
-        if (rapat.tempat === "zoom") {
-            selectPilihanTempat.val("zoom");
-        }
+        // if (rapat.tempat === "zoom") {
+        //     selectPilihanTempat.val("zoom");
+        // }
         if (rapat.tempat !== "zoom") {
             tempatRapatGroup.show();
             selectPilihanTempat.val("custom");
@@ -138,6 +139,16 @@
                 processData: false,
                 headers: {
                     "X-HTTP-Method-Override": "PUT",
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Loading...',
+                        text: 'Mohon tunggu sebentar',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
                 },
                 success: function(response) {
                     $(".invalid-feedback").text("");

@@ -54,6 +54,16 @@ class UserSeederTableSeeder extends Seeder
             'keuangan',
             'sekjur',
         ];
+        $pimpinanRapatPermissions = [
+            "rapat.agenda.create",
+            "rapat.agenda.store",
+            "rapat.agenda.edit",
+            "rapat.agenda.update",
+            "rapat.agenda.batal",
+            'rapat.agenda.ajax.peserta',
+            'rapat.agenda.ajax.selected.peserta',
+            'rapat.agenda.ajax.kepanitiaan',
+        ];
 
         $pegawaiRecords = DB::table('pegawais')->whereNotIn('id', [1, 2])->whereNotNull('username')->get();
         foreach ($pegawaiRecords as $pegawai) {
@@ -75,5 +85,8 @@ class UserSeederTableSeeder extends Seeder
             ]);
             $user->assignRole($randomRole);
         }
+        $user = User::where('username', 'eka')->first();
+        $user->givePermissionTo($pimpinanRapatPermissions);
+
     }
 }
